@@ -1,5 +1,5 @@
 package controller;
 
 public class Testclass {
-	private int test;
+	private String test;
 }
