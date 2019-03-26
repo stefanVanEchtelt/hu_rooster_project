@@ -126,7 +126,7 @@ public class PrIS {
 		String csvFile = "././CSV/docenten.csv";
 		BufferedReader br = null;
 		String line = "";
-		String cvsSplitBy = ",";
+		String cvsSplitBy = ";";
 
 		try {
 
@@ -185,16 +185,17 @@ public class PrIS {
 			String csvFile = "././CSV/" + k.getNaam() + ".csv";
 			BufferedReader br = null;
 			String line = "";
-			String cvsSplitBy = ",";
+			String cvsSplitBy = ";";
 
 			try {
-
 				br = new BufferedReader(new FileReader(csvFile));
 
 				while ((line = br.readLine()) != null) {
 					// line = line.replace(",,", ", ,");
 					// use comma as separator
+					
 					String[] element = line.split(cvsSplitBy);
+					
 					String gebruikersnaam = (element[3] + "." + element[2] + element[1] + "@student.hu.nl")
 							.toLowerCase();
 					// verwijder spaties tussen dubbele voornamen en tussen bv van der
