@@ -35,6 +35,7 @@ public abstract class Persoon {
 	}
 
 	protected String getWachtwoord() {
+		System.out.println(this.wachtwoord);
 		return this.wachtwoord;
 	}
 
