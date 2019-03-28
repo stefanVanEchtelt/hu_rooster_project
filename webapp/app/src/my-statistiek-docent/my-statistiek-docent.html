@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<!-- <link rel="import" href="../../bower_components/chart.js/dist/Chart.js"> -->
 
 <!-- Dit element wordt door de aanwezigheid van de c_visible parameter steeds opnieuw gerefreshed
      op het moment dat het element in de iron-pages geselecteerd wordt
@@ -12,7 +13,7 @@
      bij start van de applicatie.
 -->
 
-<dom-module id="my-rooster">
+<dom-module id="my-statistiek-docent">
   <template>
     <style>
       :host {
@@ -63,7 +64,12 @@
     </style>
 
     <div class="">
-      Test
+      Statistieken pagina docent
+      <BR><BR>
+        Aantal dagen afwezig door ziekte:<BR>
+        Aantal dagen afwezig door overig: <BR>
+
+
     </div>
 
 
@@ -79,7 +85,7 @@
          xxxx  public               : two way external databinding {{xxxx}} - notify nodig
       */
       Polymer({
-        is: 'my-rooster',
+        is: 'my-statistiek-docent',
 
         properties: {
           _c_studenten: {
