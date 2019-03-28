@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="my-day.html">
 
 <!-- Dit element wordt door de aanwezigheid van de c_visible parameter steeds opnieuw gerefreshed
      op het moment dat het element in de iron-pages geselecteerd wordt
@@ -15,55 +16,15 @@
 <dom-module id="my-rooster">
   <template>
     <style>
-      :host {
-        display: block;
-      }
-      :host > * {
-        --paper-input-container-focus-color: #1a9fd9; /* kind of blue */
-      }
-
-      span {
-        @apply --paper-font-body1;
-      }
-      .toast-button {
-        text-transform: none;
-        color: white;                           /* white tekst */
-        background: #1a9fd9;                    /* kind of blue */
-        --paper-button-ink-color: #00567B;      /* kind of dark blue */
-      }
-      .my-title {
-        font-size: 20px;
-        color: blue;
-        border-bottom: 1px solid red;           /* a red line */
-        padding-bottom: 2px;                    /* space above the border line */
-      }
-      .voornaam {
-        min-width: 100px;
-        text-align: left;
-       }
-      .achternaam {
-        min-width: 100px;
-        text-align: left;
-      }
-      .groepid-header {
-        min-width: 100px;
-        text-align: left;
-      }
-      .groepid{
-        min-width: 100px;
-      }
-      .my-button {
-        width: 100%;                        /* full width */
-        color: white;                       /* white tekst */
-        background: #1a9fd9;                /* kind of blue */
-        --paper-button-ink-color: #00567B;  /* kind of dark blue */
-        margin-top: 5px;                    /* enlarge thet default */
-        margin-left: 0px;                   /* reduce the default */
+      .calender {
+          height: 1000px;
       }
     </style>
 
-    <div class="">
-      Test
+    <div class="calender">
+        <template is="dom-repeat" items="{{days}}" as="day">
+            <my-day>{{day}}</my-day>
+        </template>
     </div>
 
 
@@ -99,6 +60,11 @@
                                                                    regel in de functie dat er niets gebeurd
                                                                    als c_visible false is */
           },
+          days: {
+            type: Array,
+            value: days(new Date()),
+          },
+
         },
 
         _go_home: function() {
@@ -117,5 +83,26 @@
 
       });
     })();
+
+    function days(current) {
+        var week = [];
+        weekdays[0] = "Maandag";
+        weekdays[1] = "Dinsdag";
+        weekdays[2] = "Woensdag";
+        weekdays[3] = "Donderdag";
+        weekdays[4] = "Vrijdag";
+        weekdays[5] = "Zaterdag";
+        weekdays[6] = "Zondag";
+        // Starting Monday not Sunday
+        var first = current.getDate() - current.getDay() + 1;
+        current.setDate(first);
+        for (var i = 0; i < 7; i++) {
+            week.push({day : weekdays[current.getDay()] ,fulldate : new Date(+current)});
+            current.setDate(current.getDate()+1);
+        }
+        return week;
+    }
+    console.log(new Date());
+    console.log(days(new Date()));
   </script>
 </dom-module>
