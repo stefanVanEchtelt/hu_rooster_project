@@ -19,16 +19,124 @@
       .calender {
           height: 1000px;
       }
+
+      table {
+          border-collapse: collapse;
+
+      }
+      td {
+          height: 70px;
+          text-align: center;
+          border: 1px solid #8e8e8e;
+          line-height: 100px;
+      }
+
+      table, td {
+          background-color:#dedfe0;
+      }
     </style>
 
-    <div class="calender">
-        <template is="dom-repeat" items="{{days}}" as="day">
-            <my-day>{{day}}</my-day>
-        </template>
-    </div>
+    <table style = "width: 10%">
+      <tr>
+        <td>6:00</td>
+      </tr>
+      <tr>
+        <td>6:30</td>
+      </tr>
+      <tr>
+        <td>7:00</td>
+        <tr>
+        <td>7:30</td>
+        </tr>
+        <tr>
+        <td>8:00</td>
+        </tr>
+        <tr>
+        <td>8:30</td>
+        </tr>
+        <tr>
+        <td>9:00</td>
+        </tr>
+        <tr>
+        <td>9:30</td>
+        </tr>
+        <tr>
+          <td>10:00</td>
+          </tr>
+          <tr>
+          <td>10:30</td>
+          </tr>
+          <tr>
+          <td>11:00</td>
+          </tr>
+          <tr>
+          <td>11:30</td>
+          </tr>
+          <tr>
+          <td>12:00</td>
+          </tr>
+          <tr>
+          <td>12:30</td>
+        <tr>
+          <td>13:00</td>
+          </tr>
+          <tr>
+          <td>13:30</td>
+          </tr>
+          <tr>
+          <td>14:00</td>
+          </tr>
+          <tr>
+          <td>14:30</td>
+          </tr>
+          <tr>
+          <td>15:00</td>
+          </tr>
+          <tr>
+          <td>15:30</td>
+          <tr>
+          <td>16:00</td>
+          </tr>
+          <tr>
+          <td>16:30</td>
+        <tr>
+          <td>17:00</td>
+          </tr>
+          <tr>
+          <td>17:30</td>
+          </tr>
+          <tr>
+          <td>18:00</td>
+          </tr>
+          <tr>
+          <td>18:30</td>
+          </tr>
+          <tr>
+          <td>19:00</td>
+          </tr>
+          <tr>
+          <td>19:30</td>
+          <tr>
+          <td>20:00</td>
+          </tr>
+          <tr>
+          <td>20:30</td>
+        <tr>
+          <td>21:00</td>
+          </tr>
+          <tr>
+          <td>21:30</td>
+          </tr>
+          <tr>
+          <td>22:00</td>
+      </tr>
 
-
-
+    </table>
+      <div class="calender">
+          <template is="dom-repeat" items="{{days}}" as="day">
+              <my-day>{{day}}</my-day>
+          </template>
+      </div>
   </template>
 
   <script>
@@ -86,13 +194,15 @@
 
     function days(current) {
         var week = [];
-        weekdays[0] = "Maandag";
-        weekdays[1] = "Dinsdag";
-        weekdays[2] = "Woensdag";
-        weekdays[3] = "Donderdag";
-        weekdays[4] = "Vrijdag";
-        weekdays[5] = "Zaterdag";
-        weekdays[6] = "Zondag";
+        weekdays = [];
+        weekdays[0] = "Dinsdag";
+        weekdays[1] = "Woensdag";
+        weekdays[2] = "Donderdag";
+        weekdays[3] = "Vrijdag";
+        weekdays[4] = "Zaterdag";
+        weekdays[5] = "Zondag";
+        weekdays[6] = "Maandag";
+
         // Starting Monday not Sunday
         var first = current.getDate() - current.getDay() + 1;
         current.setDate(first);
