@@ -3,15 +3,15 @@ package model.klas;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import model.les.Les;
 import model.persoon.Student;
 
 public class Klas {
-
 	private String klasCode;
 	private String naam;
 	private ArrayList<Student> deStudenten = new ArrayList<Student>();
-
+	private ArrayList<Les> lessen = new ArrayList<Les>();
+	
 	public Klas(String klasCode, String naam) {
 		this.klasCode = klasCode;
 		this.naam = naam;
@@ -38,5 +38,4 @@ public class Klas {
 			this.deStudenten.add(pStudent);
 		}
 	}
-
 }
