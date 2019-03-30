@@ -32,7 +32,7 @@
 
         <div class="day">
             <table>
-                <th>datum</th>
+                <th>datum: {{ datum }}</th>
                 <tr><td> </td></tr>
                 <tr><td> </td></tr>
                 <tr><td> </td></tr>
@@ -64,18 +64,51 @@
                 <tr><td> </td></tr>
                 <tr><td> </td></tr>
                 <tr><td> </td></tr>
-
-
             </table>
         </div>
 
-
+        <iron-ajax
+          id="ajax_lessen_ophalen"
+          method="POST"
+          url="/rooster/dag/ophalen"
+          handle-as="json"
+          on-response="_lessen_ophalen_response_handler">
+        </iron-ajax>
 
     </template>
 
     <script>
         Polymer({
             is: 'my-day',
+            properties: {
+              datum: {
+                type: String,
+                value: "",
+                observer: '_initializing',
+              },
+              c_visible: {
+                type: Boolean,
+                value: false,
+                observer: '_initializing',
+              }
+            },
+            _initializing: function() {
+              if (this.c_visible) {
+                this._ajax_lessen_ophalen();
+              }
+            },
+            _ajax_lessen_ophalen: function() {
+              console.log("ajax_lessen_ophalen datum="+this.datum);
+              this.$.ajax_lessen_ophalen.contentType="application/json";
+              this.$.ajax_lessen_ophalen.body={
+                "klascode": "TICT-SIE-V1E",
+                "datum": "2019-02-15"
+              };
+              this.$.ajax_lessen_ophalen.generateRequest();
+            },
+            _lessen_ophalen_response_handler: function(request) {
+              console.log(request);
+            }
         });
     </script>
 </dom-module>

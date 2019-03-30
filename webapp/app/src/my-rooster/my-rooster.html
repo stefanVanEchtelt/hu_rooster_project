@@ -134,7 +134,7 @@
     </table>
       <div class="calender">
           <template is="dom-repeat" items="{{days}}" as="day">
-              <my-day>{{day}}</my-day>
+              <my-day datum="'[[day.dateString]]'" c_visible="[[c_visible]]">{{day}}</my-day>
           </template>
       </div>
   </template>
@@ -168,13 +168,13 @@
                                                                   regel in de functie dat er niets gebeurd
                                                                    als c_visible false is */
           },
-<<<<<<< HEAD
-=======
           days: {
             type: Array,
             value: days(new Date()),
           },
->>>>>>> 1fe0ec16ea40ef666a1a2cc8290ad432a21b4d87
+        },
+
+        _initializing: function() {
 
         },
 
@@ -210,8 +210,10 @@
         var first = current.getDate() - current.getDay() + 1;
         current.setDate(first);
         for (var i = 0; i < 7; i++) {
-            week.push({day : weekdays[current.getDay()] ,fulldate : new Date(+current)});
-            current.setDate(current.getDate()+1);
+          let datum = new Date(current);
+          let dateString = datum.getFullYear() + "-" + ("0" + (datum.getMonth() + 1)).slice(-2) + "-" + ("0" + datum.getDate()).slice(-2)
+          week.push({day : weekdays[current.getDay()], fulldate : datum, dateString: dateString});
+          current.setDate(current.getDate()+1);
         }
         return week;
     }
