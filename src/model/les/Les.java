@@ -10,14 +10,6 @@ public class Les implements Serializable {
 	private String cursuscode;
 	private String startweek;
 	private String startDag;
-	public Les(String naam, String cursuscode, String startweek, String startDag) {
-		this.naam = naam;
-		this.cursuscode = cursuscode;
-		this.startweek = startweek;
-		this.startDag = startDag;
-	}
-	
-	
 	private String startdatum;
 	private String starttijd;
 	private String einddag;
@@ -32,11 +24,11 @@ public class Les implements Serializable {
 	private String grootte;
 	private String opmerkingen;
 	
-	
-	public Les(String naam, String cursuscode, String startweek, String startdatum, String starttijd, String einddag, String einddatum, String eindtijd, String duur, String werkvorm, String docenten, String lokaalnummers, ArrayList<Klas> ingeroosterdeKlassen, String faculteit, String grootte, String opmerkingen) {
+	public Les(String naam, String cursuscode, String startweek, String startDag, String startdatum, String starttijd, String einddag, String einddatum, String eindtijd, String duur, String werkvorm, String docenten, String lokaalnummers, ArrayList<Klas> ingeroosterdeKlassen, String faculteit, String grootte, String opmerkingen) {
 		this.naam = naam;
 		this.cursuscode = cursuscode;
 		this.startweek = startweek;
+		this.startDag = startDag;
 		this.startdatum = startdatum;
 		this.starttijd = starttijd;
 		this.einddag = einddag;
@@ -48,7 +40,11 @@ public class Les implements Serializable {
 		this.lokaalnummers = lokaalnummers;
 		this.ingeroosterdeKlassen = ingeroosterdeKlassen;
 		this.faculteit = faculteit;
-		this.grootte = grootte;
+		this.grootte = grootte; 
 		this.opmerkingen = opmerkingen;
+	}
+	
+	public String getStartDatum() {
+		return this.startdatum;
 	}
 }

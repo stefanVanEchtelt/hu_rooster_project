@@ -43,6 +43,17 @@ public class Klas {
 		return Collections.unmodifiableList(deLessen);
 	}
 	
+	public List<Les> getLessenByDate(String date) {
+		ArrayList<Les> lessen = new ArrayList<Les>();
+		for (Les l : this.deLessen) {
+			if (l.getStartDatum().equals(date)) {
+				lessen.add(l);
+			}
+		}
+		
+		return Collections.unmodifiableList(lessen);
+	}
+	
 	public void voegLesToe(Les pLes) {
 		if (!this.getLessen().contains(pLes)) {
 			this.deLessen.add(pLes);

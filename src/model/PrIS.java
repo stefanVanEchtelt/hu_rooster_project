@@ -107,6 +107,10 @@ public class PrIS {
 		return deStudenten.stream().filter(s -> s.getStudentNummer() == pStudentNummer).findFirst().orElse(null);
 	}
 
+	public Klas getKlas(String klasCode) {
+		return deKlassen.stream().filter(k -> k.getKlasCode().equals(klasCode)).findFirst().orElse(null);
+	}
+	
 	public String login(String gebruikersnaam, String wachtwoord) {
 		for (Docent d : deDocenten) {
 			if (d.getGebruikersnaam().equals(gebruikersnaam)) {
@@ -198,32 +202,45 @@ public class PrIS {
 					line = line.replace("\"", "");
 					
 					String[] splittedLes = line.split(";");
-					String[] klassen = splittedLes[13].split(", ");
-					
-					ArrayList<Klas> ingeroosterdeKlassen = new ArrayList<Klas>();
-					for (String klas : klassen) {
-						
-					}
-					
-					if (rowCount == 1) {
 						
 					String naam = splittedLes[0];
 					String cursuscode = splittedLes[1];
 					String starkWeek = splittedLes[2];
-					
 					String startDag = splittedLes[3];
 					String startDatum = splittedLes[4];
+					String startTijd = splittedLes[5];
+					String eindDag = splittedLes[6];
+					String eindDatum = splittedLes[7];
+					String eindTijd = splittedLes[8];
+					String duur = splittedLes[9];
+					String werkvorm = splittedLes[10];
+					String docenten = splittedLes[11];
+					String lokaalnummers = splittedLes[12];
 					
-					System.out.println(splittedLes[3]);
-					System.out.println(splittedLes[4]);
-					System.out.println(splittedLes[5]);
-					System.out.println(splittedLes[6]);
-					
-					
-					Les les = new Les(naam, cursuscode, starkWeek);
+					String[] klassen = splittedLes[13].split(", ");
+					ArrayList<Klas> ingeroosterdeKlassen = new ArrayList<Klas>();
+					for (String klas : klassen) {
+						Klas k = getKlas(klas);
+						if (k != null) {
+							ingeroosterdeKlassen.add(k);
+						}
 					}
-//					Les les = new Les(splittedLes[2], splittedLes[3], splittedLes[4], splittedLes[5], splittedLes[6], splittedLes[7], splittedLes[8], splittedLes[9], splittedLes[10], splittedLes[11], splittedLes[12], ingeroosterdeKlassen, splittedLes[14], splittedLes[15]);
-//					pLessen.add(les);
+					
+					String faculteit = splittedLes[14];
+					String grootte = splittedLes[15];
+					String opmerkingen = splittedLes[16];
+					
+					Les les = new Les(naam, cursuscode, starkWeek, startDag, startDatum, startTijd, eindDag, eindDatum, eindTijd, duur, werkvorm, docenten, lokaalnummers, ingeroosterdeKlassen, faculteit, grootte, opmerkingen);
+					
+					for (Klas k : ingeroosterdeKlassen) {
+						k.voegLesToe(les);
+						if (rowCount == 1) {
+							k.getLessenByDate("2019-02-04");	
+						}
+						
+					}
+					
+					pLessen.add(les);
 				}
 				rowCount++;
 			}
