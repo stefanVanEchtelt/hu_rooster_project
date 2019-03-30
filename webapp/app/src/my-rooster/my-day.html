@@ -1,0 +1,81 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<!-- Dit element wordt door de aanwezigheid van de c_visible parameter steeds opnieuw gerefreshed
+     op het moment dat het element in de iron-pages geselecteerd wordt
+     en ook zodra hij weer gedeselecteerd wordt.
+     Deze techniek is bruikbaar om volatile info steeds opnieuw op te halen en niet enkel eenmalig
+     bij start van de applicatie.
+-->
+
+<dom-module id="my-day">
+    <template>
+        <style>
+
+            .day {
+                float: left;
+                width: 14.28%;
+            }
+            table {
+                border-collapse: collapse;
+            }
+            table, th, td {
+                border: 1px solid lightgray;
+                height: 10px;
+                width: 100%;
+            }
+        </style>
+
+        <div class="day">
+            <table>
+                <th>datum</th>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+                <tr><td> </td></tr>
+
+
+            </table>
+        </div>
+
+
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'my-day',
+        });
+    </script>
+</dom-module>

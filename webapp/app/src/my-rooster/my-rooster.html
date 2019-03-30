@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="my-day.html">
 
 <!-- Dit element wordt door de aanwezigheid van de c_visible parameter steeds opnieuw gerefreshed
      op het moment dat het element in de iron-pages geselecteerd wordt
@@ -15,59 +16,127 @@
 <dom-module id="my-rooster">
   <template>
     <style>
-      :host {
-        display: block;
-      }
-      :host > * {
-        --paper-input-container-focus-color: #1a9fd9; /* kind of blue */
+      .calender {
+          height: 1000px;
       }
 
-      span {
-        @apply --paper-font-body1;
+      table {
+          border-collapse: collapse;
+
       }
-      .toast-button {
-        text-transform: none;
-        color: white;                           /* white tekst */
-        background: #1a9fd9;                    /* kind of blue */
-        --paper-button-ink-color: #00567B;      /* kind of dark blue */
+      td {
+          height: 70px;
+          text-align: center;
+          border: 1px solid #8e8e8e;
+          line-height: 100px;
       }
-      .my-title {
-        font-size: 20px;
-        color: blue;
-        border-bottom: 1px solid red;           /* a red line */
-        padding-bottom: 2px;                    /* space above the border line */
-      }
-      .voornaam {
-        min-width: 100px;
-        text-align: left;
-       }
-      .achternaam {
-        min-width: 100px;
-        text-align: left;
-      }
-      .groepid-header {
-        min-width: 100px;
-        text-align: left;
-      }
-      .groepid{
-        min-width: 100px;
-      }
-      .my-button {
-        width: 100%;                        /* full width */
-        color: white;                       /* white tekst */
-        background: #1a9fd9;                /* kind of blue */
-        --paper-button-ink-color: #00567B;  /* kind of dark blue */
-        margin-top: 5px;                    /* enlarge thet default */
-        margin-left: 0px;                   /* reduce the default */
+
+      table, td {
+          background-color:#dedfe0;
       }
     </style>
 
-    <div class="">
-      Test
-    </div>
+    <table style = "width: 10%">
+      <tr>
+        <td>6:00</td>
+      </tr>
+      <tr>
+        <td>6:30</td>
+      </tr>
+      <tr>
+        <td>7:00</td>
+        <tr>
+        <td>7:30</td>
+        </tr>
+        <tr>
+        <td>8:00</td>
+        </tr>
+        <tr>
+        <td>8:30</td>
+        </tr>
+        <tr>
+        <td>9:00</td>
+        </tr>
+        <tr>
+        <td>9:30</td>
+        </tr>
+        <tr>
+          <td>10:00</td>
+          </tr>
+          <tr>
+          <td>10:30</td>
+          </tr>
+          <tr>
+          <td>11:00</td>
+          </tr>
+          <tr>
+          <td>11:30</td>
+          </tr>
+          <tr>
+          <td>12:00</td>
+          </tr>
+          <tr>
+          <td>12:30</td>
+        <tr>
+          <td>13:00</td>
+          </tr>
+          <tr>
+          <td>13:30</td>
+          </tr>
+          <tr>
+          <td>14:00</td>
+          </tr>
+          <tr>
+          <td>14:30</td>
+          </tr>
+          <tr>
+          <td>15:00</td>
+          </tr>
+          <tr>
+          <td>15:30</td>
+          <tr>
+          <td>16:00</td>
+          </tr>
+          <tr>
+          <td>16:30</td>
+        <tr>
+          <td>17:00</td>
+          </tr>
+          <tr>
+          <td>17:30</td>
+          </tr>
+          <tr>
+          <td>18:00</td>
+          </tr>
+          <tr>
+          <td>18:30</td>
+          </tr>
+          <tr>
+          <td>19:00</td>
+          </tr>
+          <tr>
+          <td>19:30</td>
+          <tr>
+          <td>20:00</td>
+          </tr>
+          <tr>
+          <td>20:30</td>
+        <tr>
+          <td>21:00</td>
+          </tr>
+          <tr>
+          <td>21:30</td>
+          </tr>
+          <tr>
+          <td>22:00</td>
+      </tr>
 
-
-
+    </table>
+      <div class="calender">
+          <template is="dom-repeat" items="{{days}}" as="day">
+              <my-day>{{day}}</my-day>
+          </template>
+      </div>
   </template>
 
   <script>
@@ -96,9 +165,17 @@
             type: Boolean,                                      /* true when element is the active visible item */
             value: false,
             observer: '_initializing',                          /* wordt ook aangeroepen bijwisseling van true naar false.
-                                                                   regel in de functie dat er niets gebeurd
+                                                                  regel in de functie dat er niets gebeurd
                                                                    als c_visible false is */
           },
+<<<<<<< HEAD
+=======
+          days: {
+            type: Array,
+            value: days(new Date()),
+          },
+>>>>>>> 1fe0ec16ea40ef666a1a2cc8290ad432a21b4d87
+
         },
 
         _go_home: function() {
@@ -117,5 +194,28 @@
 
       });
     })();
+
+    function days(current) {
+        var week = [];
+        weekdays = [];
+        weekdays[0] = "Dinsdag";
+        weekdays[1] = "Woensdag";
+        weekdays[2] = "Donderdag";
+        weekdays[3] = "Vrijdag";
+        weekdays[4] = "Zaterdag";
+        weekdays[5] = "Zondag";
+        weekdays[6] = "Maandag";
+
+        // Starting Monday not Sunday
+        var first = current.getDate() - current.getDay() + 1;
+        current.setDate(first);
+        for (var i = 0; i < 7; i++) {
+            week.push({day : weekdays[current.getDay()] ,fulldate : new Date(+current)});
+            current.setDate(current.getDate()+1);
+        }
+        return week;
+    }
+    console.log(new Date());
+    console.log(days(new Date()));
   </script>
 </dom-module>
