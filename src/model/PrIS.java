@@ -193,9 +193,37 @@ public class PrIS {
 			int rowCount = 0;
 			while ((line = br.readLine()) != null) {
 				if (rowCount != 0) {
-					String[] splittedLes = line.split(",");
-					Les les = new Les(splittedLes[0], splittedLes[1], splittedLes[2], splittedLes[3], splittedLes[4], splittedLes[5], splittedLes[6], splittedLes[7], splittedLes[8], splittedLes[9], splittedLes[10], splittedLes[11], splittedLes[12], splittedLes[13], splittedLes[14], splittedLes[15]);
-					pLessen.add(les);
+					line = line.replace("\",\"", ";");
+					line = line.replace(",\"", "\";");
+					line = line.replace("\"", "");
+					
+					String[] splittedLes = line.split(";");
+					String[] klassen = splittedLes[13].split(", ");
+					
+					ArrayList<Klas> ingeroosterdeKlassen = new ArrayList<Klas>();
+					for (String klas : klassen) {
+						
+					}
+					
+					if (rowCount == 1) {
+						
+					String naam = splittedLes[0];
+					String cursuscode = splittedLes[1];
+					String starkWeek = splittedLes[2];
+					
+					String startDag = splittedLes[3];
+					String startDatum = splittedLes[4];
+					
+					System.out.println(splittedLes[3]);
+					System.out.println(splittedLes[4]);
+					System.out.println(splittedLes[5]);
+					System.out.println(splittedLes[6]);
+					
+					
+					Les les = new Les(naam, cursuscode, starkWeek);
+					}
+//					Les les = new Les(splittedLes[2], splittedLes[3], splittedLes[4], splittedLes[5], splittedLes[6], splittedLes[7], splittedLes[8], splittedLes[9], splittedLes[10], splittedLes[11], splittedLes[12], ingeroosterdeKlassen, splittedLes[14], splittedLes[15]);
+//					pLessen.add(les);
 				}
 				rowCount++;
 			}

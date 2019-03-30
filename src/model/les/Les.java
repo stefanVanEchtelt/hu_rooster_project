@@ -1,9 +1,23 @@
 package model.les;
 
-public class Les {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import model.klas.Klas;
+
+public class Les implements Serializable {
 	private String naam;
 	private String cursuscode;
 	private String startweek;
+	private String startDag;
+	public Les(String naam, String cursuscode, String startweek, String startDag) {
+		this.naam = naam;
+		this.cursuscode = cursuscode;
+		this.startweek = startweek;
+		this.startDag = startDag;
+	}
+	
+	
 	private String startdatum;
 	private String starttijd;
 	private String einddag;
@@ -13,12 +27,13 @@ public class Les {
 	private String werkvorm;
 	private String docenten;
 	private String lokaalnummers;
-	private String groepen;
+	private ArrayList<Klas> ingeroosterdeKlassen;
 	private String faculteit;
 	private String grootte;
 	private String opmerkingen;
 	
-	public Les(String naam, String cursuscode, String startweek, String startdatum, String starttijd, String einddag, String einddatum, String eindtijd, String duur, String werkvorm, String docenten, String lokaalnummers, String groepen, String faculteit, String grootte, String opmerkingen) {
+	
+	public Les(String naam, String cursuscode, String startweek, String startdatum, String starttijd, String einddag, String einddatum, String eindtijd, String duur, String werkvorm, String docenten, String lokaalnummers, ArrayList<Klas> ingeroosterdeKlassen, String faculteit, String grootte, String opmerkingen) {
 		this.naam = naam;
 		this.cursuscode = cursuscode;
 		this.startweek = startweek;
@@ -31,7 +46,7 @@ public class Les {
 		this.werkvorm = werkvorm;
 		this.docenten = docenten;
 		this.lokaalnummers = lokaalnummers;
-		this.groepen = groepen;
+		this.ingeroosterdeKlassen = ingeroosterdeKlassen;
 		this.faculteit = faculteit;
 		this.grootte = grootte;
 		this.opmerkingen = opmerkingen;
