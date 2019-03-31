@@ -215,6 +215,10 @@ public class PrIS {
 					String duur = splittedLes[9];
 					String werkvorm = splittedLes[10];
 					String docenten = splittedLes[11];
+					
+					System.out.println(docenten);
+//					String[] klassen = splittedLes[13].split(", ");
+					
 					String lokaalnummers = splittedLes[12];
 					
 					String[] klassen = splittedLes[13].split(", ");

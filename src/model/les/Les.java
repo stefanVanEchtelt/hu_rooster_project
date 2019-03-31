@@ -44,6 +44,17 @@ public class Les implements Serializable {
 		this.opmerkingen = opmerkingen;
 	}
 	
+	public String getStartTijd() {
+		return this.starttijd;
+	}
+	
+	public String getEindTijd() {
+		return this.eindtijd;
+	}
+	
+	public String getDuur() {
+		return this.duur;
+	}
 	public String getNaam() {
 		return this.naam;
 	}

@@ -46,9 +46,13 @@ public class RoosterController implements Handler {
 		
 		for (Les l : lessen) {
 			JsonObjectBuilder lJsonObjectBuilderVoorStudent = Json.createObjectBuilder();
-			lJsonObjectBuilderVoorStudent.add("naam", "OODC").add("start_datum", l.getStartDatum()).add("real_name", l.getNaam());					     
+			lJsonObjectBuilderVoorStudent
+					.add("naam", l.getNaam())
+					.add("start_tijd", l.getStartTijd())
+					.add("eind_tijd", l.getEindTijd())
+					.add("duur", l.getDuur());					     
 		  
-		  lJsonArrayBuilder.add(lJsonObjectBuilderVoorStudent);	
+			lJsonArrayBuilder.add(lJsonObjectBuilderVoorStudent);	
 		}
 		
 		String lJsonOutStr = lJsonArrayBuilder.build().toString();
