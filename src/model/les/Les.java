@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import model.klas.Klas;
+import model.persoon.Docent;
 
 public class Les implements Serializable {
 	private String naam;
@@ -17,14 +18,14 @@ public class Les implements Serializable {
 	private String eindtijd;
 	private String duur;
 	private String werkvorm;
-	private String docenten;
+	private ArrayList<Docent> docenten;
 	private String lokaalnummers;
 	private ArrayList<Klas> ingeroosterdeKlassen;
 	private String faculteit;
 	private String grootte;
 	private String opmerkingen;
 	
-	public Les(String naam, String cursuscode, String startweek, String startDag, String startdatum, String starttijd, String einddag, String einddatum, String eindtijd, String duur, String werkvorm, String docenten, String lokaalnummers, ArrayList<Klas> ingeroosterdeKlassen, String faculteit, String grootte, String opmerkingen) {
+	public Les(String naam, String cursuscode, String startweek, String startDag, String startdatum, String starttijd, String einddag, String einddatum, String eindtijd, String duur, String werkvorm, ArrayList<Docent> docenten, String lokaalnummers, ArrayList<Klas> ingeroosterdeKlassen, String faculteit, String grootte, String opmerkingen) {
 		this.naam = naam;
 		this.cursuscode = cursuscode;
 		this.startweek = startweek;

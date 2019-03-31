@@ -214,10 +214,15 @@ public class PrIS {
 					String eindTijd = splittedLes[8];
 					String duur = splittedLes[9];
 					String werkvorm = splittedLes[10];
-					String docenten = splittedLes[11];
 					
-					System.out.println(docenten);
-//					String[] klassen = splittedLes[13].split(", ");
+					String[] lDocenten = splittedLes[11].split(", ");
+					ArrayList<Docent> docenten = new ArrayList<Docent>();
+					for (String d : lDocenten) {
+						Docent docent = getDocent(d);
+						if (docent != null) {
+							docenten.add(docent);
+						}
+					}
 					
 					String lokaalnummers = splittedLes[12];
 					
@@ -238,10 +243,10 @@ public class PrIS {
 					
 					for (Klas k : ingeroosterdeKlassen) {
 						k.voegLesToe(les);
-						if (rowCount == 1) {
-							k.getLessenByDate("2019-02-04");	
-						}
-						
+					}
+					
+					for (Docent d : docenten) {
+						d.voegLesToe(les);
 					}
 					
 					pLessen.add(les);
