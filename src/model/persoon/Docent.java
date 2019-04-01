@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import model.les.Les;
 
 public class Docent extends Persoon {
-	private ArrayList<Les> deLessen;
+	private ArrayList<Les> deLessen = new ArrayList<Les>();
 	private int docentNummer;
 
 	public Docent(String voornaam, String tussenvoegsel, String achternaam, String wachtwoord, String gebruikersnaam,
