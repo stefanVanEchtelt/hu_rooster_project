@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="40a85bdc-7c17-47fe-8913-2285a17bd8c6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/hs_err_pid10121.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/controller/RoosterController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/model/les/Les.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/webapp/.project" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CSV/V1A.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CSV/V1B.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CSV/V1C.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CSV/V1D.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CSV/V1E.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CSV/docenten.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CSV/rooster.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controller/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/PrIS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/PrIS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/klas/Klas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/klas/Klas.java" afterDir="false" />
+    <list default="true" id="b4e1950a-8a7b-4622-b2ca-7c0db266fa4d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webapp/app/src/my-rooster/my-day.html" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/app/src/my-rooster/my-day.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webapp/app/src/my-rooster/my-rooster.html" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/app/src/my-rooster/my-rooster.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -25,46 +15,46 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DefaultGradleProjectSettings">
+    <option name="testRunner" value="GRADLE" />
+    <option name="delegatedBuild" value="true" />
+  </component>
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/controller/Application.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="392">
-              <caret line="48" column="23" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
+            <state relative-caret-position="259">
+              <caret line="32" column="38" lean-forward="true" selection-start-line="32" selection-start-column="38" selection-end-line="32" selection-end-column="38" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/webapp/app/src/my-rooster/my-rooster.html">
+        <entry file="file://$PROJECT_DIR$/webapp/app/src/my-rooster/my-day.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="200" column="32" lean-forward="true" selection-start-line="200" selection-start-column="32" selection-end-line="200" selection-end-column="32" />
+            <state relative-caret-position="150">
+              <caret line="16" column="32" selection-start-line="16" selection-start-column="32" selection-end-line="16" selection-end-column="32" />
               <folding>
-                <element signature="n#style#0;n#table#0;n#body#0;n#html#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#table#0;n#div#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/webapp/app/src/my-rooster/my-day.html">
+        <entry file="file://$PROJECT_DIR$/webapp/app/src/my-rooster/my-rooster.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="799">
-              <caret line="77" column="25" selection-start-line="77" selection-start-column="25" selection-end-line="77" selection-end-column="25" />
+            <state relative-caret-position="119">
+              <caret line="24" column="13" lean-forward="true" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+              <folding>
+                <element signature="n#style#0;n#table#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="HTML File" />
-      </list>
-    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -72,14 +62,16 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/webapp/app/src/my-rooster/my-day.html" />
         <option value="$PROJECT_DIR$/webapp/app/src/my-rooster/my-rooster.html" />
+        <option value="$PROJECT_DIR$/webapp/app/src/my-rooster/my-day.html" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="693" />
+    <option name="y" value="23" />
+    <option name="width" value="747" />
+    <option name="height" value="758" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -139,10 +131,9 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553779244620" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -181,20 +172,20 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="40a85bdc-7c17-47fe-8913-2285a17bd8c6" name="Default Changelist" comment="" />
-      <created>1553689818395</created>
+      <changelist id="b4e1950a-8a7b-4622-b2ca-7c0db266fa4d" name="Default Changelist" comment="" />
+      <created>1554202521193</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1553689818395</updated>
-      <workItem from="1553689821109" duration="7893000" />
+      <updated>1554202521193</updated>
+      <workItem from="1554202524986" duration="1453000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7893000" />
+    <option name="totallyTimeSpent" value="1453000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="693" y="23" width="747" height="758" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Image Layers" />
@@ -202,7 +193,7 @@
       <window_info id="UI Designer" />
       <window_info id="Capture Tool" />
       <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24248926" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.2496318" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
@@ -212,7 +203,7 @@
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2939759" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32882884" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -224,65 +215,41 @@
       <window_info anchor="right" id="Palette&#9;" />
       <window_info anchor="right" id="Database" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.24913494" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
-    <layout-to-restore>
-      <window_info id="Image Layers" order="0" />
-      <window_info id="Designer" order="1" />
-      <window_info id="UI Designer" order="2" />
-      <window_info id="Capture Tool" order="3" />
-      <window_info id="Favorites" order="4" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="5" visible="true" weight="0.24248926" />
-      <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="1" />
-      <window_info anchor="bottom" id="Terminal" order="2" />
-      <window_info anchor="bottom" id="Database Changes" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="5" />
-      <window_info anchor="bottom" id="Message" order="6" />
-      <window_info anchor="bottom" id="Find" order="7" />
-      <window_info active="true" anchor="bottom" id="Run" order="8" visible="true" weight="0.2951807" />
-      <window_info anchor="bottom" id="Debug" order="9" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="12" />
-      <window_info anchor="right" id="Palette" order="0" />
-      <window_info anchor="right" id="Database" order="1" />
-      <window_info anchor="right" id="Theme Preview" order="2" />
-      <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="right" id="Palette&#9;" order="4" />
-      <window_info anchor="right" id="Maven" order="5" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="6" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="7" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
-    </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/controller/Application.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="392">
-          <caret line="48" column="23" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/webapp/app/src/my-rooster/my-day.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="799">
-          <caret line="77" column="25" selection-start-line="77" selection-start-column="25" selection-end-line="77" selection-end-column="25" />
+        <state relative-caret-position="259">
+          <caret line="32" column="38" lean-forward="true" selection-start-line="32" selection-start-column="38" selection-end-line="32" selection-end-column="38" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/webapp/app/src/my-rooster/my-rooster.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="200" column="32" lean-forward="true" selection-start-line="200" selection-start-column="32" selection-end-line="200" selection-end-column="32" />
+        <state relative-caret-position="119">
+          <caret line="24" column="13" lean-forward="true" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
           <folding>
-            <element signature="n#style#0;n#table#0;n#body#0;n#html#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webapp/app/src/my-rooster/my-day.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="16" column="32" selection-start-line="16" selection-start-column="32" selection-end-line="16" selection-end-column="32" />
+          <folding>
+            <element signature="n#style#0;n#table#0;n#div#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>

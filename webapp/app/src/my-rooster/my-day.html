@@ -9,21 +9,22 @@
     <template>
         <style>
             .day {
-                float: left;
-                width: 14.28%;
+                float: right;
+                width: 12%;
             }
             table {
                 border-collapse: collapse;
+                margin-right: 50px;
             }
             table, th, td {
-                border: 1px solid lightgray;
+                border: 1px solid lightgrey;
                 height: 10px;
                 width: 100%;
             }
         </style>
 
         <div class="day">
-            <table>
+            <table style = "float: right">
                 <th>datum: {{ datum }}</th>
 
                 <template is="dom-repeat" items="{{gerechten}}" as="gerecht">
