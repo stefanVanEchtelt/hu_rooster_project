@@ -24,7 +24,8 @@
 
         <div class="day">
             <table>
-                <th>datum: {{ datum }}</th>
+                {{ dayName }}
+                <th>{{ dayName }}: {{ datum }}</th>
 
                 <template is="dom-repeat" items="{{gerechten}}" as="gerecht">
 
@@ -50,6 +51,10 @@
                 type: String,
                 value: "",
               },
+              dayName: {
+                type: String,
+                value: "",
+              },
               c_visible: {
                 type: Boolean,
                 value: false,
@@ -59,6 +64,7 @@
                 type: Array,
                 value: [],
               }
+
             },
 
             _initializing: function() {
