@@ -1,0 +1,116 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="my-day">
+    <template>
+        <style>
+            .day {
+                float: left;
+                width: 14.28%;
+            }
+            table {
+                border-collapse: collapse;
+            }
+            table, th, td {
+                border: 1px solid lightgray;
+                height: 10px;
+                width: 100%;
+            }
+        </style>
+
+        <div class="day">
+            <table>
+                <th>datum: {{ datum }}</th>
+
+                <template is="dom-repeat" items="{{gerechten}}" as="gerecht">
+
+                </template>
+            </table>
+        </div>
+
+        <iron-ajax
+          id="ajax_lessen_ophalen"
+          method="POST"
+          url="/rooster/dag/ophalen"
+          handle-as="json"
+          on-response="_lessen_ophalen_response_handler">
+        </iron-ajax>
+
+    </template>
+
+    <script>
+        Polymer({
+            is: 'my-day',
+            properties: {
+              datum: {
+                type: String,
+                value: "",
+              },
+              c_visible: {
+                type: Boolean,
+                value: false,
+                observer: '_initializing',
+              },
+              lessen: {
+                type: Array,
+                value: [],
+              }
+            },
+
+            _initializing: function() {
+              if (this.c_visible) {
+                this._ajax_lessen_ophalen();
+              }
+            },
+
+            _ajax_lessen_ophalen: function() {
+              this.$.ajax_lessen_ophalen.contentType="application/json";
+              this.$.ajax_lessen_ophalen.body = {
+                "klascode": "TICT-SIE-V1E",
+                "datum": "2019-02-15"
+              };
+              this.$.ajax_lessen_ophalen.generateRequest();
+            },
+
+            _lessen_ophalen_response_handler: function(request) {
+              this.setLessen(request.detail.response);
+            },
+
+            setLessen: function(lessen) {
+              console.log('set');
+              console.log(lessen);
+              let timesArray = this.getTimes("06:00", "22:00"); 
+              console.log()
+              console.log('------');
+
+              return `<tr><td></td></tr>`;
+            },
+
+            getTimes: function(from, until) {
+              //"01/01/2001" is just an arbitrary date
+              var until = Date.parse("01/01/2001 " + until);
+              var from = Date.parse("01/01/2001 " + from);
+              //*2 because because we want every 30 minutes instead of every hour
+              var max = (Math.abs(until-from) / (60*60*1000))*2;
+              var time = new Date(from);
+              var hours = [];
+              for(var i = 0; i <= max; i++){
+                  //doubleZeros just adds a zero in front of the value if it's smaller than 10.
+                  var hour = this.doubleZeros(time.getHours());
+                  var minute = this.doubleZeros(time.getMinutes());
+                  hours.push(hour+":"+minute);
+                  time.setMinutes(time.getMinutes()+30);
+              }
+              return hours;
+            },
+
+            doubleZeros: function(d) {
+              return (d < 10) ? '0' + d.toString() : d.toString();
+            }
+        });
+    </script>
+</dom-module>

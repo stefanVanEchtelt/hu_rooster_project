@@ -157,6 +157,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </a>
 
           <!-- beschikbaar voor docent -->
+          <a name="docent_statistiek" href$="[[_c_baseURL]]docent_statistiek" verborgen$="[[!_are_strings_equal(_rol, 'docent')]]">
+            <iron-icon icon="icons:timeline"></iron-icon>
+            <span>Statistiek</span>
+          </a>
 
           <!-- beschikbaar voor student -->
           <a name="student_medestudenten" href$="[[_c_baseURL]]student_medestudenten"  verborgen$="[[!_are_strings_equal(_rol, 'student')]]">
@@ -168,6 +172,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a name="student_rooster" href$="[[_c_baseURL]]student_rooster"  verborgen$="[[!_are_strings_equal(_rol, 'student')]]">
             <iron-icon icon="icons:event"></iron-icon>
             <span>Rooster</span>
+          </a>
+
+          <a name="student_statistiek" href$="[[_c_baseURL]]student_statistiek" verborgen$="[[!_are_strings_equal(_rol, 'student')]]">
+            <iron-icon icon="icons:timeline"></iron-icon>
+            <span>Statistiek</span>
           </a>
 
         </iron-selector>
@@ -237,8 +246,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </section>
 
 <!-- sections voor docent -->
+          <section  page-name="docent_statistiek" title="Statistiek-docent" element$="my-statistiek-docent">
+            <paper-material elevation="1">
+              <my-statistiek-docent
+                c_visible="[[_are_strings_equal(_ar_page, 'docent_statistiek')]]"
+                c_rol="[[_rol]]"
+                c_username="[[_username]]">
+              </my-statistiek-docent>
+            </paper-material>
+          </section>
+
 
  <!-- sections voor student -->
+           <section  page-name="student_statistiek"
+                     title="STATISTIEK VOOR STUDENT"
+                     element$="my-statistiek-student">
+             <paper-material elevation="1">
+
+               <my-statistiek-student
+                 c_visible="[[_are_strings_equal(_ar_page, 'student_statistiek')]]"
+                 c_rol="[[_rol]]"
+                 c_username="[[_username]]">
+               </my-statistiek-student>
+             </paper-material>
+           </section>
+           <!-- <section  page-name="student_statistiek" title="Statistiek" element$="my-statistiek">
+             <paper-material elevation="1">
+               <my-statistiek
+                 c_visible="[[_are_strings_equal(_ar_page, 'student_statistiek')]]"
+                 c_rol="[[_rol]]"
+                 c_username="[[_username]]">
+               </my-statistiek>
+             </paper-material>
+           </section> -->
+
           <section  page-name="student_medestudenten"
                     title="OVERZICHT MEDESTUDENTEN"
                     element$="my-medestudenten">
@@ -257,13 +298,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </paper-material>
           </section>
 
-          <section  page-name="student_rooster" title="Rooster" element$="my-medestudenten">
+          <section  page-name="student_rooster" title="Rooster" element$="my-rooster">
             <paper-material elevation="1">
-              <my-medestudenten
+              <my-rooster
                 c_visible="[[_are_strings_equal(_ar_page, 'student_rooster')]]"
                 c_rol="[[_rol]]"
                 c_username="[[_username]]">
-              </my-medestudenten>
+              </my-rooster>
             </paper-material>
           </section>
 
