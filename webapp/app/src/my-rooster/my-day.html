@@ -32,7 +32,7 @@
         <div class="day">
           <template is="dom-if" if="{{i_loaded}}">
               <table style = "float: right">
-              <tr><th>datum: {{ datum }}</th><tr>
+              <tr><th>{{ dayName }}: {{ datum }}</th><tr>
               <template is="dom-repeat" items="{{times}}" as="time">
                 <template is="dom-if" if="{{isErLesOm(time)}}">
                   <tr>
@@ -44,9 +44,6 @@
                     <td>123</td>
                   </tr>
                 </template>
-                <!-- <tr>
-                  <td></td>
-                </tr> -->
               </template>
             </table>
             </template>
@@ -70,6 +67,10 @@
                 type: String,
                 value: "",
               },
+              dayName: {
+                type: String,
+                value: "",
+              },
               c_visible: {
                 type: Boolean,
                 value: false,
@@ -87,12 +88,13 @@
                 type: Array,
                 value: [],
               }
+
             },
 
             isErLesOm: function (tijd) {
               let found = false;
               this.lessen.forEach((les) => {
-                if (les.start_tijd <= tijd && les.eind_tijd >= tijd) {
+                if (les.start_tijd <= tijd && les.eind_tijd > tijd) {
                   found = true;
                 }
               });
