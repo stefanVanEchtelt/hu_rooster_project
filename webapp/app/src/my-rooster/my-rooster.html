@@ -47,7 +47,7 @@
 
     <div class="calender">
         <template is="dom-repeat" items="{{days}}" as="day">
-            <my-day datum="'[[day.dateString]]'" dayName="'[[day.day]]'" c_visible="[[c_visible]]">{{day}}</my-day>
+            <my-day datum="[[day.dateString]]" day_name="[[day.day]]" c_visible="[[c_visible]]">{{day}}</my-day>
         </template>
     </div>
 
