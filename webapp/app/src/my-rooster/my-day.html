@@ -24,13 +24,26 @@
         </style>
 
         <div class="day">
-            <table style = "float: right">
-                <th>datum: {{ datum }}</th>
-
-                <template is="dom-repeat" items="{{gerechten}}" as="gerecht">
-
+          <template is="dom-if" if="{{i_loaded}}">
+              <table style = "float: right">
+              <tr><th>datum: {{ datum }}</th><tr>
+              <template is="dom-repeat" items="{{times}}" as="time">
+                <template is="dom-if" if="{{isErLesOm(time)}}">
+                  <tr>
+                    <td>x</td>
+                  </tr>
                 </template>
+                <template is="dom-if" if="{{!isErLesOm(time)}}">
+                  <tr>
+                    <td>123</td>
+                  </tr>
+                </template>
+                <!-- <tr>
+                  <td></td>
+                </tr> -->
+              </template>
             </table>
+            </template>
         </div>
 
         <iron-ajax
@@ -56,10 +69,29 @@
                 value: false,
                 observer: '_initializing',
               },
+              i_loaded: {
+                type: Boolean,
+                value: false,
+              },
+              times: {
+                type: Array,
+                value: [],
+              },
               lessen: {
                 type: Array,
                 value: [],
               }
+            },
+
+            isErLesOm: function (tijd) {
+              let found = false;
+              this.lessen.forEach((les) => {
+                if (les.start_tijd <= tijd && les.eind_tijd >= tijd) {
+                  found = true;
+                }
+              });
+
+              return found;
             },
 
             _initializing: function() {
@@ -78,17 +110,9 @@
             },
 
             _lessen_ophalen_response_handler: function(request) {
-              this.setLessen(request.detail.response);
-            },
-
-            setLessen: function(lessen) {
-              console.log('set');
-              console.log(lessen);
-              let timesArray = this.getTimes("06:00", "22:00"); 
-              console.log()
-              console.log('------');
-
-              return `<tr><td></td></tr>`;
+              this.times = this.getTimes("06:00", "22:00");
+              this.lessen = request.detail.response;
+              this.i_loaded = true;
             },
 
             getTimes: function(from, until) {

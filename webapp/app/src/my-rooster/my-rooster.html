@@ -49,6 +49,8 @@
       </template>
     </table>
 
+<!--    <my-day datum="'20-10-1998'" c_visible="[[c_visible]]">{{day}}</my-day>-->
+
     <div class="calender">
         <template is="dom-repeat" items="{{days}}" as="day">
             <my-day datum="'[[day.dateString]]'" c_visible="[[c_visible]]">{{day}}</my-day>
