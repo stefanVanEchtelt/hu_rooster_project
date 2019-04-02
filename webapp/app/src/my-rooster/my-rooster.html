@@ -18,7 +18,7 @@
       table {
           border-collapse: collapse;
           float:left;
-          margin-top: 44px;
+          margin-top: 80px;
       }
       td {
           height: 35px;
@@ -32,6 +32,8 @@
       }
     </style>
 
+    <paper-button raised on-click="min_month">-</paper-button>
+    <paper-button raised on-click="plus_month">+</paper-button>
     <!-- <popup-absent></popup-absent> -->
     <!-- <popup-beter></popup-beter> -->
     <table>
@@ -84,14 +86,57 @@
             type: Array,
             value: [],
           },
+          today: {
+            type: Array,
+            value: new Date()
+          },
           days: {
             type: Array,
-            value: days(new Date()),
+            value: [],
           },
         },
 
+        min_month: function() {
+          var date = new Date(this.today);
+          date.setDate(date.getDate() - 7);
+          this.set("today", date);
+          this.setDays(date);
+        },
+
+        plus_month: function() {
+          var date = new Date(this.today);
+          date.setDate(date.getDate() + 7);
+          this.set("today", date);
+          this.setDays(date);
+        },
+
+        setDays: function(current) {
+          var week = [];
+          var weekdays = [];
+          weekdays[0] = "Zondag";
+          weekdays[1] = "Maandag";
+          weekdays[2] = "Dinsdag";
+          weekdays[3] = "Woensdag";
+          weekdays[4] = "Donderdag";
+          weekdays[5] = "Vrijdag";
+          weekdays[6] = "Zaterdag";
+
+          // Starting Monday not Sunday
+          var first = current.getDate() - current.getDay() + 1;
+          current.setDate(first);
+          for (var i = 0; i < 7; i++) {
+            let datum = new Date(current);
+            let dateString = datum.getFullYear() + "-" + ("0" + (datum.getMonth() + 1)).slice(-2) + "-" + ("0" + datum.getDate()).slice(-2)
+            week.push({day : weekdays[current.getDay()], fulldate : datum, dateString: dateString});
+            current.setDate(current.getDate()+1);
+          }
+
+          this.days = week;
+        },
+
         _initializing: function() {
-            this.times = this.getTimes("06:00", "22:00");
+          this.setDays(new Date());
+          this.times = this.getTimes("06:00", "22:00");
         },
 
         _go_home: function() {
@@ -128,32 +173,9 @@
 
         doubleZeros: function(d) {
           return (d < 10) ? '0' + d.toString() : d.toString();
-        }
+        },
+
       });
     })();
-
-    function days(current) {
-        var week = [];
-        weekdays = [];
-        weekdays[0] = "Zondag";
-        weekdays[1] = "Maandag";
-        weekdays[2] = "Dinsdag";
-        weekdays[3] = "Woensdag";
-        weekdays[4] = "Donderdag";
-        weekdays[5] = "Vrijdag";
-        weekdays[6] = "Zaterdag";
-
-        // Starting Monday not Sunday
-        var first = current.getDate() - current.getDay() + 1;
-        current.setDate(first);
-        for (var i = 0; i < 7; i++) {
-          let datum = new Date(current);
-          let dateString = datum.getFullYear() + "-" + ("0" + (datum.getMonth() + 1)).slice(-2) + "-" + ("0" + datum.getDate()).slice(-2)
-          week.push({day : weekdays[current.getDay()], fulldate : datum, dateString: dateString});
-          current.setDate(current.getDate()+1);
-        }
-        return week;
-    }
-
   </script>
 </dom-module>

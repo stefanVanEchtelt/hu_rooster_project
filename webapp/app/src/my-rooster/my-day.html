@@ -15,10 +15,10 @@
             table {
                 border-collapse: collapse;
                 table-layout: fixed;
-
+                margin-right: 50px;
             }
             table, th, td {
-                border: 0.5px solid lightgrey;
+                border: 1px solid lightgrey;
                 height: 10px;
                 width: 100%;
             }
@@ -36,17 +36,17 @@
 
         <div class="day">
           <template is="dom-if" if="{{i_loaded}}">
-              <table style = "float: right">
+              <table>
               <tr><th>{{ day_name }} <br> {{ datum }}</th><tr>
               <template is="dom-repeat" items="{{times}}" as="time">
                 <template is="dom-if" if="{{isErLesOm(time)}}">
                   <tr>
-                    <td>x</td>
+                    <td>{{getLesOpTijd(time)}}</td>
                   </tr>
                 </template>
                 <template is="dom-if" if="{{!isErLesOm(time)}}">
                   <tr>
-                    <td>x</td>
+                    <td></td>
                   </tr>
                 </template>
               </template>
@@ -72,7 +72,7 @@
                 type: String,
                 value: "",
               },
-                day_name: {
+              dayName: {
                 type: String,
                 value: "",
               },
@@ -104,6 +104,17 @@
               });
 
               return found;
+            },
+
+            getLesOpTijd: function (tijd) {
+              let found = false;
+              this.lessen.forEach((les) => {
+                if (les.start_tijd <= tijd && les.eind_tijd > tijd) {
+                  found = les;
+                }
+              });
+
+              return found.cursuscode;
             },
 
             _initializing: function() {
