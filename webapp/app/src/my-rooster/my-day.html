@@ -14,19 +14,25 @@
             }
             table {
                 border-collapse: collapse;
-                margin-right: 50px;
+                margin-right: 63px;
+                margin-top: -1px;
+
             }
             table, th, td {
-                border: 1px solid lightgrey;
+                border: 0.5px solid lightgrey;
                 height: 10px;
                 width: 100%;
+            }
+            td, td{
+                width: 12%;
+                height: 35px;
             }
         </style>
 
         <div class="day">
           <template is="dom-if" if="{{i_loaded}}">
               <table style = "float: right">
-              <tr><th>datum: {{ datum }}</th><tr>
+              <tr><th>{{ dayName }}: {{ datum }}</th><tr>
               <template is="dom-repeat" items="{{times}}" as="time">
                 <template is="dom-if" if="{{isErLesOm(time)}}">
                   <tr>
