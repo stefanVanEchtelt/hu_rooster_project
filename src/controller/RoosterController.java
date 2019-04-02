@@ -50,7 +50,8 @@ public class RoosterController implements Handler {
 					.add("naam", l.getNaam())
 					.add("start_tijd", l.getStartTijd())
 					.add("eind_tijd", l.getEindTijd())
-					.add("duur", l.getDuur());					     
+					.add("duur", l.getDuur())
+					.add("cursuscode", l.getCursuscode());
 		  
 			lJsonArrayBuilder.add(lJsonObjectBuilderVoorStudent);	
 		}

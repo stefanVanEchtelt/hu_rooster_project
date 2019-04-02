@@ -45,6 +45,10 @@ public class Les implements Serializable {
 		this.opmerkingen = opmerkingen;
 	}
 	
+	public String getCursuscode() {
+		return this.cursuscode;
+	}
+	
 	public String getStartTijd() {
 		return this.starttijd;
 	}
