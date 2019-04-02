@@ -4,6 +4,9 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<script src="../../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+<link rel="import" href="../../bower_components/google-chart/google-chart.html">
+
 
 <!-- Dit element wordt door de aanwezigheid van de c_visible parameter steeds opnieuw gerefreshed
      op het moment dat het element in de iron-pages geselecteerd wordt
@@ -62,12 +65,16 @@
       }
     </style>
 
-    <div class="">
+    <div>
+      <div id="statistiek_div"></div>
       Statistieken pagina student
       <BR><BR>
         Aantal dagen afwezig door ziekte:<BR>
-        Aantal dagen afwezig door overig: <BR>
-
+        Aantal dagen afwezig door overig:<BR>
+          <google-chart
+            type="pie"
+            data='[["Afwezig", "Days"], ["Ziek", 31], ["Dokter", 0], ["Anders", 10], ["Tandarts", 0], ["Ongeoorloofd", 2]]'
+            style='height: 200px; width: 400px'></google-chart>
     </div>
 
 
