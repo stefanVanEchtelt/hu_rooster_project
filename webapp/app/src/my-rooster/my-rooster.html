@@ -4,6 +4,8 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../popup-absent/popup-absent.html">
+<link rel="import" href="../popup-beter/popup-beter.html">
 <link rel="import" href="my-day.html">
 
 <!-- Dit element wordt door de aanwezigheid van de c_visible parameter steeds opnieuw gerefreshed
@@ -35,8 +37,9 @@
           background-color:#dedfe0;
       }
     </style>
-
-    <table style="width: 10%">
+    <popup-absent></popup-absent>
+    <popup-beter></popup-beter>
+    <table style = "width: 10%">
       <template is="dom-repeat" items="{{times}}" as="time">
         <tr>
           <td>{{time}}</td>
