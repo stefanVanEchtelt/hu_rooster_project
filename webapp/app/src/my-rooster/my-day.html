@@ -26,7 +26,7 @@
         <div class="day">
           <template is="dom-if" if="{{i_loaded}}">
               <table style = "float: right">
-              <tr><th>{{ dayName }}: {{ datum }}</th><tr>
+              <tr><th>{{ day_name }}: {{ datum }}</th><tr>
               <template is="dom-repeat" items="{{times}}" as="time">
                 <template is="dom-if" if="{{isErLesOm(time)}}">
                   <tr>
@@ -61,7 +61,7 @@
                 type: String,
                 value: "",
               },
-              dayName: {
+                day_name: {
                 type: String,
                 value: "",
               },
