@@ -4,16 +4,9 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
-<link rel="import" href="../popup-absent/popup-absent.html">
-<link rel="import" href="../popup-beter/popup-beter.html">
+<!-- <link rel="import" href="../popup-absent/popup-absent.html"> -->
+<!-- <link rel="import" href="../popup-beter/popup-beter.html"> -->
 <link rel="import" href="my-day.html">
-
-<!-- Dit element wordt door de aanwezigheid van de c_visible parameter steeds opnieuw gerefreshed
-     op het moment dat het element in de iron-pages geselecteerd wordt
-     en ook zodra hij weer gedeselecteerd wordt.
-     Deze techniek is bruikbaar om volatile info steeds opnieuw op te halen en niet enkel eenmalig
-     bij start van de applicatie.
--->
 
 <dom-module id="my-rooster">
   <template>
@@ -39,8 +32,9 @@
           background-color:#dedfe0;
       }
     </style>
-    <popup-absent></popup-absent>
-    <popup-beter></popup-beter>
+
+    <!-- <popup-absent></popup-absent> -->
+    <!-- <popup-beter></popup-beter> -->
     <table style = "width: 10%">
       <template is="dom-repeat" items="{{times}}" as="time">
         <tr>
@@ -49,7 +43,7 @@
       </template>
     </table>
 
-<!--    <my-day datum="'20-10-1998'" c_visible="[[c_visible]]">{{day}}</my-day>-->
+   <!-- <my-day datum="'20-10-1998'" c_visible="[[c_visible]]">{{day}}</my-day> -->
 
     <div class="calender">
         <template is="dom-repeat" items="{{days}}" as="day">
