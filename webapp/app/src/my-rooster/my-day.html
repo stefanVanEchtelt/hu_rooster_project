@@ -38,9 +38,6 @@
                     <td>123</td>
                   </tr>
                 </template>
-                <!-- <tr>
-                  <td></td>
-                </tr> -->
               </template>
             </table>
             </template>
@@ -91,7 +88,7 @@
             isErLesOm: function (tijd) {
               let found = false;
               this.lessen.forEach((les) => {
-                if (les.start_tijd <= tijd && les.eind_tijd >= tijd) {
+                if (les.start_tijd <= tijd && les.eind_tijd > tijd) {
                   found = true;
                 }
               });
