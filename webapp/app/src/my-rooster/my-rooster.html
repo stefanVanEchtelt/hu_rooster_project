@@ -37,106 +37,18 @@
     </style>
 
     <table style = "width: 10%">
-      <tr>
-        <td>6:00</td>
-      </tr>
-      <tr>
-        <td>6:30</td>
-      </tr>
-      <tr>
-        <td>7:00</td>
+      <template is="dom-repeat" items="{{times}}" as="time">
         <tr>
-        <td>7:30</td>
+          <td>{{time}}</td>
         </tr>
-        <tr>
-        <td>8:00</td>
-        </tr>
-        <tr>
-        <td>8:30</td>
-        </tr>
-        <tr>
-        <td>9:00</td>
-        </tr>
-        <tr>
-        <td>9:30</td>
-        </tr>
-        <tr>
-          <td>10:00</td>
-          </tr>
-          <tr>
-          <td>10:30</td>
-          </tr>
-          <tr>
-          <td>11:00</td>
-          </tr>
-          <tr>
-          <td>11:30</td>
-          </tr>
-          <tr>
-          <td>12:00</td>
-          </tr>
-          <tr>
-          <td>12:30</td>
-        <tr>
-          <td>13:00</td>
-          </tr>
-          <tr>
-          <td>13:30</td>
-          </tr>
-          <tr>
-          <td>14:00</td>
-          </tr>
-          <tr>
-          <td>14:30</td>
-          </tr>
-          <tr>
-          <td>15:00</td>
-          </tr>
-          <tr>
-          <td>15:30</td>
-          <tr>
-          <td>16:00</td>
-          </tr>
-          <tr>
-          <td>16:30</td>
-        <tr>
-          <td>17:00</td>
-          </tr>
-          <tr>
-          <td>17:30</td>
-          </tr>
-          <tr>
-          <td>18:00</td>
-          </tr>
-          <tr>
-          <td>18:30</td>
-          </tr>
-          <tr>
-          <td>19:00</td>
-          </tr>
-          <tr>
-          <td>19:30</td>
-          <tr>
-          <td>20:00</td>
-          </tr>
-          <tr>
-          <td>20:30</td>
-        <tr>
-          <td>21:00</td>
-          </tr>
-          <tr>
-          <td>21:30</td>
-          </tr>
-          <tr>
-          <td>22:00</td>
-      </tr>
-
+      </template>
     </table>
-      <div class="calender">
-          <template is="dom-repeat" items="{{days}}" as="day">
-              <my-day datum="'[[day.dateString]]'" c_visible="[[c_visible]]">{{day}}</my-day>
-          </template>
-      </div>
+
+    <div class="calender">
+        <template is="dom-repeat" items="{{days}}" as="day">
+            <my-day datum="'[[day.dateString]]'" c_visible="[[c_visible]]">{{day}}</my-day>
+        </template>
+    </div>
   </template>
 
   <script>
@@ -164,9 +76,11 @@
           c_visible: {
             type: Boolean,                                      /* true when element is the active visible item */
             value: false,
-            observer: '_initializing',                          /* wordt ook aangeroepen bijwisseling van true naar false.
-                                                                  regel in de functie dat er niets gebeurd
-                                                                   als c_visible false is */
+            observer: '_initializing',
+          },
+          times: {
+            type: Array,
+            value: [],
           },
           days: {
             type: Array,
@@ -175,7 +89,7 @@
         },
 
         _initializing: function() {
-
+            this.times = this.getTimes("06:00", "22:00");
         },
 
         _go_home: function() {
@@ -192,6 +106,27 @@
          this._go_home();
         },
 
+        getTimes: function(from, until) {
+          //"01/01/2001" is just an arbitrary date
+          var until = Date.parse("01/01/2001 " + until);
+          var from = Date.parse("01/01/2001 " + from);
+          //*2 because because we want every 30 minutes instead of every hour
+          var max = (Math.abs(until-from) / (60*60*1000))*2;
+          var time = new Date(from);
+          var hours = [];
+          for(var i = 0; i <= max; i++){
+              //doubleZeros just adds a zero in front of the value if it's smaller than 10.
+              var hour = this.doubleZeros(time.getHours());
+              var minute = this.doubleZeros(time.getMinutes());
+              hours.push(hour+":"+minute);
+              time.setMinutes(time.getMinutes()+30);
+          }
+          return hours;
+        },
+
+        doubleZeros: function(d) {
+          return (d < 10) ? '0' + d.toString() : d.toString();
+        }
       });
     })();
 
