@@ -14,7 +14,6 @@
       .calender {
           height: 1000px;
       }
-
       table {
           border-collapse: collapse;
           float:left;
@@ -26,7 +25,6 @@
           border: 0.5px solid lightgrey;
           line-height: 35px;
       }
-
       table, td {
           background-color:#dedfe0;
       }
@@ -87,7 +85,7 @@
             value: [],
           },
           today: {
-            type: Array,
+            type: String,
             value: new Date()
           },
           days: {
@@ -98,17 +96,17 @@
 
         min_month: function() {
           var date = new Date(this.today);
-          date.setDate(date.getDate() - 7);
-          console.log(date.getDate());
-          console.log(date.getDate() - 7);
-          this.set("today", date);
-          this.setDays(date);
+          let datum = date.setDate(date.getDate() - 7);
+          datum = new Date(datum);
+          this.set("today", datum);
+          this.setDays(x);
         },
 
         plus_month: function() {
           var date = new Date(this.today);
-          date.setDate(date.getDate() + 7);
-          this.set("today", date);
+          var datum = date.setDate(date.getDate() + 7);
+          datum = new Date(datum);
+          this.set("today", datum);
           this.setDays(date);
         },
 
