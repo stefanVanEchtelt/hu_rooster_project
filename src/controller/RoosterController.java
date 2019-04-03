@@ -31,30 +31,30 @@ public class RoosterController implements Handler {
 		
 		JsonObject lJsonObjectIn = (JsonObject) conversation.getRequestBodyAsJSON();
 		String datum = lJsonObjectIn.getString("datum");
-		String klasCode = lJsonObjectIn.getString("klascode");
+		String code = lJsonObjectIn.getString("code");
+		String type = lJsonObjectIn.getString("type");
 		
-		Klas k = informatieSysteem.getKlas(klasCode);
-		List<Les> lessen = k.getLessenByDate(datum);
-		
-		System.out.println("xx");
-		System.out.println(datum);
-		System.out.println(klasCode);
-		
-		System.out.println(lessen);
-   
 		JsonArrayBuilder lJsonArrayBuilder = Json.createArrayBuilder();
 		
-		for (Les l : lessen) {
-			JsonObjectBuilder lJsonObjectBuilderVoorStudent = Json.createObjectBuilder();
-			lJsonObjectBuilderVoorStudent
-					.add("naam", l.getNaam())
-					.add("start_tijd", l.getStartTijd())
-					.add("eind_tijd", l.getEindTijd())
-					.add("duur", l.getDuur())
-					.add("cursuscode", l.getCursuscode());
-		  
-			lJsonArrayBuilder.add(lJsonObjectBuilderVoorStudent);	
-		}
+		System.out.println(type);
+		System.out.println(type == "Leerling");
+		System.out.println("xxxxx");
+//		if (type == "Leerling") {
+			System.out.println("777");
+			Klas k = informatieSysteem.getKlas(code);
+			List<Les> lessen = k.getLessenByDate(datum);
+			for (Les l : lessen) {
+				JsonObjectBuilder lJsonObjectBuilderVoorStudent = Json.createObjectBuilder();
+				lJsonObjectBuilderVoorStudent
+						.add("naam", l.getNaam())
+						.add("start_tijd", l.getStartTijd())
+						.add("eind_tijd", l.getEindTijd())
+						.add("duur", l.getDuur())
+						.add("cursuscode", l.getCursuscode());
+			  
+				lJsonArrayBuilder.add(lJsonObjectBuilderVoorStudent);	
+			}
+//		}
 		
 		String lJsonOutStr = lJsonArrayBuilder.build().toString();
 		conversation.sendJSONMessage(lJsonOutStr);	
