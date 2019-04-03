@@ -13,6 +13,7 @@ import java.util.List;
 
 import model.klas.Klas;
 import model.les.Les;
+import model.persoon.Docent;
 import model.persoon.Student;
 
 public class RoosterController implements Handler {
@@ -36,23 +37,27 @@ public class RoosterController implements Handler {
 		
 		JsonArrayBuilder lJsonArrayBuilder = Json.createArrayBuilder();
 		
+		List<Les> lessen = null;
 		if (type.equals("Leerling")) {
 			Student s = informatieSysteem.getStudent(username);
 			Klas k = informatieSysteem.getKlas(s.getKlasCode());
-			List<Les> lessen = k.getLessenByDate(datum);
-			for (Les l : lessen) {
-				JsonObjectBuilder lJsonObjectBuilderVoorStudent = Json.createObjectBuilder();
-				lJsonObjectBuilderVoorStudent
-						.add("naam", l.getNaam())
-						.add("start_tijd", l.getStartTijd())
-						.add("eind_tijd", l.getEindTijd())
-						.add("duur", l.getDuur())
-						.add("cursuscode", l.getCursuscode());
-			  
-				lJsonArrayBuilder.add(lJsonObjectBuilderVoorStudent);	
-			}
-		} else {
+			lessen = k.getLessenByDate(datum);
 			
+		} else {
+			Docent d = informatieSysteem.getDocent(username);
+			lessen = d.getLessenByDate(datum);
+		}
+		
+		for (Les l : lessen) {
+			JsonObjectBuilder lJsonObjectBuilderVoorStudent = Json.createObjectBuilder();
+			lJsonObjectBuilderVoorStudent
+					.add("naam", l.getNaam())
+					.add("start_tijd", l.getStartTijd())
+					.add("eind_tijd", l.getEindTijd())
+					.add("duur", l.getDuur())
+					.add("cursuscode", l.getCursuscode());
+		  
+			lJsonArrayBuilder.add(lJsonObjectBuilderVoorStudent);	
 		}
 		
 		String lJsonOutStr = lJsonArrayBuilder.build().toString();
