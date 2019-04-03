@@ -9,11 +9,12 @@
     <template>
         <style>
             .day {
-                float: right;
+                float: left;
                 width: 12%;
             }
             table {
                 border-collapse: collapse;
+                table-layout: fixed;
                 margin-right: 50px;
             }
             table, th, td {
@@ -21,12 +22,22 @@
                 height: 10px;
                 width: 100%;
             }
+            th {
+                height: 40px;
+                display: block;
+                font-size: 0.9em;
+            }
+            td{
+                height: 35px;
+                width: 2000px;
+                text-align: center;
+            }
         </style>
 
         <div class="day">
           <template is="dom-if" if="{{i_loaded}}">
-              <table style = "float: right">
-              <tr><th>datum: {{ datum }}</th><tr>
+              <table>
+              <tr><th>{{ day_name }} <br> {{ datum }}</th><tr>
               <template is="dom-repeat" items="{{times}}" as="time">
                 <template is="dom-if" if="{{isErLesOm(time)}}">
                   <tr>
