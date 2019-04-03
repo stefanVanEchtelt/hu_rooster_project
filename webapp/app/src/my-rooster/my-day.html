@@ -4,6 +4,8 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../popup-absent/popup-absent.html">
+
 
 <dom-module id="my-day">
     <template>
@@ -36,12 +38,14 @@
 
         <div class="day">
           <template is="dom-if" if="{{i_loaded}}">
+            <popup-absent id="absentiepopup" show="{{showAbsentPopup}}"></popup-absent>
+
               <table>
               <tr><th>{{ day_name }} <br> {{ datum }}</th><tr>
               <template is="dom-repeat" items="{{times}}" as="time">
                 <template is="dom-if" if="{{isErLesOm(time)}}">
                   <tr>
-                    <td>{{getLesOpTijd(time)}}</td>
+                    <td raised on-click="openAbsentieModal">{{getLesOpTijd(time)}}</td>
                   </tr>
                 </template>
                 <template is="dom-if" if="{{!isErLesOm(time)}}">
@@ -92,7 +96,17 @@
               lessen: {
                 type: Array,
                 value: [],
+              },
+              showAbsentPopup: {
+                type: Boolean,
+                value: false
               }
+            },
+
+            openAbsentieModal: function() {
+              console.log("x");
+              this.set("showAbsentPopup", true);
+              // this.$.absent_modal.open();
             },
 
             isErLesOm: function (tijd) {

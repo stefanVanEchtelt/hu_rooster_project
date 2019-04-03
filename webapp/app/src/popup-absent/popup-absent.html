@@ -5,7 +5,7 @@
     <style>
 
       #absent_melden_popup_container {
-        display: none; /* Hidden by default */
+        display: block; /* Hidden by default */
         position: fixed; /* Stay in place */
         padding-top: 0px;
         z-index: 1; /* Sit on top */
@@ -86,14 +86,31 @@
           absentDatum: {
             type: Date
           },
+          show: {
+            type: Boolean,
+            value: false,
+            observer: '_handel',
+          }
         };
       }
+
+      _handel() {
+        console.log("handel");
+        if (this.show) {
+          this.openHandler();
+        } else {
+          this.cancelHandler();
+        }
+      }
+
       openHandler(event) {
         var popup = this.root.querySelector('#absent_melden_popup_container');
         popup.style.display = "block";
       }
 
       cancelHandler(event) {
+        console.log("cancel");
+        this.show = false;
         var popup = this.root.querySelector('#absent_melden_popup_container');
         popup.style.display = "none";
       }
