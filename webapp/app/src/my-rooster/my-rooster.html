@@ -100,6 +100,8 @@
         min_month: function() {
           var date = new Date(this.today);
           date.setDate(date.getDate() - 7);
+          console.log(date.getDate());
+          console.log(date.getDate() - 7);
           this.set("today", date);
           this.setDays(date);
         },
@@ -132,7 +134,7 @@
             current.setDate(current.getDate()+1);
           }
 
-          this.days = week;
+          this.set("days", week);
         },
 
         _initializing: function() {
