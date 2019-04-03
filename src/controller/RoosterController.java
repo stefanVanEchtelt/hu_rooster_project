@@ -31,17 +31,14 @@ public class RoosterController implements Handler {
 		
 		JsonObject lJsonObjectIn = (JsonObject) conversation.getRequestBodyAsJSON();
 		String datum = lJsonObjectIn.getString("datum");
-		String code = lJsonObjectIn.getString("code");
+		String username = lJsonObjectIn.getString("username");
 		String type = lJsonObjectIn.getString("type");
 		
 		JsonArrayBuilder lJsonArrayBuilder = Json.createArrayBuilder();
 		
-		System.out.println(type);
-		System.out.println(type == "Leerling");
-		System.out.println("xxxxx");
-//		if (type == "Leerling") {
-			System.out.println("777");
-			Klas k = informatieSysteem.getKlas(code);
+		if (type.equals("Leerling")) {
+			Student s = informatieSysteem.getStudent(username);
+			Klas k = informatieSysteem.getKlas(s.getKlasCode());
 			List<Les> lessen = k.getLessenByDate(datum);
 			for (Les l : lessen) {
 				JsonObjectBuilder lJsonObjectBuilderVoorStudent = Json.createObjectBuilder();
@@ -54,7 +51,9 @@ public class RoosterController implements Handler {
 			  
 				lJsonArrayBuilder.add(lJsonObjectBuilderVoorStudent);	
 			}
-//		}
+		} else {
+			
+		}
 		
 		String lJsonOutStr = lJsonArrayBuilder.build().toString();
 		conversation.sendJSONMessage(lJsonOutStr);	
