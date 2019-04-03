@@ -8,12 +8,10 @@ import javax.json.JsonObjectBuilder;
 import model.PrIS;
 import server.Conversation;
 import server.Handler;
-import java.util.ArrayList;
 import java.util.List;
 
 import model.klas.Klas;
 import model.les.Les;
-import model.persoon.Student;
 
 public class RoosterController implements Handler {
 	private PrIS informatieSysteem;
