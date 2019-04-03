@@ -44,16 +44,9 @@
               <table>
               <th>{{ day_name }} <br> {{ datum }}</th>
               <template is="dom-repeat" items="{{times}}" as="time">
-                <template is="dom-if" if="{{isErLesOm(time)}}">
                   <tr>
-                    <td>{{getLesOpTijd(time)}}</td>
+                    <td>{{time}}</td>
                   </tr>
-                </template>
-                <template is="dom-if" if="{{!isErLesOm(time)}}">
-                  <tr>
-                    <td></td>
-                  </tr>
-                </template>
               </template>
             </table>
             </template>
@@ -76,6 +69,7 @@
               datum: {
                 type: String,
                 value: "",
+                observer: '_initializing',
               },
               c_rol: {
                 type: String,
@@ -90,7 +84,6 @@
               c_visible: {
                 type: Boolean,
                 value: false,
-                observer: '_initializing',
               },
               i_loaded: {
                 type: Boolean,
@@ -103,6 +96,10 @@
               lessen: {
                 type: Array,
                 value: [],
+              },
+              tries: {
+                type: String,
+                value: ""
               }
             },
 
@@ -147,10 +144,18 @@
             },
 
             _lessen_ophalen_response_handler: function(request) {
-              this.set("times", this.getTimes("06:00", "22:00"));
+              let tijden = this.getTimes("06:00", "22:00");
               this.set("lessen", request.detail.response);
+              tijden.forEach((time, index) => {
+                let les = this.getLesOpTijd(time);
+                if (les != false && les != undefined) {
+                  tijden[index] = les;
+                } else {
+                  tijden[index] = null
+                }
+              });
+              this.set("times", tijden);
               this.set("i_loaded", true);
-              this.$.list.render();
             },
 
             getTimes: function(from, until) {
