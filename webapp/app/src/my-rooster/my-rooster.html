@@ -17,21 +17,27 @@
       table {
           border-collapse: collapse;
           float:left;
-          margin-top: 80px;
+          margin-top: 43px;
       }
       td {
           height: 35px;
           text-align: center;
-          border: 0.5px solid lightgrey;
+          border: 1px solid lightgrey;
           line-height: 35px;
       }
       table, td {
           background-color:#dedfe0;
       }
+
+      #nav {
+          margin-bottom: 4%;
+      }
     </style>
 
-    <paper-button raised on-click="min_month">-</paper-button>
-    <paper-button raised on-click="plus_month">+</paper-button>
+    <div id="nav">
+      <paper-button raised on-click="min_month">-</paper-button>
+      <paper-button raised on-click="plus_month">+</paper-button>
+    </div>
     <!-- <popup-absent></popup-absent> -->
     <!-- <popup-beter></popup-beter> -->
     <table>

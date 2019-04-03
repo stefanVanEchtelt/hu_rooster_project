@@ -18,28 +18,32 @@
                 margin-right: 50px;
             }
             table, th, td {
-                border: 1px solid lightgrey;
+                //border: 1px solid lightgrey;
                 height: 10px;
                 width: 100%;
             }
             th {
                 height: 40px;
                 display: block;
-                font-size: 0.9em;
+                font-size: 1.1vw;
+                border-bottom: 1px solid lightgrey;
             }
             td{
                 height: 35px;
-                width: 2000px;
+                width: 100px;
                 text-align: center;
+                font-size: 1vw;
+                border-bottom: 1px solid lightgrey;
+                border-right: 1px solid lightgrey;
             }
         </style>
 
         <div class="day">
-          <!-- <template is="dom-if" if="{{i_loaded}}"> -->
+          <template is="dom-if" if="{{i_loaded}}">
               <table>
-              <tr><th>{{ day_name }} <br> {{ datum }}</th><tr>
-              <template id="list" is="dom-repeat" items="{{times}}" as="time">
-                <template id="resultList" is="dom-if" if="{{isErLesOm(time)}}">
+              <th>{{ day_name }} <br> {{ datum }}</th>
+              <template is="dom-repeat" items="{{times}}" as="time">
+                <template is="dom-if" if="{{isErLesOm(time)}}">
                   <tr>
                     <td>{{getLesOpTijd(time)}}</td>
                   </tr>
@@ -51,7 +55,7 @@
                 </template>
               </template>
             </table>
-            <!-- </template> -->
+            </template>
         </div>
 
         <iron-ajax
@@ -71,7 +75,6 @@
               datum: {
                 type: String,
                 value: "",
-                observer: '_initializing',
               },
               dayName: {
                 type: String,
@@ -80,6 +83,7 @@
               c_visible: {
                 type: Boolean,
                 value: false,
+                observer: '_initializing',
               },
               i_loaded: {
                 type: Boolean,
@@ -118,7 +122,6 @@
             },
 
             _initializing: function() {
-              console.log("init");
               if (this.c_visible) {
                 this._ajax_lessen_ophalen();
               }
@@ -127,10 +130,10 @@
             _ajax_lessen_ophalen: function() {
               this.$.ajax_lessen_ophalen.contentType="application/json";
               this.$.ajax_lessen_ophalen.body = {
-                "code": "TICT-SIE-V1A",
                 // "datum": this.datum,
-                "datum": "2019-02-04",
-                "type": "Leerling"
+                "type": "Leerling",
+                "code": "TICT-SIE-V1E",
+                "datum": "2019-02-15"
               };
               this.$.ajax_lessen_ophalen.generateRequest();
             },
