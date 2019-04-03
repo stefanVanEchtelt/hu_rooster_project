@@ -13,6 +13,7 @@ import java.util.List;
 
 import model.klas.Klas;
 import model.les.Les;
+import model.persoon.Docent;
 import model.persoon.Student;
 
 public class RoosterController implements Handler {
@@ -31,30 +32,33 @@ public class RoosterController implements Handler {
 		
 		JsonObject lJsonObjectIn = (JsonObject) conversation.getRequestBodyAsJSON();
 		String datum = lJsonObjectIn.getString("datum");
-		String code = lJsonObjectIn.getString("code");
+		String username = lJsonObjectIn.getString("username");
 		String type = lJsonObjectIn.getString("type");
 		
 		JsonArrayBuilder lJsonArrayBuilder = Json.createArrayBuilder();
 		
-		System.out.println(type);
-		System.out.println(type == "Leerling");
-		System.out.println("xxxxx");
-//		if (type == "Leerling") {
-			System.out.println("777");
-			Klas k = informatieSysteem.getKlas(code);
-			List<Les> lessen = k.getLessenByDate(datum);
-			for (Les l : lessen) {
-				JsonObjectBuilder lJsonObjectBuilderVoorStudent = Json.createObjectBuilder();
-				lJsonObjectBuilderVoorStudent
-						.add("naam", l.getNaam())
-						.add("start_tijd", l.getStartTijd())
-						.add("eind_tijd", l.getEindTijd())
-						.add("duur", l.getDuur())
-						.add("cursuscode", l.getCursuscode());
-			  
-				lJsonArrayBuilder.add(lJsonObjectBuilderVoorStudent);	
-			}
-//		}
+		List<Les> lessen = null;
+		if (type.equals("Leerling")) {
+			Student s = informatieSysteem.getStudent(username);
+			Klas k = informatieSysteem.getKlas(s.getKlasCode());
+			lessen = k.getLessenByDate(datum);
+			
+		} else {
+			Docent d = informatieSysteem.getDocent(username);
+			lessen = d.getLessenByDate(datum);
+		}
+		
+		for (Les l : lessen) {
+			JsonObjectBuilder lJsonObjectBuilderVoorStudent = Json.createObjectBuilder();
+			lJsonObjectBuilderVoorStudent
+					.add("naam", l.getNaam())
+					.add("start_tijd", l.getStartTijd())
+					.add("eind_tijd", l.getEindTijd())
+					.add("duur", l.getDuur())
+					.add("cursuscode", l.getCursuscode());
+		  
+			lJsonArrayBuilder.add(lJsonObjectBuilderVoorStudent);	
+		}
 		
 		String lJsonOutStr = lJsonArrayBuilder.build().toString();
 		conversation.sendJSONMessage(lJsonOutStr);	

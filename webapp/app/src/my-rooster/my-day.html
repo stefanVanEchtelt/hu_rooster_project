@@ -82,6 +82,12 @@
                 type: String,
                 value: "",
               },
+              c_rol: {
+                type: String,
+              },
+              c_username: {
+                type: String,
+              },
               dayName: {
                 type: String,
                 value: "",
@@ -136,10 +142,11 @@
             _ajax_lessen_ophalen: function() {
               this.$.ajax_lessen_ophalen.contentType="application/json";
               this.$.ajax_lessen_ophalen.body = {
-                // "datum": this.datum,
+                "datum": this.datum,
+                "username": "stefan.vanechtelt@student.hu.nl",
                 "type": "Leerling",
-                "code": "TICT-SIE-V1E",
-                "datum": "2019-02-15"
+                // "type": this.c_rol,
+                // "username": this.c_username,
               };
               this.$.ajax_lessen_ophalen.generateRequest();
             },
