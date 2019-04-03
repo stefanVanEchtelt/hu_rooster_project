@@ -18,26 +18,30 @@
                 margin-right: 50px;
             }
             table, th, td {
-                border: 1px solid lightgrey;
+                //border: 1px solid lightgrey;
                 height: 10px;
                 width: 100%;
             }
             th {
                 height: 40px;
                 display: block;
-                font-size: 0.9em;
+                font-size: 1.1vw;
+                border-bottom: 1px solid lightgrey;
             }
             td{
                 height: 35px;
-                width: 2000px;
+                width: 100px;
                 text-align: center;
+                font-size: 1vw;
+                border-bottom: 1px solid lightgrey;
+                border-right: 1px solid lightgrey;
             }
         </style>
 
         <div class="day">
           <template is="dom-if" if="{{i_loaded}}">
               <table>
-              <tr><th>{{ day_name }} <br> {{ datum }}</th><tr>
+              <th>{{ day_name }} <br> {{ datum }}</th>
               <template is="dom-repeat" items="{{times}}" as="time">
                 <template is="dom-if" if="{{isErLesOm(time)}}">
                   <tr>
