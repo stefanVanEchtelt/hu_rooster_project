@@ -14,26 +14,30 @@
       .calender {
           height: 1000px;
       }
-
       table {
           border-collapse: collapse;
           float:left;
-          margin-top: 80px;
+          margin-top: 42px;
       }
       td {
           height: 35px;
           text-align: center;
-          border: 0.5px solid lightgrey;
+          border: 1px solid lightgrey;
           line-height: 35px;
       }
-
       table, td {
           background-color:#dedfe0;
       }
+
+      #nav {
+          margin-bottom: 4%;
+      }
     </style>
 
-    <paper-button raised on-click="min_month">-</paper-button>
-    <paper-button raised on-click="plus_month">+</paper-button>
+    <div id="nav">
+      <paper-button raised on-click="min_month">-</paper-button>
+      <paper-button raised on-click="plus_month">+</paper-button>
+    </div>
     <!-- <popup-absent></popup-absent> -->
     <!-- <popup-beter></popup-beter> -->
     <table>
@@ -48,7 +52,13 @@
 
     <div class="calender">
         <template is="dom-repeat" items="{{days}}" as="day">
-            <my-day datum="[[day.dateString]]" day_name="[[day.day]]" c_visible="[[c_visible]]">{{day}}</my-day>
+            <my-day
+              datum="[[day.dateString]]"
+              day_name="[[day.day]]"
+              c_visible="[[c_visible]]"
+              c_rol="[[c_rol]]"
+              c_username="[[c_username]]"
+            >{{day}}</my-day>
         </template>
     </div>
 
@@ -68,8 +78,7 @@
 
         properties: {
           _c_studenten: {
-            type: Array,           /* array<student-info>: student-info = {id, firstName, lastName, sameGroup}
-										array is constant groepnr is changable */
+            type: Array,
           },
           c_rol: {
             type: String,
@@ -87,7 +96,7 @@
             value: [],
           },
           today: {
-            type: Array,
+            type: String,
             value: new Date()
           },
           days: {
@@ -98,17 +107,17 @@
 
         min_month: function() {
           var date = new Date(this.today);
-          date.setDate(date.getDate() - 7);
-          console.log(date.getDate());
-          console.log(date.getDate() - 7);
-          this.set("today", date);
-          this.setDays(date);
+          let datum = date.setDate(date.getDate() - 7);
+          datum = new Date(datum);
+          this.set("today", datum);
+          this.setDays(datum);
         },
 
         plus_month: function() {
           var date = new Date(this.today);
-          date.setDate(date.getDate() + 7);
-          this.set("today", date);
+          var datum = date.setDate(date.getDate() + 7);
+          datum = new Date(datum);
+          this.set("today", datum);
           this.setDays(date);
         },
 

@@ -12,7 +12,7 @@
         <style>
             .day {
                 float: left;
-                width: 12%;
+                width: 12.5%;
             }
             table {
                 border-collapse: collapse;
@@ -20,19 +20,29 @@
                 margin-right: 50px;
             }
             table, th, td {
-                border: 1px solid lightgrey;
+                //border: 1px solid lightgrey;
                 height: 10px;
                 width: 100%;
             }
             th {
+                background-color:#dedfe0;
                 height: 40px;
                 display: block;
-                font-size: 0.9em;
+                font-size: 1.1vw;
+                border-top: 1px solid lightgrey;
+                border-left: 1px solid lightgrey;
+                border-right: 1px solid lightgrey;
+                width: auto;
             }
             td{
+                display: block;
                 height: 35px;
-                width: 2000px;
+                width: 100%;
                 text-align: center;
+                font-size: 1vw;
+                border-bottom: 1px solid lightgrey;
+                border-right: 1px solid lightgrey;
+                width: 125px;
             }
         </style>
 
@@ -41,18 +51,11 @@
             <popup-absent id="absentiepopup" show="{{showAbsentPopup}}"></popup-absent>
 
               <table>
-              <tr><th>{{ day_name }} <br> {{ datum }}</th><tr>
+              <th>{{ day_name }} <br> {{ datum }}</th>
               <template is="dom-repeat" items="{{times}}" as="time">
-                <template is="dom-if" if="{{isErLesOm(time)}}">
                   <tr>
-                    <td raised on-click="openAbsentieModal">{{getLesOpTijd(time)}}</td>
+                    <td raised on-click="openAbsentieModal">{{time}}</td>
                   </tr>
-                </template>
-                <template is="dom-if" if="{{!isErLesOm(time)}}">
-                  <tr>
-                    <td></td>
-                  </tr>
-                </template>
               </template>
             </table>
             </template>
@@ -75,6 +78,13 @@
               datum: {
                 type: String,
                 value: "",
+                observer: '_initializing',
+              },
+              c_rol: {
+                type: String,
+              },
+              c_username: {
+                type: String,
               },
               dayName: {
                 type: String,
@@ -83,7 +93,6 @@
               c_visible: {
                 type: Boolean,
                 value: false,
-                observer: '_initializing',
               },
               i_loaded: {
                 type: Boolean,
@@ -100,6 +109,10 @@
               showAbsentPopup: {
                 type: Boolean,
                 value: false
+              },
+              tries: {
+                type: String,
+                value: ""
               }
             },
 
@@ -140,16 +153,28 @@
             _ajax_lessen_ophalen: function() {
               this.$.ajax_lessen_ophalen.contentType="application/json";
               this.$.ajax_lessen_ophalen.body = {
-                "klascode": "TICT-SIE-V1E",
-                "datum": "2019-02-15"
+                "datum": this.datum,
+                "username": "stefan.vanechtelt@student.hu.nl",
+                "type": "Leerling",
+                // "type": this.c_rol,
+                // "username": this.c_username,
               };
               this.$.ajax_lessen_ophalen.generateRequest();
             },
 
             _lessen_ophalen_response_handler: function(request) {
-              this.times = this.getTimes("06:00", "22:00");
-              this.lessen = request.detail.response;
-              this.i_loaded = true;
+              let tijden = this.getTimes("06:00", "22:00");
+              this.set("lessen", request.detail.response);
+              tijden.forEach((time, index) => {
+                let les = this.getLesOpTijd(time);
+                if (les != false && les != undefined) {
+                  tijden[index] = les;
+                } else {
+                  tijden[index] = null
+                }
+              });
+              this.set("times", tijden);
+              this.set("i_loaded", true);
             },
 
             getTimes: function(from, until) {

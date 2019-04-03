@@ -94,6 +94,10 @@ public class PrIS {
 	public Docent getDocent(String gebruikersnaam) {
 		return deDocenten.stream().filter(d -> d.getGebruikersnaam().equals(gebruikersnaam)).findFirst().orElse(null);
 	}
+	
+	public ArrayList<Klas> getKlassen() {
+		return deKlassen;
+	}
 
 	public Klas getKlasVanStudent(Student pStudent) {
 		return deKlassen.stream().filter(k -> k.bevatStudent(pStudent)).findFirst().orElse(null);
@@ -190,7 +194,6 @@ public class PrIS {
 		String csvFile = "././CSV/rooster.csv";
 		BufferedReader br = null;
 		String line = "";
-		String cvsSplitBy = ";";
 		
 		try {
 			br = new BufferedReader(new FileReader(csvFile));
@@ -264,7 +267,7 @@ public class PrIS {
 	
 	private void vulStudenten(ArrayList<Student> pStudenten, ArrayList<Klas> pKlassen) {
 		Student lStudent;
-		Student dummyStudent = new Student("Stu", "de", "Student", "geheim", "test@student.hu.nl", 0);
+		Student dummyStudent = new Student("Stu", "de", "Student", "geheim", "test@student.hu.nl", 0, "");
 		for (Klas k : pKlassen) {
 			// per klas
 			String csvFile = "././CSV/" + k.getNaam() + ".csv";
@@ -288,7 +291,7 @@ public class PrIS {
 					String lStudentNrString = element[0];
 					int lStudentNr = Integer.parseInt(lStudentNrString);
 					// Volgorde 3-2-1 = voornaam, tussenvoegsel en achternaam
-					lStudent = new Student(element[3], element[2], element[1], "geheim", gebruikersnaam, lStudentNr);
+					lStudent = new Student(element[3], element[2], element[1], "geheim", gebruikersnaam, lStudentNr, k.getKlasCode());
 					pStudenten.add(lStudent);
 					k.voegStudentToe(lStudent);
 				}
@@ -316,6 +319,11 @@ public class PrIS {
 		// mocht de lijst met studenten nu nog leeg zijn
 		if (pStudenten.isEmpty())
 			pStudenten.add(dummyStudent);
+	}
+
+	public Klas getKlas(Class<? extends Student> class1) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

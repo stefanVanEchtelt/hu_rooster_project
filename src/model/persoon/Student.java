@@ -5,11 +5,13 @@ public class Student extends Persoon {
 
 	private int studentNummer;
 	private String groepId;
-
+	private String klasCode;
+	
 	public Student(String pVoornaam, String pTussenvoegsel, String pAchternaam, String pWachtwoord,
-			String pGebruikersnaam, int sStudentNummer) {
+			String pGebruikersnaam, int sStudentNummer, String klasCode) {
 		super(pVoornaam, pTussenvoegsel, pAchternaam, pWachtwoord, pGebruikersnaam);
 		this.studentNummer = sStudentNummer;
+		this.klasCode = klasCode;
 		this.setGroepId("");
 	}
 
@@ -23,6 +25,10 @@ public class Student extends Persoon {
 		}
 	}
 
+	public String getKlasCode() {
+		return this.klasCode;
+	}
+	
 	public String getGroepId() {
 		return this.groepId;
 	}

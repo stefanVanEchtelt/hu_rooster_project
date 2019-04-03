@@ -4,7 +4,6 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
-<!-- <link rel="import" href="../../bower_components/chart.js/dist/Chart.js"> -->
 
 <!-- Dit element wordt door de aanwezigheid van de c_visible parameter steeds opnieuw gerefreshed
      op het moment dat het element in de iron-pages geselecteerd wordt
@@ -63,12 +62,23 @@
       }
     </style>
 
+    <iron-ajax
+      id="ajax_klassen_ophalen"
+      method="POST"
+      url="/overzicht/klas/ophalen"
+      handle-as="json"
+      on-response="_klassen_ophalen_response_handler">
+    </iron-ajax>
+
+
     <div class="">
       Statistieken pagina docent
       <BR><BR>
-        Aantal dagen afwezig door ziekte:<BR>
-        Aantal dagen afwezig door overig: <BR>
-
+        <template is="dom-repeat" items="{{klassen}}" as="klas">
+          <tr>
+            <td><a href="">{{klas.klascode}} </a></td>
+          </tr>
+        </template>
 
     </div>
 
@@ -105,6 +115,10 @@
                                                                   regel in de functie dat er niets gebeurd
                                                                    als c_visible false is */
           },
+          klassen: {
+            type: Array,
+            value: []
+          }
 
         },
 
@@ -120,6 +134,23 @@
          var lToast = this.$.toast_invalid_aanroep;        // meldt ongeldige aanroep
          lToast.toggle();
          this._go_home();
+        },
+
+        _initializing: function() {
+          if (this.c_visible) {
+            this._ajax_klassen_ophalen();
+          }
+        },
+
+        _ajax_klassen_ophalen: function() {
+          this.$.ajax_klassen_ophalen.contentType="application/json";
+          this.$.ajax_klassen_ophalen.generateRequest();
+
+        },
+
+        _klassen_ophalen_response_handler: function(request) {
+          this.klassen = request.detail.response;
+          this.i_loaded = true;
         },
 
       });
