@@ -1,8 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e3e65bbf-4add-4af0-ac53-c5828e6aa3ce" name="Default Changelist" comment="">
+<<<<<<< HEAD
+    <list default="true" id="ff08087a-0e28-4c8d-9dda-bf4a1542c4e6" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+=======
+    <list default="true" id="8268f7b1-e96a-43cd-9b0c-c1f20f401a2a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/hu_rooster_project/META-INF/hu_rooster_project.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/hu_rooster_project/controller/Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/hu_rooster_project/controller/Application.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/hu_rooster_project/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/hu_rooster_project/controller/LoginController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/hu_rooster_project/controller/MedestudentenController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/hu_rooster_project/controller/MedestudentenController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/hu_rooster_project/controller/RoosterController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/hu_rooster_project/controller/RoosterController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/hu_rooster_project/controller/SysteemDatumController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/hu_rooster_project/controller/SysteemDatumController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/hu_rooster_project/model/PrIS.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/hu_rooster_project/model/PrIS.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/hu_rooster_project/model/klas/Klas.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/hu_rooster_project/model/klas/Klas.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/hu_rooster_project/model/les/Les.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/hu_rooster_project/model/les/Les.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/hu_rooster_project/model/persoon/Docent.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/hu_rooster_project/model/persoon/Docent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/hu_rooster_project/model/persoon/Persoon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/hu_rooster_project/model/persoon/Persoon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/hu_rooster_project/model/persoon/Student.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/hu_rooster_project/model/persoon/Student.class" afterDir="false" />
+>>>>>>> ae38bfa3eb4639d99302cfe11e9eff0abb09e33b
       <change beforePath="$PROJECT_DIR$/webapp/app/src/my-rooster/my-day.html" beforeDir="false" afterPath="$PROJECT_DIR$/webapp/app/src/my-rooster/my-day.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -18,64 +36,42 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
 <<<<<<< HEAD
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/webapp/app/src/my-rooster/my-rooster.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+            <state relative-caret-position="480">
+              <caret line="141" lean-forward="true" selection-start-line="141" selection-end-line="141" />
 =======
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/controller/Application.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="259">
-              <caret line="32" column="38" lean-forward="true" selection-start-line="32" selection-start-column="38" selection-end-line="32" selection-end-column="38" />
+            <state relative-caret-position="210">
+              <caret line="17" column="41" selection-start-line="17" selection-start-column="41" selection-end-line="17" selection-end-column="41" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/webapp/app/src/my-rooster/my-day.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="21" column="27" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
-        <entry file="file://$PROJECT_DIR$/webapp/app/src/my-rooster/my-rooster.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="248">
-              <caret line="49" column="55" selection-start-line="49" selection-start-column="47" selection-end-line="49" selection-end-column="55" />
-            <state relative-caret-position="-53">
-              <caret line="22" column="7" lean-forward="true" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
-              <folding>
-                <element signature="n#style#0;n#table#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
-              </folding>
->>>>>>> 18b7090d5c46bc0e90bf5582d63a9f74e4d8febc
-            </state>
-          </provider>
-        </entry>
-      </file>
-<<<<<<< HEAD
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/webapp/app/src/my-rooster/my-day.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="30" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
-=======
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webapp/app/src/my-rooster/my-rooster.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="287">
-              <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
-              <folding>
-                <element signature="n#style#0;n#table#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
-      <file pinned="false" current-in-tab="true">
+            <state relative-caret-position="375">
+              <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
+>>>>>>> ae38bfa3eb4639d99302cfe11e9eff0abb09e33b
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/webapp/app/src/my-rooster/my-day.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="63" column="24" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
-              <folding>
-                <element signature="n#style#0;n#table#0;n#template#0;n#template#0;n#table#0;n#div#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
-              </folding>
->>>>>>> 18b7090d5c46bc0e90bf5582d63a9f74e4d8febc
+<<<<<<< HEAD
+            <state relative-caret-position="149">
+              <caret line="38" column="13" lean-forward="true" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+=======
+            <state relative-caret-position="270">
+              <caret line="29" column="29" lean-forward="true" selection-start-line="29" selection-start-column="29" selection-end-line="29" selection-end-column="29" />
+>>>>>>> ae38bfa3eb4639d99302cfe11e9eff0abb09e33b
             </state>
           </provider>
         </entry>
@@ -88,23 +84,21 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/webapp/app/src/my-app/my-app.html" />
         <option value="$PROJECT_DIR$/webapp/app/src/my-rooster/my-day.html" />
+        <option value="$PROJECT_DIR$/webapp/app/src/my-rooster/my-rooster.html" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="789" />
-    <option name="y" value="23" />
-    <option name="width" value="651" />
-    <option name="height" value="797" />
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="width" value="1440" />
+    <option name="height" value="900" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -126,6 +120,12 @@
             <path>
               <item name="hu_rooster_project" type="b2602c69:ProjectViewProjectNode" />
               <item name="hu_rooster_project" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hu_rooster_project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hu_rooster_project" type="462c0819:PsiDirectoryNode" />
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -140,6 +140,30 @@
               <item name="webapp" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hu_rooster_project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hu_rooster_project" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="my-logout" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hu_rooster_project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hu_rooster_project" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="my-medestudenten" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hu_rooster_project" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hu_rooster_project" type="462c0819:PsiDirectoryNode" />
+              <item name="webapp" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="my-app" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="hu_rooster_project" type="b2602c69:ProjectViewProjectNode" />
@@ -153,6 +177,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -160,14 +186,14 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
 <<<<<<< HEAD
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
-    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554293141583" />
 =======
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1554206374690" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
->>>>>>> 18b7090d5c46bc0e90bf5582d63a9f74e4d8febc
+>>>>>>> ae38bfa3eb4639d99302cfe11e9eff0abb09e33b
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -206,26 +232,29 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="e3e65bbf-4add-4af0-ac53-c5828e6aa3ce" name="Default Changelist" comment="" />
-      <created>1554206711368</created>
+      <changelist id="8268f7b1-e96a-43cd-9b0c-c1f20f401a2a" name="Default Changelist" comment="" />
+      <created>1554290128333</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1554206711368</updated>
-      <workItem from="1554206713102" duration="185000" />
+<<<<<<< HEAD
+      <updated>1554288932441</updated>
+      <workItem from="1554288933738" duration="2312000" />
+=======
+      <updated>1554290128333</updated>
+      <workItem from="1554290131351" duration="1290000" />
+>>>>>>> ae38bfa3eb4639d99302cfe11e9eff0abb09e33b
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
 <<<<<<< HEAD
-    <option name="totallyTimeSpent" value="185000" />
+    <option name="totallyTimeSpent" value="2312000" />
 =======
-    <option name="totallyTimeSpent" value="3073000" />
-    <option name="totallyTimeSpent" value="3141000" />
-    <option name="totallyTimeSpent" value="2621000" />
->>>>>>> 18b7090d5c46bc0e90bf5582d63a9f74e4d8febc
+    <option name="totallyTimeSpent" value="1290000" />
+>>>>>>> ae38bfa3eb4639d99302cfe11e9eff0abb09e33b
   </component>
   <component name="ToolWindowManager">
-    <frame x="789" y="23" width="651" height="797" extended-state="0" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Image Layers" />
@@ -233,7 +262,7 @@
       <window_info id="UI Designer" />
       <window_info id="Capture Tool" />
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24958949" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12446352" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
@@ -243,12 +272,7 @@
       <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-<<<<<<< HEAD
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32907802" />
-=======
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32882884" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3120482" />
->>>>>>> 18b7090d5c46bc0e90bf5582d63a9f74e4d8febc
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.27951807" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -268,46 +292,43 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/webapp/app/src/my-app/my-app.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="153" selection-start-line="153" selection-end-line="156" selection-end-column="14" />
+=======
+    <entry file="file://$PROJECT_DIR$/src/controller/Application.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="17" column="41" selection-start-line="17" selection-start-column="41" selection-end-line="17" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/webapp/app/src/my-rooster/my-rooster.html">
       <provider selected="true" editor-type-id="text-editor">
-<<<<<<< HEAD
-        <state relative-caret-position="15">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
-=======
-        <state relative-caret-position="248">
-          <caret line="49" column="55" selection-start-line="49" selection-start-column="47" selection-end-line="49" selection-end-column="55" />
-        <state relative-caret-position="287">
-          <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
-          <folding>
-            <element signature="n#style#0;n#table#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
-        <state relative-caret-position="-53">
-          <caret line="22" column="7" lean-forward="true" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
-          <folding>
-            <element signature="n#style#0;n#table#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
-          </folding>
->>>>>>> 18b7090d5c46bc0e90bf5582d63a9f74e4d8febc
+        <state relative-caret-position="375">
+          <caret line="25" column="25" selection-start-line="25" selection-start-column="25" selection-end-line="25" selection-end-column="25" />
+>>>>>>> ae38bfa3eb4639d99302cfe11e9eff0abb09e33b
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/webapp/app/src/my-rooster/my-day.html">
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
-        <state relative-caret-position="255">
-          <caret line="17" column="30" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+        <state relative-caret-position="149">
+          <caret line="38" column="13" lean-forward="true" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webapp/app/src/my-rooster/my-rooster.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="141" lean-forward="true" selection-start-line="141" selection-end-line="141" />
 =======
-        <state relative-caret-position="434">
-          <caret line="63" column="24" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
-        <state relative-caret-position="203">
-          <caret line="21" column="27" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
-          <folding>
-            <element signature="n#style#0;n#table#0;n#template#0;n#template#0;n#div#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
-        <state relative-caret-position="420">
-          <caret line="28" column="33" selection-start-line="28" selection-start-column="33" selection-end-line="28" selection-end-column="33" />
-          <folding>
-            <element signature="n#style#0;n#table#0;n#template#0;n#template#0;n#table#0;n#div#0;n#template#0;n#dom-module#0;n#!!top" expanded="true" />
-          </folding>
->>>>>>> 18b7090d5c46bc0e90bf5582d63a9f74e4d8febc
+        <state relative-caret-position="270">
+          <caret line="29" column="29" lean-forward="true" selection-start-line="29" selection-start-column="29" selection-end-line="29" selection-end-column="29" />
+>>>>>>> ae38bfa3eb4639d99302cfe11e9eff0abb09e33b
         </state>
       </provider>
     </entry>

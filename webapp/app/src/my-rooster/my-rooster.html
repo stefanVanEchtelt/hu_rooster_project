@@ -17,7 +17,7 @@
       table {
           border-collapse: collapse;
           float:left;
-          margin-top: 43px;
+          margin-top: 42px;
       }
       td {
           height: 35px;
@@ -52,7 +52,13 @@
 
     <div class="calender">
         <template is="dom-repeat" items="{{days}}" as="day">
-            <my-day datum="[[day.dateString]]" day_name="[[day.day]]" c_visible="[[c_visible]]">{{day}}</my-day>
+            <my-day
+              datum="[[day.dateString]]"
+              day_name="[[day.day]]"
+              c_visible="[[c_visible]]"
+              c_rol="[[c_rol]]"
+              c_username="[[c_username]]"
+            >{{day}}</my-day>
         </template>
     </div>
 
@@ -72,8 +78,7 @@
 
         properties: {
           _c_studenten: {
-            type: Array,           /* array<student-info>: student-info = {id, firstName, lastName, sameGroup}
-										array is constant groepnr is changable */
+            type: Array,
           },
           c_rol: {
             type: String,
