@@ -130,16 +130,19 @@
             _ajax_lessen_ophalen: function() {
               this.$.ajax_lessen_ophalen.contentType="application/json";
               this.$.ajax_lessen_ophalen.body = {
-                "klascode": "TICT-SIE-V1E",
+                // "datum": this.datum,
+                "type": "Leerling",
+                "code": "TICT-SIE-V1E",
                 "datum": "2019-02-15"
               };
               this.$.ajax_lessen_ophalen.generateRequest();
             },
 
             _lessen_ophalen_response_handler: function(request) {
-              this.times = this.getTimes("06:00", "22:00");
-              this.lessen = request.detail.response;
-              this.i_loaded = true;
+              this.set("times", this.getTimes("06:00", "22:00"));
+              this.set("lessen", request.detail.response);
+              this.set("i_loaded", true);
+              this.$.list.render();
             },
 
             getTimes: function(from, until) {
