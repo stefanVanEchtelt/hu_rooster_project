@@ -46,6 +46,9 @@ public class RoosterController implements Handler {
 		
 		for (Les l : lessen) {
 			if (l.getCursuscode().equals(les)) {
+				for (Docent d : l.getDocenten()) {
+					System.out.println(d.getGebruikersnaam());
+				}
 				cles = l;
 			}
 		}
