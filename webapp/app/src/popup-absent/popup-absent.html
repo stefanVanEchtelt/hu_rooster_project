@@ -49,7 +49,6 @@
         margin-top: 5px;
       }
     </style>
-    <!-- <button id="absent_melden_open_button" raised on-click="openHandler">Absent melden</button> -->
     <div id="absent_melden_popup_container">
       <h1>Absent melden</h1>
       <form id="absent_melden_form" onsubmit="return false">
@@ -104,6 +103,8 @@
       }
 
       _handel() {
+        console.log("handel");
+     	  console.log(this.show);
         if (this.show) {
           this.openHandler();
         } else {
@@ -180,7 +181,6 @@
 
 
         // console.log(this.afweziggen);
-
         // console.log(this.root.querySelector('#radioZiek').value);
         // console.log(this.root.querySelector('#radioTandarts').value);
         // console.log(this.root.querySelector('#radioDokter').value);
