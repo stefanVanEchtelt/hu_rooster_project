@@ -1,0 +1,80 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+
+<dom-module id="popup-student">
+  <template>
+    <style>
+
+      #student_popup_container {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        padding-top: 0px;
+        z-index: 1; /* Sit on top */
+        background-color: white; /* Fallback color */
+        border-style: solid;
+        border-width: 2px;
+        top: 10%;
+        left: 30%;
+      }
+
+      h1 {
+        position: relative;
+        padding-left: 10px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        background-color: #4286f4;
+        color: white;
+      }
+
+      p {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+
+    </style>
+    <div id="student_popup_container">
+      <h1>Informatie student</h1><BR>
+      <paper-button on-tap="_close_modal"><iron-icon icon="icons:close"></iron-icon></paper-button>
+    </div>
+  </template>
+
+  <script>
+    class PopupStudent extends Polymer.Element {
+      static get is() { return 'popup-student'; }
+      static get properties() {
+        return {
+          show: {
+            type: Boolean,
+            value: false,
+            observer: '_handel',
+          },
+        };
+      }
+
+      _handel() {
+        console.log("handel");
+     	  // console.log(this.show);
+        if (this.show) {
+          this.openHandler();
+        }
+      }
+
+      openHandler() {
+        var popup = this.root.querySelector('#student_popup_container');
+        popup.style.display = "block";
+      }
+
+      _close_modal() {
+        this.show = false;
+        var popup = this.root.querySelector('#student_popup_container');
+        popup.style.display = "none";
+      }
+
+    }
+
+    window.customElements.define(PopupStudent.is, PopupStudent);
+  </script>
+</dom-module>

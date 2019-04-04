@@ -4,6 +4,7 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="popup-student.html"
 
 <!-- Dit element wordt door de aanwezigheid van de c_visible parameter steeds opnieuw gerefreshed
      op het moment dat het element in de iron-pages geselecteerd wordt
@@ -31,27 +32,7 @@
         background: #1a9fd9;                    /* kind of blue */
         --paper-button-ink-color: #00567B;      /* kind of dark blue */
       }
-      .my-title {
-        font-size: 20px;
-        color: blue;
-        border-bottom: 1px solid red;           /* a red line */
-        padding-bottom: 2px;                    /* space above the border line */
-      }
-      .voornaam {
-        min-width: 100px;
-        text-align: left;
-       }
-      .achternaam {
-        min-width: 100px;
-        text-align: left;
-      }
-      .groepid-header {
-        min-width: 100px;
-        text-align: left;
-      }
-      .groepid{
-        min-width: 100px;
-      }
+
       .my-button {
         width: 100%;                        /* full width */
         color: white;                       /* white tekst */
@@ -59,6 +40,16 @@
         --paper-button-ink-color: #00567B;  /* kind of dark blue */
         margin-top: 5px;                    /* enlarge thet default */
         margin-left: 0px;                   /* reduce the default */
+      }
+
+      paper-button.student_button {
+        color: red;
+        background: blue;
+      }
+
+      paper-button.klassen_button {
+        color: green;
+        background: yellow;
       }
     </style>
 
@@ -70,20 +61,37 @@
       on-response="_klassen_ophalen_response_handler">
     </iron-ajax>
 
+    <iron-ajax
+      id="ajax_leerlingen_ophalen"
+      method="POST"
+      url="/leerlingen/ophalen"
+      handle-as="json"
+      on-response="_leerlingen_ophalen_response_handler">
+    </iron-ajax>
+
 
     <div class="">
       Statistieken pagina docent
       <BR><BR>
+        <div id="klassen_pagina">
         <template is="dom-repeat" items="{{klassen}}" as="klas">
           <tr>
-            <td><a href="">{{klas.klascode}} </a></td>
+            <td><paper-button class="klassen_button" on-tap="_handleTap" data-klas$="{{klas.klascode}}">{{klas.klascode}}</paper-button> </td>
           </tr>
         </template>
-
+        </div>
+        <BR><BR>
+        <div id="leerlingen_in_klas">
+          <template is="dom-repeat" items="{{leerlingen}}" as="leerling">
+            <tr>
+              <paper-button class="student_button" on-tap="_openStudentModal">
+              {{leerling.voornaam}} {{leerling.achternaam}}
+              </paper-button>
+            </tr>
+          </template>
+        </div>
     </div>
-
-
-
+    <popup-student id="studentpopup" show="{{showStudentPopup}}" ></popup-student>
   </template>
 
   <script>
@@ -118,7 +126,21 @@
           klassen: {
             type: Array,
             value: []
-          }
+          },
+
+          huidigeKlasSelected: {
+            type: String,
+            value: ""
+          },
+
+          leerlingen: {
+            type: Array,
+            value: []
+          },
+          showStudentPopup: {
+            type: Boolean,
+            value: false
+          },
 
         },
 
@@ -147,10 +169,35 @@
           this.$.ajax_klassen_ophalen.generateRequest();
 
         },
+        _ajax_leerlingen_ophalen: function() {
+          console.log("testttdfasfd");
+          this.$.ajax_leerlingen_ophalen.contentType="application/json";
+          this.$.ajax_leerlingen_ophalen.body={
+            "huidigeKlas":this.huidigeKlasSelected
+          };
+          this.$.ajax_leerlingen_ophalen.generateRequest();
+        },
 
         _klassen_ophalen_response_handler: function(request) {
           this.klassen = request.detail.response;
           this.i_loaded = true;
+        },
+
+        _leerlingen_ophalen_response_handler: function(request) {
+          this.leerlingen = request.detail.response;
+          this.i_loaded = true;
+        },
+
+        _handleTap: function(e) {
+          var nieuwe_klas_code = e.target.dataset.klas;
+          console.log(nieuwe_klas_code);
+          this.huidigeKlasSelected = nieuwe_klas_code;
+          console.log(this.huidigeKlasSelected);
+          this._ajax_leerlingen_ophalen();
+        },
+        _openStudentModal: function(e) {
+          console.log("whoop");
+            this.set("showStudentPopup", true);
         },
 
       });
