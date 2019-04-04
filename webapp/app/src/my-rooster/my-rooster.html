@@ -149,7 +149,7 @@
         },
 
         _initializing: function() {
-          this.setDays(new Date());
+            this.setDays(new Date());
           this.times = this.getTimes("06:00", "22:00");
         },
 
@@ -188,7 +188,6 @@
         doubleZeros: function(d) {
           return (d < 10) ? '0' + d.toString() : d.toString();
         },
-
       });
     })();
   </script>

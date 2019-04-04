@@ -38,7 +38,7 @@ public class RoosterController implements Handler {
 		JsonArrayBuilder lJsonArrayBuilder = Json.createArrayBuilder();
 		
 		List<Les> lessen = null;
-		if (type.equals("Leerling")) {
+		if (type.equals("student")) {
 			Student s = informatieSysteem.getStudent(username);
 			Klas k = informatieSysteem.getKlas(s.getKlasCode());
 			lessen = k.getLessenByDate(datum);
