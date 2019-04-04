@@ -1,0 +1,188 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<!-- Dit element wordt door de aanwezigheid van de c_visible parameter steeds opnieuw gerefreshed
+     op het moment dat het element in de iron-pages geselecteerd wordt
+     en ook zodra hij weer gedeselecteerd wordt.
+     Deze techniek is bruikbaar om volatile info steeds opnieuw op te halen en niet enkel eenmalig
+     bij start van de applicatie.
+-->
+
+<dom-module id="my-profiel">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      :host > * {
+        --paper-input-container-focus-color: #1a9fd9; /* kind of blue */
+      }
+
+      span {
+        @apply --paper-font-body1;
+      }
+      .toast-button {
+        text-transform: none;
+        color: white;                           /* white tekst */
+        background: #1a9fd9;                    /* kind of blue */
+        --paper-button-ink-color: #00567B;      /* kind of dark blue */
+      }
+      .my-title {
+        font-size: 20px;
+        color: blue;
+        border-bottom: 1px solid red;           /* a red line */
+        padding-bottom: 2px;                    /* space above the border line */
+      }
+      .voornaam {
+        min-width: 100px;
+        text-align: left;
+       }
+      .achternaam {
+        min-width: 100px;
+        text-align: left;
+      }
+      .groepid-header {
+        min-width: 100px;
+        text-align: left;
+      }
+      .groepid{
+        min-width: 100px;
+      }
+      .my-button {
+        width: 100%;                        /* full width */
+        color: white;                       /* white tekst */
+        background: #1a9fd9;                /* kind of blue */
+        --paper-button-ink-color: #00567B;  /* kind of dark blue */
+        margin-top: 5px;                    /* enlarge thet default */
+        margin-left: 0px;                   /* reduce the default */
+      }
+   </style>
+    <paper-card>
+        <div class="card">
+          <div class="card"></div>
+          <p id="volleNaam">voornaam</p>
+          <p id="rol_gebruiker">rol</p>
+          <p id="klas_gebruiker">klas</p>
+          <p id="studie_gebruiker">klas</p>
+          <p id="studentNummer_gebruiker">studentNummer</p>
+
+
+          <paper-button on-click="_klas_zoeken" class="toast-button">klas</paper-button>
+
+        </div>
+       <div class="card-actions">
+       </div>
+    </paper-card>
+
+    <iron-ajax
+      id="ajax_informatie_student"
+      method="POST"
+      url="/student/informatie"
+      handle-as="json"
+      debounce-duration="300"
+      on-response="_informatie_student_request_handler">
+    </iron-ajax>
+
+    <iron-ajax
+    id="ajax_informatie_student_opslaan"
+    method="POST"
+    url="/student/informatie"
+    handle-as="json"
+    debounce-duration="300">
+    </iron-ajax>
+
+  </template>
+
+  <script>
+
+      Polymer({
+        is: 'my-profiel',
+
+        properties: {
+          _c_studenten: {
+            type: Array,           /* array<student-info>: student-info = {id, firstName, lastName, sameGroup}
+                    array is constant groepnr is changable */
+          },
+          c_rol: {
+            type: String,
+          },
+          c_klas: {
+            type: String,
+          },
+          c_username: {
+            type: String,
+          },
+          c_volleNaam: {
+            type: String,
+          },
+          c_studie: {
+            type: String,
+          },
+          c_studentNummer: {
+            type: String,
+          },
+          c_visible: {
+            type: Boolean,                                      /* true when element is the active visible item */
+            value: false,
+            observer: '_informatie_student',  
+          },
+        },
+
+        _informatie_student: function() {
+          if(this.c_visible){
+            console.log("_informatie_student user="+this.c_username);
+            this.$.ajax_informatie_student.contentType="application/json";
+            this.$.ajax_informatie_student.body={
+              "username":this.c_username
+            };
+            this.$.ajax_informatie_student.generateRequest();
+          }
+        },
+
+        _informatie_student_request_handler: function(request) {
+          console.log("_informatie_student_request_handler user="+this.c_username);
+          this.$.ajax_informatie_student.body={
+              "klas":this.c_klas,
+              "naam":this.c_volleNaam,
+              "studentNummer":this.c_studentNummer
+
+          };
+          this.c_klas = request.detail.response["klas"];
+          this.c_volleNaam = request.detail.response["naam"];
+          this.c_studentNummer = request.detail.response["studentNummer"];
+
+
+          var splitKlasStudie = this.c_klas.split("-");
+          this.c_klas = splitKlasStudie[2];
+          this.c_studie = splitKlasStudie[0] + " " + splitKlasStudie[1];
+
+          Polymer.dom(this.$$('#klas_gebruiker')).node.innerHTML = "klas: " + this.c_klas;
+          Polymer.dom(this.$$('#volleNaam')).node.innerHTML = "Naam: " + this.c_volleNaam;
+          Polymer.dom(this.$$('#rol_gebruiker')).node.innerHTML = "Rol: " + this.c_rol;
+          Polymer.dom(this.$$('#studie_gebruiker')).node.innerHTML = "Studie: " + this.c_studie;
+          Polymer.dom(this.$$('#studentNummer_gebruiker')).node.innerHTML = "StudentNummer: " + this.c_studentNummer;
+
+        },
+
+        getVoornaam_gebruiker(){
+          var punt = ".";
+          var arrayOfStrings = this.c_username.split(punt);
+          var voornaam_gebruiker = arrayOfStrings[0];
+          Polymer.dom(this.$$('#voornaam_gebruiker')).node.innerHTML = voornaam_gebruiker;
+        },
+
+        getAchternaam_gebruiker(){
+          var punt = ".";
+          var at = "@";
+          var arrayOfStrings = this.c_username.split(punt);
+          arrayOfStrings = arrayOfStrings[1].split(at);
+          var achternaam_gebruiker = arrayOfStrings[0];
+          Polymer.dom(this.$$('#achternaam_gebruiker')).node.innerHTML = achternaam_gebruiker;
+        },
+      });
+  </script>
+</dom-module>

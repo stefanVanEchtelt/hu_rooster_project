@@ -4,6 +4,8 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+
 <!-- <link rel="import" href="../popup-absent/popup-absent.html"> -->
 <!-- <link rel="import" href="../popup-beter/popup-beter.html"> -->
 <link rel="import" href="my-day.html">
@@ -66,6 +68,9 @@
     </div>
 
     <div style="clear: both"></div>
+
+    <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
+    <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
   </template>
 
   <script>
@@ -103,6 +108,14 @@
             value: new Date()
           },
           days: {
+            type: Array,
+            value: [],
+          },
+          zieken: {
+            type: Array,
+            value: [],
+          },
+          afwezigen: {
             type: Array,
             value: [],
           },
@@ -149,16 +162,16 @@
         },
 
         _initializing: function() {
-            this.setDays(new Date());
+          this.set("afwezigen", []);
+          this.set("zieken", []);
+          this.setDays(new Date());
           this.times = this.getTimes("06:00", "22:00");
         },
 
         _go_home: function() {
           var lApp = document.querySelector('my-app');  //het polymer element <my-app>
           var lAppRouter = lApp.$.approuter;            // het html-element <app-route> met id=approuter
-          lAppRouter.data={page: ""};                   // vul het data attribute met de homepage url
-                                                        // door de two way binding in <app-route> en <app-location>
-                                                        // zal ook de url echt wijzigen
+          lAppRouter.data={page: ""};
         },
 
        _toast_clicked: function(e) {

@@ -1,10 +1,10 @@
-<link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="popup-absent">
   <template>
     <style>
-
       #absent_melden_popup_container {
         display: block; /* Hidden by default */
         position: fixed; /* Stay in place */
@@ -49,15 +49,14 @@
         margin-top: 5px;
       }
     </style>
-    <!-- <button id="absent_melden_open_button" raised on-click="openHandler">Absent melden</button> -->
     <div id="absent_melden_popup_container">
       <h1>Absent melden</h1>
       <form id="absent_melden_form" onsubmit="return false">
         <p>
           <b>Reden van absentie:</b><br>
-          <input type="radio" id="radioZiek" value="nee" raised on-click="ziekHandler" name="absentie_soort">Ziek</input><br>
-          <input type="radio" id="radioTandarts" value="nee" raised on-click="tandartsHandler" name="absentie_soort">Tandarts</input><br>
-          <input type="radio" id="radioDokter" value="nee" raised on-click="dokterHandler" name="absentie_soort">Dokter</input><br>
+          <input type="radio" id="radioZiek" value="Ziek" raised on-click="ziekHandler" name="absentie_soort">Ziek</input><br>
+          <input type="radio" id="radioTandarts" value="Tandarts" raised on-click="tandartsHandler" name="absentie_soort">Tandarts</input><br>
+          <input type="radio" id="radioDokter" value="Dokter" raised on-click="dokterHandler" name="absentie_soort">Dokter</input><br>
           <input type="radio" id="radioAnders" value="nee" raised on-click="andersHandler" name="absentie_soort">Anders, namelijk:</input>
           <input type="text" name="absentie_soort_anders"></input>
         </p>
@@ -77,7 +76,16 @@
         </div>
       </form>
     </div>
-    <app-localstorage-document key="afweziggen" data="{{afweziggen}}"></app-localstorage-document>
+    <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
+    <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
+
+    <iron-ajax
+      id="ajax_les_ophalen"
+      method="POST"
+      url="/rooster/les/ophalen"
+      handle-as="json"
+      on-response="_les_ophalen_response_handler">
+    </iron-ajax>
   </template>
 
   <script>
@@ -85,23 +93,30 @@
       static get is() { return 'popup-absent'; }
       static get properties() {
         return {
-          absentDatum: {
-            type: Date
+          datum: {
+            type: String
           },
           show: {
             type: Boolean,
             value: false,
             observer: '_handel',
           },
-          afweziggen: {
+          afwezigen: {
             type: Array,
-            value: [],
-          }
+          },
+          zieken: {
+            type: Array,
+          },
+          les: {
+            type: String,
+          },
+          c_username: {
+            type: String,
+          },
         };
       }
 
       _handel() {
-        console.log("handel");
         if (this.show) {
           this.openHandler();
         } else {
@@ -109,12 +124,26 @@
         }
       }
 
-      openHandler(event) {
+      openHandler() {
+        this.$.ajax_les_ophalen.contentType="application/json";
+        console.log(this.les);
+        this.$.ajax_les_ophalen.body = {
+          "datum": this.datum,
+          "username": "stefan.vanechtelt@student.hu.nl",
+          "les": this.les,
+        };
+        this.$.ajax_les_ophalen.generateRequest();
+
         var popup = this.root.querySelector('#absent_melden_popup_container');
         popup.style.display = "block";
       }
 
-      cancelHandler(event) {
+      _les_ophalen_response_handler(request) {
+        console.log("resp");
+        console.log(request.detail.response);
+      }
+
+      cancelHandler() {
         console.log("cancel");
         this.show = false;
         var popup = this.root.querySelector('#absent_melden_popup_container');
@@ -159,19 +188,27 @@
       }
 
       submitHandler(event) {
-        console.log("ziek");
 
         // als reden ziek maak lijst met zieken leerlingen
         // anders zet in afweziggen
-        this.afweziggen.push({
-          naam: "stefan.vanechtelt@student.hu.nl",
-          reden: "tandarts",
-          van: "",
-          tot: "",
-        });
 
+        let reden = "tandarts";
         console.log(this.afweziggen);
+        if (reden != "ziek") {
+          this.afweziggen.push({
+            naam: this.c_username,
+            reden: reden,
+            van: "",
+            tot: "",
+          });
+        } else {
+          this.zieken.push({
+            naam: this.c_username
+          })
+        }
 
+
+        // console.log(this.afweziggen);
         // console.log(this.root.querySelector('#radioZiek').value);
         // console.log(this.root.querySelector('#radioTandarts').value);
         // console.log(this.root.querySelector('#radioDokter').value);
