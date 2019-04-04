@@ -52,11 +52,12 @@
               show="{{showAbsentPopup}}"
               datum="{{datum}}"
               les="{{clickedLes}}"
-              c_username="{{c_username}}">
+              c_username="{{c_username}}"
+              c_rol="{{c_rol}}">
             </popup-absent>
 
               <table>
-                <th >{{ day_name }} <br> {{ datum }}</th>
+                <th >{{ day_name }}<br> {{ datum }}</th>
                 <template is="dom-repeat" items="{{times}}" as="time">
                     <tr>
                       <td raised on-click="openAbsentieModal">{{time}}</td>
@@ -88,6 +89,8 @@
               },
               c_rol: {
                 type: String,
+                observer: '_initializing',
+
               },
               c_username: {
                 type: String,
@@ -99,7 +102,7 @@
               c_visible: {
                 type: Boolean,
                 value: false,
-              observer: '_initializing',
+                observer: '_initializing',
               },
               i_loaded: {
                 type: Boolean,
@@ -155,8 +158,6 @@
 
             _initializing: function() {
               if (this.c_visible) {
-                  console.log(this.c_username);
-
                   this._ajax_lessen_ophalen();
               }
             },
@@ -164,15 +165,9 @@
             _ajax_lessen_ophalen: function() {
               this.$.ajax_lessen_ophalen.contentType="application/json";
 
-              console.log(this.c_username);
-                // this.c_username = "stefan.vanechtelt@student.hu.nl";
-                // this.c_rol = "Leerling";
-                console.log(this.c_rol);
                 this.$.ajax_lessen_ophalen.body = {
                 "datum": this.datum,
-                // "username": "stefan.vanechtelt@student.hu.nl",
-                // "type": "Leerling",
-                  "username": this.c_username,
+                "username": this.c_username,
                  "type": this.c_rol,
               };
                 this.$.ajax_lessen_ophalen.generateRequest();
