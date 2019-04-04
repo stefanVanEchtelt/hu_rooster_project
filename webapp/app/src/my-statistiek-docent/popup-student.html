@@ -1,6 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/google-chart/google-chart.html">
+
 
 <dom-module id="popup-student">
   <template>
@@ -37,7 +39,11 @@
     </style>
     <div id="student_popup_container">
       <h1>Informatie student</h1><BR>
-      <paper-button on-tap="_close_modal"><iron-icon icon="icons:close"></iron-icon></paper-button>
+      Statistieken van: [[leerling.voornaam]] [[leerling.achternaam]]<BR><BR>
+      <google-chart type="pie"
+                  data='[["Afwezig", "Days"], ["Ziek", 31], ["Dokter", 0], ["Anders", 10], ["Tandarts", 0], ["Ongeoorloofd", 2]]'
+                  style='height: 200px; width: 400px'></google-chart>
+      <paper-button on-tap="_close_modal"><iron-icon icon="icons:close"></iron-icon></paper-button><BR>
     </div>
   </template>
 
@@ -51,12 +57,16 @@
             value: false,
             observer: '_handel',
           },
+
+          leerling: {
+            type: Array,
+            value: []
+          },
+
         };
       }
 
       _handel() {
-        console.log("handel");
-     	  // console.log(this.show);
         if (this.show) {
           this.openHandler();
         }

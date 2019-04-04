@@ -6,6 +6,7 @@
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="popup-student.html"
 
+
 <!-- Dit element wordt door de aanwezigheid van de c_visible parameter steeds opnieuw gerefreshed
      op het moment dat het element in de iron-pages geselecteerd wordt
      en ook zodra hij weer gedeselecteerd wordt.
@@ -21,6 +22,10 @@
       }
       :host > * {
         --paper-input-container-focus-color: #1a9fd9; /* kind of blue */
+      }
+
+      hr {
+        border: 5px solid #1a9fd9;
       }
 
       span {
@@ -43,13 +48,17 @@
       }
 
       paper-button.student_button {
-        color: red;
-        background: blue;
+        color: white;
+        background: #1a9fd9;
+        width: 500px;
+        margin: 3px;
       }
 
       paper-button.klassen_button {
-        color: green;
-        background: yellow;
+        color: white;
+        background: #1a9fd9;
+        width: 500px;
+        margin: 3px;
       }
     </style>
 
@@ -80,8 +89,10 @@
           </tr>
         </template>
         </div>
-        <BR><BR>
+        <BR>
         <div id="leerlingen_in_klas">
+          <hr>
+          <BR>
           <template is="dom-repeat" items="{{leerlingen}}" as="leerling">
             <tr>
               <paper-button class="student_button" on-tap="_openStudentModal">
@@ -91,7 +102,8 @@
           </template>
         </div>
     </div>
-    <popup-student id="studentpopup" show="{{showStudentPopup}}" ></popup-student>
+    <popup-student id="studentpopup" show="{{showStudentPopup}}" leerling="{{clickedLeerling}}"></popup-student>
+
   </template>
 
   <script>
@@ -119,21 +131,21 @@
           c_visible: {
             type: Boolean,                                      /* true when element is the active visible item */
             value: false,
-            observer: '_initializing',                          /* wordt ook aangeroepen bijwisseling van true naar false.
-                                                                  regel in de functie dat er niets gebeurd
-                                                                   als c_visible false is */
+            observer: '_initializing',
           },
           klassen: {
             type: Array,
             value: []
           },
-
           huidigeKlasSelected: {
             type: String,
             value: ""
           },
-
           leerlingen: {
+            type: Array,
+            value: []
+          },
+          clickedLeerling: {
             type: Array,
             value: []
           },
@@ -170,7 +182,6 @@
 
         },
         _ajax_leerlingen_ophalen: function() {
-          console.log("testttdfasfd");
           this.$.ajax_leerlingen_ophalen.contentType="application/json";
           this.$.ajax_leerlingen_ophalen.body={
             "huidigeKlas":this.huidigeKlasSelected
@@ -190,13 +201,12 @@
 
         _handleTap: function(e) {
           var nieuwe_klas_code = e.target.dataset.klas;
-          console.log(nieuwe_klas_code);
           this.huidigeKlasSelected = nieuwe_klas_code;
-          console.log(this.huidigeKlasSelected);
           this._ajax_leerlingen_ophalen();
         },
         _openStudentModal: function(e) {
-          console.log("whoop");
+          this.clickedLeerling = e.model.leerling;
+          this.set("showStudentPopup", false);
             this.set("showStudentPopup", true);
         },
 
