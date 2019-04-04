@@ -20,7 +20,6 @@
                 margin-right: 50px;
             }
             table, th, td {
-                //border: 1px solid lightgrey;
                 height: 10px;
                 width: 100%;
             }
@@ -28,22 +27,23 @@
                 background-color:#dedfe0;
                 height: 40px;
                 display: block;
-                font-size: 1.1vw;
+                font-size: 1vw;
                 border-top: 1px solid lightgrey;
                 border-left: 1px solid lightgrey;
                 border-right: 1px solid lightgrey;
                 width: auto;
             }
             td{
-                display: block;
                 height: 35px;
-                width: 100%;
                 text-align: center;
-                font-size: 1vw;
                 border-bottom: 1px solid lightgrey;
                 border-right: 1px solid lightgrey;
-                width: 125px;
+                width: 200px;
+                overflow: hidden;
+                white-space: nowrap;
+                font-size: 0.8vw;
             }
+
         </style>
 
         <div class="day">
@@ -51,7 +51,7 @@
             <popup-absent id="absentiepopup" show="{{showAbsentPopup}}"></popup-absent>
 
               <table>
-              <th>{{ day_name }} <br> {{ datum }}</th>
+              <th >{{ day_name }} <br> {{ datum }}</th>
               <template is="dom-repeat" items="{{times}}" as="time">
                   <tr>
                     <td raised on-click="openAbsentieModal">{{time}}</td>

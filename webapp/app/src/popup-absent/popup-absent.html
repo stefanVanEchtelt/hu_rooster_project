@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 
 <dom-module id="popup-absent">
   <template>
@@ -75,6 +76,7 @@
         </div>
       </form>
     </div>
+    <app-localstorage-document key="afweziggen" data="{{afweziggen}}"></app-localstorage-document>
   </template>
 
   <script>
@@ -89,6 +91,10 @@
             type: Boolean,
             value: false,
             observer: '_handel',
+          },
+          afweziggen: {
+            type: Array,
+            value: [],
           }
         };
       }
@@ -153,10 +159,23 @@
       }
 
       submitHandler(event) {
-        console.log(this.root.querySelector('#radioZiek').value);
-        console.log(this.root.querySelector('#radioTandarts').value);
-        console.log(this.root.querySelector('#radioDokter').value);
-        console.log(this.root.querySelector('#radioAnders').value);
+        console.log("ziek");
+
+        // als reden ziek maak lijst met zieken leerlingen
+        // anders zet in afweziggen
+        this.afweziggen.push({
+          naam: "stefan.vanechtelt@student.hu.nl",
+          reden: "tandarts",
+          van: "",
+          tot: "",
+        });
+
+        console.log(this.afweziggen);
+
+        // console.log(this.root.querySelector('#radioZiek').value);
+        // console.log(this.root.querySelector('#radioTandarts').value);
+        // console.log(this.root.querySelector('#radioDokter').value);
+        // console.log(this.root.querySelector('#radioAnders').value);
       }
     }
 

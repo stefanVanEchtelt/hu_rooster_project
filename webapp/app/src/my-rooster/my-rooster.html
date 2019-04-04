@@ -17,18 +17,18 @@
       table {
           border-collapse: collapse;
           float:left;
-          margin-top: 42px;
+      }
+      th {
+        height: 40px;
       }
       td {
           height: 35px;
           text-align: center;
           border: 1px solid lightgrey;
           line-height: 35px;
-      }
-      table, td {
           background-color:#dedfe0;
-      }
 
+      }
       #nav {
           margin-bottom: 4%;
       }
@@ -41,6 +41,9 @@
     <!-- <popup-absent></popup-absent> -->
     <!-- <popup-beter></popup-beter> -->
     <table>
+        <tr>
+          <th></th>
+        </tr>
       <template is="dom-repeat" items="{{times}}" as="time">
         <tr>
           <td>{{time}}</td>
