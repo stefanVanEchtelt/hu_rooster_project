@@ -1,5 +1,5 @@
-<link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 
 <dom-module id="popup-absent">
   <template>
@@ -55,9 +55,9 @@
       <form id="absent_melden_form" onsubmit="return false">
         <p>
           <b>Reden van absentie:</b><br>
-          <input type="radio" id="radioZiek" value="nee" raised on-click="ziekHandler" name="absentie_soort">Ziek</input><br>
-          <input type="radio" id="radioTandarts" value="nee" raised on-click="tandartsHandler" name="absentie_soort">Tandarts</input><br>
-          <input type="radio" id="radioDokter" value="nee" raised on-click="dokterHandler" name="absentie_soort">Dokter</input><br>
+          <input type="radio" id="radioZiek" value="Ziek" raised on-click="ziekHandler" name="absentie_soort">Ziek</input><br>
+          <input type="radio" id="radioTandarts" value="Tandarts" raised on-click="tandartsHandler" name="absentie_soort">Tandarts</input><br>
+          <input type="radio" id="radioDokter" value="Dokter" raised on-click="dokterHandler" name="absentie_soort">Dokter</input><br>
           <input type="radio" id="radioAnders" value="nee" raised on-click="andersHandler" name="absentie_soort">Anders, namelijk:</input>
           <input type="text" name="absentie_soort_anders"></input>
         </p>
@@ -78,6 +78,7 @@
       </form>
     </div>
     <app-localstorage-document key="afweziggen" data="{{afweziggen}}"></app-localstorage-document>
+    <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
   </template>
 
   <script>
@@ -93,15 +94,16 @@
             value: false,
             observer: '_handel',
           },
-          afweziggen: {
+          afwezigen: {
             type: Array,
-            value: [],
+          },
+          zieken: {
+            type: Array,
           }
         };
       }
 
       _handel() {
-        console.log("handel");
         if (this.show) {
           this.openHandler();
         } else {
@@ -109,12 +111,12 @@
         }
       }
 
-      openHandler(event) {
+      openHandler() {
         var popup = this.root.querySelector('#absent_melden_popup_container');
         popup.style.display = "block";
       }
 
-      cancelHandler(event) {
+      cancelHandler() {
         console.log("cancel");
         this.show = false;
         var popup = this.root.querySelector('#absent_melden_popup_container');
@@ -159,18 +161,25 @@
       }
 
       submitHandler(event) {
-        console.log("ziek");
 
         // als reden ziek maak lijst met zieken leerlingen
         // anders zet in afweziggen
-        this.afweziggen.push({
-          naam: "stefan.vanechtelt@student.hu.nl",
-          reden: "tandarts",
-          van: "",
-          tot: "",
-        });
 
+        let reden = "tandarts";
         console.log(this.afweziggen);
+        if (reden != "ziek") {
+          this.afweziggen.push({
+            naam: "stefan.vanechtelt@student.hu.nl",
+            reden: reden,
+            van: "",
+            tot: "",
+          });
+        } else {
+
+        }
+
+
+        // console.log(this.afweziggen);
 
         // console.log(this.root.querySelector('#radioZiek').value);
         // console.log(this.root.querySelector('#radioTandarts').value);
