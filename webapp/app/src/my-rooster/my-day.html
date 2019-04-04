@@ -84,6 +84,7 @@
                 type: String,
                 value: "",
                 observer: '_initializing',
+
               },
               c_rol: {
                 type: String,
@@ -98,6 +99,7 @@
               c_visible: {
                 type: Boolean,
                 value: false,
+              observer: '_initializing',
               },
               i_loaded: {
                 type: Boolean,
@@ -153,20 +155,27 @@
 
             _initializing: function() {
               if (this.c_visible) {
-                this._ajax_lessen_ophalen();
+                  console.log(this.c_username);
+
+                  this._ajax_lessen_ophalen();
               }
             },
 
             _ajax_lessen_ophalen: function() {
               this.$.ajax_lessen_ophalen.contentType="application/json";
-              this.$.ajax_lessen_ophalen.body = {
+
+              console.log(this.c_username);
+                // this.c_username = "stefan.vanechtelt@student.hu.nl";
+                // this.c_rol = "Leerling";
+                console.log(this.c_rol);
+                this.$.ajax_lessen_ophalen.body = {
                 "datum": this.datum,
-                "username": "stefan.vanechtelt@student.hu.nl",
-                "type": "Leerling",
-                // "type": this.c_rol,
-                // "username": this.c_username,
+                // "username": "stefan.vanechtelt@student.hu.nl",
+                // "type": "Leerling",
+                  "username": this.c_username,
+                 "type": this.c_rol,
               };
-              this.$.ajax_lessen_ophalen.generateRequest();
+                this.$.ajax_lessen_ophalen.generateRequest();
             },
 
             _lessen_ophalen_response_handler: function(request) {
