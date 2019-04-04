@@ -53,6 +53,7 @@ public class Application {
 
 		server.registerHandler("/rooster/dag/ophalen", roosterController);
 		server.registerHandler("/rooster/les/ophalen", roosterController);
+		server.registerHandler("/rooster/docent/les/ophalen", roosterController);
 		
 		server.registerHandler("/overzicht/klas/ophalen", klassenController);
 		server.start();

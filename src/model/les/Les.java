@@ -71,4 +71,8 @@ public class Les implements Serializable {
 	public ArrayList<Docent> getDocenten() {
 		return this.docenten;
 	}
+	
+	public ArrayList<Klas> getIngeroosterdeKlassen() {
+		return this.ingeroosterdeKlassen;
+	}
 }
