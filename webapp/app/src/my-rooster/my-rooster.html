@@ -69,7 +69,7 @@
 
     <div style="clear: both"></div>
 
-    <app-localstorage-document key="afweziggen" data="{{afweziggen}}"></app-localstorage-document>
+    <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
     <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
   </template>
 
@@ -162,6 +162,8 @@
         },
 
         _initializing: function() {
+          this.set("afwezigen", []);
+          this.set("zieken", []);
           this.setDays(new Date());
           this.times = this.getTimes("06:00", "22:00");
         },

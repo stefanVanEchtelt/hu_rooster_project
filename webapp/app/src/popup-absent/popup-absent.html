@@ -1,10 +1,10 @@
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 
 <dom-module id="popup-absent">
   <template>
     <style>
-
       #absent_melden_popup_container {
         display: block; /* Hidden by default */
         position: fixed; /* Stay in place */
@@ -76,8 +76,16 @@
         </div>
       </form>
     </div>
-    <app-localstorage-document key="afweziggen" data="{{afweziggen}}"></app-localstorage-document>
+    <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
     <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
+
+    <iron-ajax
+      id="ajax_les_ophalen"
+      method="POST"
+      url="/rooster/les/ophalen"
+      handle-as="json"
+      on-response="_les_ophalen_response_handler">
+    </iron-ajax>
   </template>
 
   <script>
@@ -85,8 +93,8 @@
       static get is() { return 'popup-absent'; }
       static get properties() {
         return {
-          absentDatum: {
-            type: Date
+          datum: {
+            type: String
           },
           show: {
             type: Boolean,
@@ -98,13 +106,17 @@
           },
           zieken: {
             type: Array,
-          }
+          },
+          les: {
+            type: String,
+          },
+          c_username: {
+            type: String,
+          },
         };
       }
 
       _handel() {
-        console.log("handel");
-     	  console.log(this.show);
         if (this.show) {
           this.openHandler();
         } else {
@@ -113,8 +125,22 @@
       }
 
       openHandler() {
+        this.$.ajax_les_ophalen.contentType="application/json";
+        console.log(this.les);
+        this.$.ajax_les_ophalen.body = {
+          "datum": this.datum,
+          "username": "stefan.vanechtelt@student.hu.nl",
+          "les": this.les,
+        };
+        this.$.ajax_les_ophalen.generateRequest();
+
         var popup = this.root.querySelector('#absent_melden_popup_container');
         popup.style.display = "block";
+      }
+
+      _les_ophalen_response_handler(request) {
+        console.log("resp");
+        console.log(request.detail.response);
       }
 
       cancelHandler() {
@@ -170,13 +196,15 @@
         console.log(this.afweziggen);
         if (reden != "ziek") {
           this.afweziggen.push({
-            naam: "stefan.vanechtelt@student.hu.nl",
+            naam: this.c_username,
             reden: reden,
             van: "",
             tot: "",
           });
         } else {
-
+          this.zieken.push({
+            naam: this.c_username
+          })
         }
 
 

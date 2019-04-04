@@ -48,7 +48,13 @@
 
         <div class="day">
           <template is="dom-if" if="{{i_loaded}}">
-            <popup-absent id="absentiepopup" show="{{showAbsentPopup}}" date="{{absentDatum}}"></popup-absent>
+            <popup-absent id="absentiepopup"
+              show="{{showAbsentPopup}}"
+              datum="{{datum}}"
+              les="{{clickedLes}}"
+              c_username="{{c_username}}">
+            </popup-absent>
+
               <table>
                 <th >{{ day_name }} <br> {{ datum }}</th>
                 <template is="dom-repeat" items="{{times}}" as="time">
@@ -109,14 +115,16 @@
                 type: Boolean,
                 value: false
               },
-              tries: {
+              clickedLes: {
                 type: String,
                 value: ""
               }
             },
 
-            openAbsentieModal: function(e) {
-              if (e.model.time != null) {
+            openAbsentieModal: function(event) {
+              this.set("showAbsentPopup", false);
+              if (event.model.time != null) {
+                this.set("clickedLes", event.model.time);
                 this.set("showAbsentPopup", true);
               }
             },

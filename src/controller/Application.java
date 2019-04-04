@@ -46,6 +46,7 @@ public class Application {
 		server.registerHandler("/student/medestudenten/opslaan", medestudentenController);
 
 		server.registerHandler("/rooster/dag/ophalen", roosterController);
+		server.registerHandler("/rooster/les/ophalen", roosterController);
 		
 		server.registerHandler("/overzicht/klas/ophalen", klassenController);
 		server.start();
