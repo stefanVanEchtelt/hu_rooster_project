@@ -34,5 +34,7 @@ public class Student extends Persoon {
 	public int getStudentNummer() {
 		return this.studentNummer;
 	}
+	
+
 
 }

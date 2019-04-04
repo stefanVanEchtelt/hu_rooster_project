@@ -70,6 +70,8 @@
     </paper-toast>
 
     <div class="my-title">Overzicht van medestudenten van [[c_username]]</div>
+    <paper-button on-click="getdingen()" class="my-button">Sluiten</paper-button>
+
     <table>
       <tr>
         <th class="voornaam">Voornaam </th>
@@ -101,7 +103,7 @@
       handle-as="json"
       on-response="_medestudenten_ophalen_response_handler">
     </iron-ajax>
- 
+
     <iron-ajax
       id="ajax_medestudenten_opslaan"
       method="POST"
@@ -125,7 +127,7 @@
 
         properties: {
           _c_studenten: {
-            type: Array,           /* array<student-info>: student-info = {id, firstName, lastName, sameGroup} 
+            type: Array,           /* array<student-info>: student-info = {id, firstName, lastName, sameGroup}
 										array is constant groepnr is changable */
           },
           c_rol: {
@@ -150,7 +152,7 @@
                                                         // door de two way binding in <app-route> en <app-location>
                                                         // zal ook de url echt wijzigen
         },
-        
+
         _initializing : function() {
           if (this.c_visible) {                                 // zodra zichtbaar geworden moet er wat worden gedaan
             if (this.c_rol=="student") {                        // voor studenten
@@ -174,6 +176,7 @@
 
         _medestudenten_ophalen_response_handler: function(request) {
           console.log("_mededestudenten_ophalen_response_handler aantal studenten="+request.detail.response.length);
+          var hoeveelheidStudenten = request.detail.response.length;
           this._c_studenten = request.detail.response;
         },
 
