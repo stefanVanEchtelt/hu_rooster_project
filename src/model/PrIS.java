@@ -94,6 +94,10 @@ public class PrIS {
 	public Docent getDocent(String gebruikersnaam) {
 		return deDocenten.stream().filter(d -> d.getGebruikersnaam().equals(gebruikersnaam)).findFirst().orElse(null);
 	}
+	
+	public ArrayList<Klas> getKlassen() {
+		return deKlassen;
+	}
 
 	public Klas getKlasVanStudent(Student pStudent) {
 		return deKlassen.stream().filter(k -> k.bevatStudent(pStudent)).findFirst().orElse(null);
@@ -190,7 +194,6 @@ public class PrIS {
 		String csvFile = "././CSV/rooster.csv";
 		BufferedReader br = null;
 		String line = "";
-		String cvsSplitBy = ";";
 		
 		try {
 			br = new BufferedReader(new FileReader(csvFile));

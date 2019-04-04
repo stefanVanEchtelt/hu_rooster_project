@@ -8,11 +8,11 @@ import javax.json.JsonObjectBuilder;
 import model.PrIS;
 import server.Conversation;
 import server.Handler;
-import java.util.ArrayList;
 import java.util.List;
 
 import model.klas.Klas;
 import model.les.Les;
+
 import model.persoon.Docent;
 import model.persoon.Student;
 
