@@ -24,12 +24,48 @@ public class RoosterController implements Handler {
 	}
 	
 	public void handle(Conversation conversation) {
-		ophalen(conversation);
+		if (conversation.getRequestedURI().startsWith("/rooster/les/ophalen")) {
+			ophalenLes(conversation);
+		} else {
+			ophalenDag(conversation);
+		}
+		
+		
 	}
 	
-	private void ophalen(Conversation conversation) {
-		System.out.println("OPPPPHALLLEENENN");
+	private void ophalenLes(Conversation conversation) {		
+		JsonObject lJsonObjectIn = (JsonObject) conversation.getRequestBodyAsJSON();
+		String datum = lJsonObjectIn.getString("datum");
+		String username = lJsonObjectIn.getString("username");
+		String les = lJsonObjectIn.getString("les");
 		
+		Student s = informatieSysteem.getStudent(username);
+		Klas k = informatieSysteem.getKlas(s.getKlasCode());
+		List<Les> lessen = k.getLessenByDate(datum);
+		Les cles = null;
+		
+		for (Les l : lessen) {
+			if (l.getCursuscode().equals(les)) {
+				cles = l;
+			}
+		}
+		
+		System.out.println(cles);
+		
+		JsonObjectBuilder lJsonObjectBuilder = Json.createObjectBuilder();
+		
+		lJsonObjectBuilder 
+			.add("les_datum", cles.getStartDatum())
+			.add("start_tijd", cles.getStartTijd())
+			.add("eind_tijd", cles.getEindTijd())
+			.add("cursus_code", cles.getCursuscode());
+
+		String lJsonOut = lJsonObjectBuilder.build().toString();
+		
+		conversation.sendJSONMessage(lJsonOut);
+	}
+	
+	private void ophalenDag(Conversation conversation) {		
 		JsonObject lJsonObjectIn = (JsonObject) conversation.getRequestBodyAsJSON();
 		String datum = lJsonObjectIn.getString("datum");
 		String username = lJsonObjectIn.getString("username");
@@ -38,7 +74,7 @@ public class RoosterController implements Handler {
 		JsonArrayBuilder lJsonArrayBuilder = Json.createArrayBuilder();
 		
 		List<Les> lessen = null;
-		if (type.equals("Leerling")) {
+		if (type.equals("student")) {
 			Student s = informatieSysteem.getStudent(username);
 			Klas k = informatieSysteem.getKlas(s.getKlasCode());
 			lessen = k.getLessenByDate(datum);
