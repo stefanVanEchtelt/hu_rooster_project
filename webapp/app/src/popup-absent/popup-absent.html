@@ -1,16 +1,24 @@
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
 
 <dom-module id="popup-absent">
   <template>
     <style>
       #absent_melden_popup_container {
-        display: block; /* Hidden by default */
-        position: fixed; /* Stay in place */
+        display: none;
+        position: fixed;
         padding-top: 0px;
-        z-index: 1; /* Sit on top */
-        background-color: white; /* Fallback color */
+        z-index: 1;
+        background-color: white;
         border-style: solid;
         border-width: 2px;
         margin:0 auto;
@@ -33,6 +41,18 @@
         margin-right: 10px;
       }
 
+      .baseModalContent {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+
+      #andersTextInput {
+        margin-top: 0px;
+        padding-top: 0px;
+      }
+
       #absent_melden_buttons {
         margin-left: 10px;
         margin-top: 10px;
@@ -48,45 +68,53 @@
         display: none;
         margin-top: 5px;
       }
-    </style>
-    <div id="absent_melden_popup_container">
-      <h1>Absent melden</h1>
-      <form id="absent_melden_form" onsubmit="return false">
-        <p>
-          <b>Reden van absentie:</b><br>
-          <input type="radio" id="radioZiek" value="Ziek" raised on-click="ziekHandler" name="absentie_soort">Ziek</input><br>
-          <input type="radio" id="radioTandarts" value="Tandarts" raised on-click="tandartsHandler" name="absentie_soort">Tandarts</input><br>
-          <input type="radio" id="radioDokter" value="Dokter" raised on-click="dokterHandler" name="absentie_soort">Dokter</input><br>
-          <input type="radio" id="radioAnders" value="nee" raised on-click="andersHandler" name="absentie_soort">Anders, namelijk:</input>
-          <input type="text" name="absentie_soort_anders"></input>
-        </p>
-        <div id="medischInput">
-          <p><b>Wanneer is de absentie?</b><br>
-          Op: <input type="date" name="medischDatum"><br>
-          Van: <input type="time" name="medischTijdBegin"></input> Tot: <input type="time" name="medischTijdEinde">
-        </div>
-        <div id="andersInput">
-          <p><b>Wanneer is de absentie?</b><br>
-          Van: <input type="date" id="andersVanafDatum"></input> om: <input type="time" id="andersVanafTijd"></input><br>
-          Tot: <input type="date" id="andersTotDatum"></input> om: <input type="time" id="andersTotTijd"></input>
-        </div>
-        <div id="absent_melden_buttons">
-          <button raised on-click="cancelHandler">Annuleren</button>
-          <button type="submit" raised on-click="submitHandler">Verzenden</button>
-        </div>
-      </form>
-    </div>
-    <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
-    <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
 
-    <iron-ajax
-      id="ajax_les_ophalen"
-      method="POST"
-      url="/rooster/les/ophalen"
-      handle-as="json"
-      on-response="_les_ophalen_response_handler">
-    </iron-ajax>
-  </template>
+    </style>
+    <button id="absent_melden_open_button" raised on-click="openHandler">Absent melden</button>
+    <div id="absent_melden_popup_container">
+      <paper-dialog id="absent_dialog" modal>
+        <h1>Absent melden</h1>
+        <form id="absent_melden_form" onsubmit="return false">
+          <p>
+            <b>Reden van absentie:</b><br>
+            <paper-radio-group selected="ziek" id="radioAbsent" aria-labelledby="label1">
+              <paper-radio-button class="baseModalContent" on-click="ziekHandler" name="ziek">Ziek</paper-radio-button><br>
+              <paper-radio-button class="baseModalContent" on-click="tandartsHandler" name="tandarts">Tandarts</paper-radio-button><br>
+              <paper-radio-button class="baseModalContent" on-click="dokterHandler" name="dokter">Dokter</paper-radio-button><br>
+              <paper-radio-button class="baseModalContent" on-click="andersHandler" name="anders">Anders</paper-radio-button>
+            </paper-radio-group>
+          </p>
+          <div id="medischInput">
+            <p><b>Wanneer is de absentie?</b><br>
+            <paper-input id="medischDatum" type="date" label="Datum:" class="baseModalContent" name="medischDatum"></paper-input>
+            <paper-input id="medischTijdBegin" type="time" label="Van:" class="baseModalContent" name="medischTijdBegin"></paper-input>
+            <paper-input id="medischTijdEinde" type="time" label="Tot:" name="medischTijdEinde"></paper-input>
+          </div>
+          <div id="andersInput">
+            <p><b>Wanneer is de absentie?</b><br>
+            <paper-input id="andersReden" label="Reden:"></paper-input><br>
+            <paper-input id="andersDatumVanaf" type="date" label="Vanaf:" class="baseModalContent" id="andersVanafDatum"></paper-input>
+            <paper-input id="andersTijdVanaf" type="time" label="om:" class="baseModalContent" id="andersVanafTijd"></paper-input><br>
+            <paper-input id="andersDatumTot" type="date" label="Tot:" class="baseModalContent" id="andersTotDatum"></paper-input>
+            <paper-input id="andersTijdTot" type="time" label="om:" class="baseModalContent" id="andersTotTijd"></paper-input>
+          </div>
+          <div id="absent_melden_buttons">
+            <paper-button raised on-click="cancelHandler">Annuleren</paper-button>
+            <paper-button type="submit" raised on-click="submitHandler">Verzenden</paper-button>
+          </div>
+        </form>
+        </paper-dialog>
+      </div>
+      <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
+      <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
+
+      <iron-ajax
+        id="ajax_les_ophalen"
+        method="POST"
+        url="/rooster/les/ophalen"
+        handle-as="json"
+        on-response="_les_ophalen_response_handler">
+      </iron-ajax>  </template>
 
   <script>
     class PopupAbsent extends Polymer.Element {
@@ -150,44 +178,37 @@
         popup.style.display = "none";
       }
 
-      ziekHandler(event) {
-        this.root.querySelector('#medischInput').style.display = "none";
-        this.root.querySelector('#andersInput').style.display = "none";
-        this.root.querySelector('#radioZiek').value = "ja";
-        this.root.querySelector('#radioTandarts').value = "nee";
-        this.root.querySelector('#radioDokter').value = "nee";
-        this.root.querySelector('#radioAnders').value = "nee";
-      }
+        ziekHandler(event) {
+          this.root.querySelector('#medischInput').style.display = "none";
+          this.root.querySelector('#andersInput').style.display = "none";
+        }
 
-      tandartsHandler(event) {
+        tandartsHandler(event) {
+            this.root.querySelector('#medischInput').style.display = "block";
+            this.root.querySelector('#andersInput').style.display = "none";
+        }
+
+        dokterHandler(event) {
           this.root.querySelector('#medischInput').style.display = "block";
           this.root.querySelector('#andersInput').style.display = "none";
-          this.root.querySelector('#radioZiek').value = "nee";
-          this.root.querySelector('#radioTandarts').value = "ja";
-          this.root.querySelector('#radioDokter').value = "nee";
-          this.root.querySelector('#radioAnders').value = "nee";
-      }
 
-      dokterHandler(event) {
-        this.root.querySelector('#medischInput').style.display = "block";
-        this.root.querySelector('#andersInput').style.display = "none";
-        this.root.querySelector('#radioZiek').value = "nee";
-        this.root.querySelector('#radioTandarts').value = "nee";
-        this.root.querySelector('#radioDokter').value = "ja";
-        this.root.querySelector('#radioAnders').value = "nee";
+        }
 
-      }
+        andersHandler(event) {
+          this.root.querySelector('#medischInput').style.display = "none";
+          this.root.querySelector('#andersInput').style.display = "block";
+        }
 
-      andersHandler(event) {
-        this.root.querySelector('#medischInput').style.display = "none";
-        this.root.querySelector('#andersInput').style.display = "block";
-        this.root.querySelector('#radioZiek').value = "nee";
-        this.root.querySelector('#radioTandarts').value = "nee";
-        this.root.querySelector('#radioDokter').value = "nee";
-        this.root.querySelector('#radioAnders').value = "ja";
-      }
-
-      submitHandler(event) {
+        submitHandler(event) {
+          console.log(this.root.querySelector('#radioAbsent').selected);
+          console.log(this.root.querySelector('#medischDatum').value);
+          console.log(this.root.querySelector('#medischTijdBegin').value);
+          console.log(this.root.querySelector('#medischTijdEinde').value);
+          console.log(this.root.querySelector('#andersReden').value);
+          console.log(this.root.querySelector('#andersDatumVanaf').value);
+          console.log(this.root.querySelector('#andersTijdVanaf').value);
+          console.log(this.root.querySelector('#andersDatumTot').value);
+          console.log(this.root.querySelector('#andersTijdTot').value);
 
         // als reden ziek maak lijst met zieken leerlingen
         // anders zet in afweziggen
@@ -206,6 +227,8 @@
             naam: this.c_username
           })
         }
+      }
+    }
 
 
         // console.log(this.afweziggen);
