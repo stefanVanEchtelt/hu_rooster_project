@@ -117,9 +117,10 @@
             },
 
             openAbsentieModal: function() {
-              console.log("x");
-              this.set("showAbsentPopup", true);
-              // this.$.absent_modal.open();
+              console.log(this.showAbsentPopup);
+              this.showAbsentPopup = false;
+              this.showAbsentPopup = true;
+              console.log(this.showAbsentPopup);
             },
 
             isErLesOm: function (tijd) {
