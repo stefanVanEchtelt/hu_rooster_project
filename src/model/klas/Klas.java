@@ -3,15 +3,15 @@ package model.klas;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import model.les.Les;
 import model.persoon.Student;
 
 public class Klas {
-
 	private String klasCode;
 	private String naam;
 	private ArrayList<Student> deStudenten = new ArrayList<Student>();
-
+	private ArrayList<Les> deLessen = new ArrayList<Les>();
+	
 	public Klas(String klasCode, String naam) {
 		this.klasCode = klasCode;
 		this.naam = naam;
@@ -38,5 +38,25 @@ public class Klas {
 			this.deStudenten.add(pStudent);
 		}
 	}
-
+	
+	public List<Les> getLessen() {
+		return Collections.unmodifiableList(deLessen);
+	}
+	
+	public List<Les> getLessenByDate(String date) {
+		ArrayList<Les> lessen = new ArrayList<Les>();
+		for (Les l : this.deLessen) {
+			if (l.getStartDatum().equals(date)) {
+				lessen.add(l);
+			}
+		}
+		
+		return Collections.unmodifiableList(lessen);
+	}
+	
+	public void voegLesToe(Les pLes) {
+		if (!this.getLessen().contains(pLes)) {
+			this.deLessen.add(pLes);
+		}
+	}
 }

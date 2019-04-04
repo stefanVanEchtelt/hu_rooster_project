@@ -4,84 +4,73 @@
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 
-<!-- Dit element wordt door de aanwezigheid van de c_visible parameter steeds opnieuw gerefreshed
-     op het moment dat het element in de iron-pages geselecteerd wordt
-     en ook zodra hij weer gedeselecteerd wordt.
-     Deze techniek is bruikbaar om volatile info steeds opnieuw op te halen en niet enkel eenmalig
-     bij start van de applicatie.
--->
+<!-- <link rel="import" href="../popup-absent/popup-absent.html"> -->
+<!-- <link rel="import" href="../popup-beter/popup-beter.html"> -->
+<link rel="import" href="my-day.html">
 
 <dom-module id="my-rooster">
   <template>
     <style>
-      :host {
-        display: block;
+      .calender {
+          height: 1000px;
       }
-      :host > * {
-        --paper-input-container-focus-color: #1a9fd9; /* kind of blue */
+      table {
+          border-collapse: collapse;
+          float:left;
       }
+      th {
+        height: 40px;
+      }
+      td {
+          height: 35px;
+          text-align: center;
+          border: 1px solid lightgrey;
+          line-height: 35px;
+          background-color:#dedfe0;
 
-      span {
-        @apply --paper-font-body1;
       }
-      .toast-button {
-        text-transform: none;
-        color: white;                           /* white tekst */
-        background: #1a9fd9;                    /* kind of blue */
-        --paper-button-ink-color: #00567B;      /* kind of dark blue */
-      }
-      .my-title {
-        font-size: 20px;
-        color: blue;
-        border-bottom: 1px solid red;           /* a red line */
-        padding-bottom: 2px;                    /* space above the border line */
-      }
-      .voornaam {
-        min-width: 100px;
-        text-align: left;
-       }
-      .achternaam {
-        min-width: 100px;
-        text-align: left;
-      }
-      .groepid-header {
-        min-width: 100px;
-        text-align: left;
-      }
-      .groepid{
-        min-width: 100px;
-      }
-      .my-button {
-        width: 100%;                        /* full width */
-        color: white;                       /* white tekst */
-        background: #1a9fd9;                /* kind of blue */
-        --paper-button-ink-color: #00567B;  /* kind of dark blue */
-        margin-top: 5px;                    /* enlarge thet default */
-        margin-left: 0px;                   /* reduce the default */
+      #nav {
+          margin-bottom: 4%;
       }
     </style>
 
-    <div class="">
-      Test
+    <div id="nav">
+      <paper-button raised on-click="min_month">-</paper-button>
+      <paper-button raised on-click="plus_month">+</paper-button>
+    </div>
+    <!-- <popup-absent></popup-absent> -->
+    <!-- <popup-beter></popup-beter> -->
+    <table>
+        <tr>
+          <th></th>
+        </tr>
+      <template is="dom-repeat" items="{{times}}" as="time">
+        <tr>
+          <td>{{time}}</td>
+        </tr>
+      </template>
+    </table>
+
+   <!-- <my-day datum="'20-10-1998'" c_visible="[[c_visible]]">{{day}}</my-day> -->
+
+    <div class="calender">
+        <template is="dom-repeat" items="{{days}}" as="day">
+            <my-day
+              datum="[[day.dateString]]"
+              day_name="[[day.day]]"
+              c_visible="[[c_visible]]"
+              c_rol="[[c_rol]]"
+              c_username="[[c_username]]"
+            >{{day}}</my-day>
+        </template>
     </div>
 
-    <iron-ajax
-      id="ajax_medestudenten_ophalen"
-      method="POST"
-      url="/student/medestudenten/ophalen"
-      handle-as="json"
-      on-response="_medestudenten_ophalen_response_handler">
-    </iron-ajax>
+    <div style="clear: both"></div>
 
-    <iron-ajax
-      id="ajax_medestudenten_opslaan"
-      method="POST"
-      url="/student/medestudenten/opslaan"
-      handle-as="json"
-      on-response="_medestudenten_opslaan_response_handler">
-    </iron-ajax>
-
+    <app-localstorage-document key="afweziggen" data="{{afweziggen}}"></app-localstorage-document>
+    <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
   </template>
 
   <script>
@@ -97,8 +86,7 @@
 
         properties: {
           _c_studenten: {
-            type: Array,           /* array<student-info>: student-info = {id, firstName, lastName, sameGroup}
-										array is constant groepnr is changable */
+            type: Array,
           },
           c_rol: {
             type: String,
@@ -109,65 +97,107 @@
           c_visible: {
             type: Boolean,                                      /* true when element is the active visible item */
             value: false,
-            observer: '_initializing',                          /* wordt ook aangeroepen bijwisseling van true naar false.
-                                                                   regel in de functie dat er niets gebeurd
-                                                                   als c_visible false is */
+            observer: '_initializing',
           },
+          times: {
+            type: Array,
+            value: [],
+          },
+          today: {
+            type: String,
+            value: new Date()
+          },
+          days: {
+            type: Array,
+            value: [],
+          },
+          zieken: {
+            type: Array,
+            value: [],
+          },
+          afwezigen: {
+            type: Array,
+            value: [],
+          },
+        },
+
+        min_month: function() {
+          var date = new Date(this.today);
+          let datum = date.setDate(date.getDate() - 7);
+          datum = new Date(datum);
+          this.set("today", datum);
+          this.setDays(datum);
+        },
+
+        plus_month: function() {
+          var date = new Date(this.today);
+          var datum = date.setDate(date.getDate() + 7);
+          datum = new Date(datum);
+          this.set("today", datum);
+          this.setDays(date);
+        },
+
+        setDays: function(current) {
+          var week = [];
+          var weekdays = [];
+          weekdays[0] = "Zondag";
+          weekdays[1] = "Maandag";
+          weekdays[2] = "Dinsdag";
+          weekdays[3] = "Woensdag";
+          weekdays[4] = "Donderdag";
+          weekdays[5] = "Vrijdag";
+          weekdays[6] = "Zaterdag";
+
+          // Starting Monday not Sunday
+          var first = current.getDate() - current.getDay() + 1;
+          current.setDate(first);
+          for (var i = 0; i < 7; i++) {
+            let datum = new Date(current);
+            let dateString = datum.getFullYear() + "-" + ("0" + (datum.getMonth() + 1)).slice(-2) + "-" + ("0" + datum.getDate()).slice(-2)
+            week.push({day : weekdays[current.getDay()], fulldate : datum, dateString: dateString});
+            current.setDate(current.getDate()+1);
+          }
+
+          this.set("days", week);
+        },
+
+        _initializing: function() {
+          this.setDays(new Date());
+          this.times = this.getTimes("06:00", "22:00");
         },
 
         _go_home: function() {
           var lApp = document.querySelector('my-app');  //het polymer element <my-app>
           var lAppRouter = lApp.$.approuter;            // het html-element <app-route> met id=approuter
-          lAppRouter.data={page: ""};                   // vul het data attribute met de homepage url
-                                                        // door de two way binding in <app-route> en <app-location>
-                                                        // zal ook de url echt wijzigen
-        },
-
-        _initializing : function() {
-          if (this.c_visible) {                                 // zodra zichtbaar geworden moet er wat worden gedaan
-            if (this.c_rol=="student") {                        // voor studenten
-              this._medestudenten_ophalen_request_handler();    //    haal info op van server
-            } else {                                            // na handmatige url wijziging zonder login
-              var lToast = this.$.toast_invalid_aanroep;        // meldt ongeldige aanroep
-              lToast.open();                                    /* het sluiten van deze error verwijst  */
-                                                                /* terug naar home page */
-            }
-          }
-        },
-
-        _medestudenten_ophalen_request_handler: function() {
-          console.log("_medestudenten_ophalen_request_handler user="+this.c_username);
-          this.$.ajax_medestudenten_ophalen.contentType="application/json";
-          this.$.ajax_medestudenten_ophalen.body={
-            "username":this.c_username
-          };
-          this.$.ajax_medestudenten_ophalen.generateRequest();
-        },
-
-        _medestudenten_ophalen_response_handler: function(request) {
-          console.log("_mededestudenten_ophalen_response_handler aantal studenten="+request.detail.response.length);
-          this._c_studenten = request.detail.response;
-        },
-
-        _medestudenten_opslaan_request_handler: function() {
-          console.log("_medestudenten_opslaan_request_handler user="+this.c_username);
-          this.$.ajax_medestudenten_opslaan.contentType="application/json";
-          this.$.ajax_medestudenten_opslaan.body={
-              "username":this.c_username,
-              "groupMembers": this._c_studenten
-          };
-          this.$.ajax_medestudenten_opslaan.generateRequest();
-        },
-
-        _medestudenten_opslaan_response_handler: function(request) {
-          console.log("_mededestudenten_opslaan_response_handler errorcode="+request.detail.response.errorcode);
-          this._go_home();		/* verlaat de pagina en ga terug naar home page */
+          lAppRouter.data={page: ""};
         },
 
        _toast_clicked: function(e) {
          var lToast = this.$.toast_invalid_aanroep;        // meldt ongeldige aanroep
          lToast.toggle();
          this._go_home();
+        },
+
+        getTimes: function(from, until) {
+          //"01/01/2001" is just an arbitrary date
+          var until = Date.parse("01/01/2001 " + until);
+          var from = Date.parse("01/01/2001 " + from);
+          //*2 because because we want every 30 minutes instead of every hour
+          var max = (Math.abs(until-from) / (60*60*1000))*2;
+          var time = new Date(from);
+          var hours = [];
+          for(var i = 0; i <= max; i++){
+              //doubleZeros just adds a zero in front of the value if it's smaller than 10.
+              var hour = this.doubleZeros(time.getHours());
+              var minute = this.doubleZeros(time.getMinutes());
+              hours.push(hour+":"+minute);
+              time.setMinutes(time.getMinutes()+30);
+          }
+          return hours;
+        },
+
+        doubleZeros: function(d) {
+          return (d < 10) ? '0' + d.toString() : d.toString();
         },
 
       });

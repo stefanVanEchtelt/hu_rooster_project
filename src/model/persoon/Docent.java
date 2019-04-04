@@ -1,7 +1,13 @@
 package model.persoon;
 
-public class Docent extends Persoon {
+import java.util.Collections;
+import java.util.List;
+import java.util.ArrayList;
 
+import model.les.Les;
+
+public class Docent extends Persoon {
+	private ArrayList<Les> deLessen = new ArrayList<Les>();
 	private int docentNummer;
 	private String volleNaam;
 
@@ -24,4 +30,24 @@ public class Docent extends Persoon {
 		return this.volleNaam;
 	}
 
+	public List<Les> getLessen() {
+		return Collections.unmodifiableList(deLessen);
+	}
+	
+	public List<Les> getLessenByDate(String date) {
+		ArrayList<Les> lessen = new ArrayList<Les>();
+		for (Les l : this.deLessen) {
+			if (l.getStartDatum().equals(date)) {
+				lessen.add(l);
+			}
+		}
+		
+		return Collections.unmodifiableList(lessen);
+	}
+	
+	public void voegLesToe(Les pLes) {
+		if (!this.getLessen().contains(pLes)) {
+			this.deLessen.add(pLes);
+		}
+	}
 }

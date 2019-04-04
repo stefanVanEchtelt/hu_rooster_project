@@ -12,11 +12,13 @@ import java.util.Calendar;
 import model.klas.Klas;
 import model.persoon.Docent;
 import model.persoon.Student;
+import model.les.Les;
 
 public class PrIS {
 	private ArrayList<Docent> deDocenten;
 	private ArrayList<Student> deStudenten;
 	private ArrayList<Klas> deKlassen;
+	private ArrayList<Les> deLessen;
 
 	/**
 	 * De constructor maakt een set met standaard-data aan. Deze data moet nog
@@ -44,10 +46,13 @@ public class PrIS {
 		deDocenten = new ArrayList<Docent>();
 		deStudenten = new ArrayList<Student>();
 		deKlassen = new ArrayList<Klas>(); // Inladen klassen
+		deLessen = new ArrayList<Les>();
+		
 		vulKlassen(deKlassen); // Inladen studenten in klassen
 		vulStudenten(deStudenten, deKlassen);
 		// Inladen docenten
 		vulDocenten(deDocenten);
+		vulDeLessen(deLessen);
 
 	} // Einde Pris constructor
 
@@ -89,6 +94,10 @@ public class PrIS {
 	public Docent getDocent(String gebruikersnaam) {
 		return deDocenten.stream().filter(d -> d.getGebruikersnaam().equals(gebruikersnaam)).findFirst().orElse(null);
 	}
+	
+	public ArrayList<Klas> getKlassen() {
+		return deKlassen;
+	}
 
 	public Klas getKlasVanStudent(Student pStudent) {
 		return deKlassen.stream().filter(k -> k.bevatStudent(pStudent)).findFirst().orElse(null);
@@ -102,6 +111,10 @@ public class PrIS {
 		return deStudenten.stream().filter(s -> s.getStudentNummer() == pStudentNummer).findFirst().orElse(null);
 	}
 
+	public Klas getKlas(String klasCode) {
+		return deKlassen.stream().filter(k -> k.getKlasCode().equals(klasCode)).findFirst().orElse(null);
+	}
+	
 	public String login(String gebruikersnaam, String wachtwoord) {
 		for (Docent d : deDocenten) {
 			if (d.getGebruikersnaam().equals(gebruikersnaam)) {
@@ -177,9 +190,84 @@ public class PrIS {
 		pKlassen.add(k5);
 	}
 
+	private void vulDeLessen(ArrayList<Les> pLessen) {
+		String csvFile = "././CSV/rooster.csv";
+		BufferedReader br = null;
+		String line = "";
+		
+		try {
+			br = new BufferedReader(new FileReader(csvFile));
+			int rowCount = 0;
+			while ((line = br.readLine()) != null) {
+				if (rowCount != 0) {
+					line = line.replace("\",\"", ";");
+					line = line.replace(",\"", "\";");
+					line = line.replace("\"", "");
+					
+					String[] splittedLes = line.split(";");
+						
+					String naam = splittedLes[0];
+					String cursuscode = splittedLes[1];
+					String starkWeek = splittedLes[2];
+					String startDag = splittedLes[3];
+					String startDatum = splittedLes[4];
+					String startTijd = splittedLes[5];
+					String eindDag = splittedLes[6];
+					String eindDatum = splittedLes[7];
+					String eindTijd = splittedLes[8];
+					String duur = splittedLes[9];
+					String werkvorm = splittedLes[10];
+					
+					String[] lDocenten = splittedLes[11].split(", ");
+					ArrayList<Docent> docenten = new ArrayList<Docent>();
+					for (String d : lDocenten) {
+						Docent docent = getDocent(d);
+						if (docent != null) {
+							docenten.add(docent);
+						}
+					}
+					
+					String lokaalnummers = splittedLes[12];
+					
+					String[] klassen = splittedLes[13].split(", ");
+					ArrayList<Klas> ingeroosterdeKlassen = new ArrayList<Klas>();
+					for (String klas : klassen) {
+						Klas k = getKlas(klas);
+						if (k != null) {
+							ingeroosterdeKlassen.add(k);
+						}
+					}
+					
+					String faculteit = splittedLes[14];
+					String grootte = splittedLes[15];
+					String opmerkingen = splittedLes[16];
+					
+					Les les = new Les(naam, cursuscode, starkWeek, startDag, startDatum, startTijd, eindDag, eindDatum, eindTijd, duur, werkvorm, docenten, lokaalnummers, ingeroosterdeKlassen, faculteit, grootte, opmerkingen);
+					
+					for (Klas k : ingeroosterdeKlassen) {
+						k.voegLesToe(les);
+					}
+					
+					for (Docent d : docenten) {
+						d.voegLesToe(les);
+					}
+					
+					pLessen.add(les);
+				}
+				rowCount++;
+			}
+			
+			br.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private void vulStudenten(ArrayList<Student> pStudenten, ArrayList<Klas> pKlassen) {
 		Student lStudent;
-		Student dummyStudent = new Student("Stu", "de", "Student", "geheim", "test@student.hu.nl", 0);
+		Student dummyStudent = new Student("Stu", "de", "Student", "geheim", "test@student.hu.nl", 0, "");
 		for (Klas k : pKlassen) {
 			// per klas
 			String csvFile = "././CSV/" + k.getNaam() + ".csv";
@@ -203,7 +291,7 @@ public class PrIS {
 					String lStudentNrString = element[0];
 					int lStudentNr = Integer.parseInt(lStudentNrString);
 					// Volgorde 3-2-1 = voornaam, tussenvoegsel en achternaam
-					lStudent = new Student(element[3], element[2], element[1], "geheim", gebruikersnaam, lStudentNr);
+					lStudent = new Student(element[3], element[2], element[1], "geheim", gebruikersnaam, lStudentNr, k.getKlasCode());
 					pStudenten.add(lStudent);
 					k.voegStudentToe(lStudent);
 				}
@@ -231,6 +319,11 @@ public class PrIS {
 		// mocht de lijst met studenten nu nog leeg zijn
 		if (pStudenten.isEmpty())
 			pStudenten.add(dummyStudent);
+	}
+
+	public Klas getKlas(Class<? extends Student> class1) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

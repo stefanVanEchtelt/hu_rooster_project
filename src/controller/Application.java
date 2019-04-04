@@ -39,6 +39,9 @@ public class Application {
 		ProfielDocentController profielDocentController = new ProfielDocentController(infoSysteem);
 
 
+		RoosterController roosterController = new RoosterController(infoSysteem);
+		KlassenController klassenController = new KlassenController(infoSysteem);
+		
 		server.registerHandler("/systeemdatum/lesinfo", systeemDatumController);
 
 		server.registerHandler("/login", loginController);
@@ -48,6 +51,9 @@ public class Application {
 		server.registerHandler("/student/informatie", profielController);
 		server.registerHandler("/docent/informatie", profielDocentController);
 
+		server.registerHandler("/rooster/dag/ophalen", roosterController);
+		
+		server.registerHandler("/overzicht/klas/ophalen", klassenController);
 		server.start();
 	}
 }
