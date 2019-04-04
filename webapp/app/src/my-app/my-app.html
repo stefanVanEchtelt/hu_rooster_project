@@ -156,7 +156,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Uitloggen</span>
           </a>
 
+
           <!-- beschikbaar voor docent -->
+          <a name="docent_profiel" href$="[[_c_baseURL]]docent_profiel" verborgen$="[[!_are_strings_equal(_rol, 'docent')]]">
+            <iron-icon icon="icons:event"></iron-icon>
+            <span>Profiel</span>
           <a name="docent_statistiek" href$="[[_c_baseURL]]docent_statistiek" verborgen$="[[!_are_strings_equal(_rol, 'docent')]]">
             <iron-icon icon="icons:timeline"></iron-icon>
             <span>Statistiek</span>
@@ -180,6 +184,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <span>Rooster</span>
           </a>
 
+          <a name="student_profiel" href$="[[_c_baseURL]]student_profiel"  verborgen$="[[!_are_strings_equal(_rol, 'student')]]">
+            <iron-icon icon="icons:event"></iron-icon>
+            <span>Profiel</span>
           <a name="student_statistiek" href$="[[_c_baseURL]]student_statistiek" verborgen$="[[!_are_strings_equal(_rol, 'student')]]">
             <iron-icon icon="icons:timeline"></iron-icon>
             <span>Statistiek</span>
@@ -252,6 +259,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </section>
 
 <!-- sections voor docent -->
+          <section  page-name="docent_profiel" title="profiel" element$="my-profiel-docent">
+            <paper-material elevation="1">
+              <my-profiel-docent
+                c_visible="[[_are_strings_equal(_ar_page, 'docent_profiel')]]"
+                c_rol="[[_rol]]"
+                c_username="[[_username]]">
+              </my-profiel-docent>
+            </paper-material>
+          </section>
+          
           <section  page-name="docent_statistiek" title="Statistiek-docent" element$="my-statistiek-docent">
             <paper-material elevation="1">
               <my-statistiek-docent
@@ -311,6 +328,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 c_rol="[[_rol]]"
                 c_username="[[_username]]">
               </my-rooster>
+            </paper-material>
+          </section>
+
+          <section  page-name="student_profiel" title="profiel" element$="my-profiel">
+            <paper-material elevation="1">
+              <my-profiel
+                c_visible="[[_are_strings_equal(_ar_page, 'student_profiel')]]"
+                c_rol="[[_rol]]"
+                c_username="[[_username]]">
+              </my-profiel>
             </paper-material>
           </section>
 

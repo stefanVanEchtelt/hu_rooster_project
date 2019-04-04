@@ -42,6 +42,10 @@ public abstract class Persoon {
 	public String getGebruikersnaam() {
 		return this.gebruikersnaam;
 	}
+	
+	public String getFullName() {
+		return this.voornaam + " " + getVolledigeAchternaam();
+	}
 
 	public String getVolledigeAchternaam() {
 		String lVolledigeAchternaam = "";

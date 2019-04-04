@@ -48,16 +48,21 @@
 
         <div class="day">
           <template is="dom-if" if="{{i_loaded}}">
-            <popup-absent id="absentiepopup" show="{{showAbsentPopup}}"></popup-absent>
+            <popup-absent id="absentiepopup"
+              show="{{showAbsentPopup}}"
+              datum="{{datum}}"
+              les="{{clickedLes}}"
+              c_username="{{c_username}}">
+            </popup-absent>
 
               <table>
-              <th >{{ day_name }} <br> {{ datum }}</th>
-              <template is="dom-repeat" items="{{times}}" as="time">
-                  <tr>
-                    <td raised on-click="openAbsentieModal">{{time}}</td>
-                  </tr>
-              </template>
-            </table>
+                <th >{{ day_name }} <br> {{ datum }}</th>
+                <template is="dom-repeat" items="{{times}}" as="time">
+                    <tr>
+                      <td raised on-click="openAbsentieModal">{{time}}</td>
+                    </tr>
+                </template>
+              </table>
             </template>
         </div>
 
@@ -79,6 +84,7 @@
                 type: String,
                 value: "",
                 observer: '_initializing',
+
               },
               c_rol: {
                 type: String,
@@ -93,6 +99,7 @@
               c_visible: {
                 type: Boolean,
                 value: false,
+              observer: '_initializing',
               },
               i_loaded: {
                 type: Boolean,
@@ -110,17 +117,18 @@
                 type: Boolean,
                 value: false
               },
-              tries: {
+              clickedLes: {
                 type: String,
                 value: ""
               }
             },
 
-            openAbsentieModal: function() {
-              console.log(this.showAbsentPopup);
-              this.showAbsentPopup = false;
-              this.showAbsentPopup = true;
-              console.log(this.showAbsentPopup);
+            openAbsentieModal: function(event) {
+              this.set("showAbsentPopup", false);
+              if (event.model.time != null) {
+                this.set("clickedLes", event.model.time);
+                this.set("showAbsentPopup", true);
+              }
             },
 
             isErLesOm: function (tijd) {
@@ -147,20 +155,27 @@
 
             _initializing: function() {
               if (this.c_visible) {
-                this._ajax_lessen_ophalen();
+                  console.log(this.c_username);
+
+                  this._ajax_lessen_ophalen();
               }
             },
 
             _ajax_lessen_ophalen: function() {
               this.$.ajax_lessen_ophalen.contentType="application/json";
-              this.$.ajax_lessen_ophalen.body = {
+
+              console.log(this.c_username);
+                // this.c_username = "stefan.vanechtelt@student.hu.nl";
+                // this.c_rol = "Leerling";
+                console.log(this.c_rol);
+                this.$.ajax_lessen_ophalen.body = {
                 "datum": this.datum,
-                "username": "stefan.vanechtelt@student.hu.nl",
-                "type": "Leerling",
-                // "type": this.c_rol,
-                // "username": this.c_username,
+                // "username": "stefan.vanechtelt@student.hu.nl",
+                // "type": "Leerling",
+                  "username": this.c_username,
+                 "type": this.c_rol,
               };
-              this.$.ajax_lessen_ophalen.generateRequest();
+                this.$.ajax_lessen_ophalen.generateRequest();
             },
 
             _lessen_ophalen_response_handler: function(request) {

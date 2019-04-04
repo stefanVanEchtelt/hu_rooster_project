@@ -67,4 +67,12 @@ public class Les implements Serializable {
 	public String getStartDatum() {
 		return this.startdatum;
 	}
+	
+	public ArrayList<Docent> getDocenten() {
+		return this.docenten;
+	}
+	
+	public ArrayList<Klas> getIngeroosterdeKlassen() {
+		return this.ingeroosterdeKlassen;
+	}
 }

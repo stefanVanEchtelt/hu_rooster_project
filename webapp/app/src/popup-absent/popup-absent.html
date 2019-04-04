@@ -1,9 +1,14 @@
+
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
 
 <dom-module id="popup-absent">
   <template>
@@ -16,8 +21,8 @@
         background-color: white;
         border-style: solid;
         border-width: 2px;
-        top: 10%;
-        left: 20%;
+        margin:0 auto;
+        top:50%;
       }
 
       h1 {
@@ -100,15 +105,24 @@
         </form>
         </paper-dialog>
       </div>
-  </template>
+      <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
+      <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
+
+      <iron-ajax
+        id="ajax_les_ophalen"
+        method="POST"
+        url="/rooster/les/ophalen"
+        handle-as="json"
+        on-response="_les_ophalen_response_handler">
+      </iron-ajax>  </template>
 
   <script>
     class PopupAbsent extends Polymer.Element {
       static get is() { return 'popup-absent'; }
       static get properties() {
         return {
-          absentDatum: {
-            type: Date
+          datum: {
+            type: String
           },
           show: {
             type: Boolean,
@@ -117,14 +131,20 @@
           },
           afwezigen: {
             type: Array,
-            value: [],
-          }
+          },
+          zieken: {
+            type: Array,
+          },
+          les: {
+            type: String,
+          },
+          c_username: {
+            type: String,
+          },
         };
       }
 
       _handel() {
-        console.log("handel");
-     	console.log(this.show);
         if (this.show) {
           this.openHandler();
         } else {
@@ -133,13 +153,30 @@
       }
 
       openHandler() {
-          this.root.querySelector('#absent_melden_popup_container').style.display = "block";
-        }
+        this.$.ajax_les_ophalen.contentType="application/json";
+        console.log(this.les);
+        this.$.ajax_les_ophalen.body = {
+          "datum": this.datum,
+          "username": "stefan.vanechtelt@student.hu.nl",
+          "les": this.les,
+        };
+        this.$.ajax_les_ophalen.generateRequest();
 
-        cancelHandler() {
-          var popup = this.root.querySelector('#absent_melden_popup_container');
-          popup.style.display = "none";
-        }
+        var popup = this.root.querySelector('#absent_melden_popup_container');
+        popup.style.display = "block";
+      }
+
+      _les_ophalen_response_handler(request) {
+        console.log("resp");
+        console.log(request.detail.response);
+      }
+
+      cancelHandler() {
+        console.log("cancel");
+        this.show = false;
+        var popup = this.root.querySelector('#absent_melden_popup_container');
+        popup.style.display = "none";
+      }
 
         ziekHandler(event) {
           this.root.querySelector('#medischInput').style.display = "none";
@@ -172,20 +209,29 @@
           console.log(this.root.querySelector('#andersTijdVanaf').value);
           console.log(this.root.querySelector('#andersDatumTot').value);
           console.log(this.root.querySelector('#andersTijdTot').value);
+
+        // als reden ziek maak lijst met zieken leerlingen
+        // anders zet in afweziggen
+
+        let reden = "tandarts";
+        console.log(this.afweziggen);
+        if (reden != "ziek") {
+          this.afweziggen.push({
+            naam: this.c_username,
+            reden: reden,
+            van: "",
+            tot: "",
+          });
+        } else {
+          this.zieken.push({
+            naam: this.c_username
+          })
         }
       }
-    
-        // als reden ziek maak lijst met zieken leerlingen
-        // anders zet in afwezigen
-        this.afwezigen.push({
-          naam: "stefan.vanechtelt@student.hu.nl",
-          reden: "tandarts",
-          van: "",
-          tot: "",
-        });
+    }
 
-        console.log(this.afwezigen);
 
+        // console.log(this.afweziggen);
         // console.log(this.root.querySelector('#radioZiek').value);
         // console.log(this.root.querySelector('#radioTandarts').value);
         // console.log(this.root.querySelector('#radioDokter').value);
