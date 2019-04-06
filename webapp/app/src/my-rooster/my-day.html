@@ -84,7 +84,6 @@
                 type: String,
                 value: "",
                 observer: '_initializing',
-
               },
               c_rol: {
                 type: String,
@@ -99,7 +98,7 @@
               c_visible: {
                 type: Boolean,
                 value: false,
-              observer: '_initializing',
+                observer: '_initializing',
               },
               i_loaded: {
                 type: Boolean,
@@ -156,7 +155,6 @@
             _initializing: function() {
               if (this.c_visible) {
                   console.log(this.c_username);
-
                   this._ajax_lessen_ophalen();
               }
             },
@@ -172,7 +170,7 @@
                 "datum": this.datum,
                 // "username": "stefan.vanechtelt@student.hu.nl",
                 // "type": "Leerling",
-                  "username": this.c_username,
+                "username": this.c_username,
                  "type": this.c_rol,
               };
                 this.$.ajax_lessen_ophalen.generateRequest();
