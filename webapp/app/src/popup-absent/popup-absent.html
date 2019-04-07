@@ -13,10 +13,9 @@
 <dom-module id="popup-absent">
   <template>
     <style>
-      #absent_melden_popup_container, #aanwezigheid_popup_container{
+      #absent_melden_popup_container {
         display: none; /* Hidden by default */
         position: fixed; /* Stay in place */
-      #absent_melden_popup_container {
         display: none;
         position: fixed;
         padding-top: 0px;
@@ -25,7 +24,7 @@
         border-style: solid;
         border-width: 2px;
         margin:0 auto;
-        top:0%;
+        top:50%;
       }
 
       h1 {
@@ -76,36 +75,41 @@
 
     <!-- <button id="absent_melden_open_button" raised on-click="openHandler">Absent melden</button> -->
     <div id="absent_melden_popup_container">
-      <template is="dom-if" if="{{c_rol == 'student'}}">
-      <paper-dialog id="absent_dialog" modal>
-        <h1>Absent melden</h1>
-        <form id="absent_melden_form" onsubmit="return false">
-          <p>
-            <b>Reden van absentie:</b><br>
-            <input type="radio" id="radioZiek" value="Ziek" raised on-click="ziekHandler" name="absentie_soort">Ziek</input><br>
-            <input type="radio" id="radioTandarts" value="Tandarts" raised on-click="tandartsHandler" name="absentie_soort">Tandarts</input><br>
-            <input type="radio" id="radioDokter" value="Dokter" raised on-click="dokterHandler" name="absentie_soort">Dokter</input><br>
-            <input type="radio" id="radioAnders" value="nee" raised on-click="andersHandler" name="absentie_soort">Anders, namelijk:</input>
-            <input type="text" name="absentie_soort_anders"></input>
-          </p>
-          <div id="medischInput">
-            <p><b>Wanneer is de absentie?</b><br>
-            Op: <input type="date" name="medischDatum"><br>
-            Van: <input type="time" name="medischTijdBegin"></input> Tot: <input type="time" name="medischTijdEinde">
-          </div>
-          <div id="andersInput">
-            <p><b>Wanneer is de absentie?</b><br>
-            Van: <input type="date" id="andersVanafDatum"></input> om: <input type="time" id="andersVanafTijd"></input><br>
-            Tot: <input type="date" id="andersTotDatum"></input> om: <input type="time" id="andersTotTijd"></input>
-          </div>
-          <div id="absent_melden_buttons">
-            <button raised on-click="cancelHandler">Annuleren</button>
-            <button type="submit" raised on-click="submitHandler">Verzenden</button>
-          </div>
-        </form>
-      </template>
-      <template is="dom-else">
-      </template>
+        <paper-dialog id="absent_dialog" modal>
+          <template is="dom-if" if="{{isStudent(c_rol)}}">
+                  <h1>Absent melden</h1>
+                  <form id="absent_melden_form" onsubmit="return false">
+                      <p>
+                          <b>Reden van absentie:</b><br>
+                          <input type="radio" id="radioZiek" value="Ziek" raised on-click="ziekHandler" name="absentie_soort">Ziek</input><br>
+                          <input type="radio" id="radioTandarts" value="Tandarts" raised on-click="tandartsHandler" name="absentie_soort">Tandarts</input><br>
+                          <input type="radio" id="radioDokter" value="Dokter" raised on-click="dokterHandler" name="absentie_soort">Dokter</input><br>
+                          <input type="radio" id="radioAnders" value="nee" raised on-click="andersHandler" name="absentie_soort">Anders, namelijk:</input>
+                          <input type="text" name="absentie_soort_anders"></input>
+                      </p>
+                      <div id="medischInput">
+                          <p><b>Wanneer is de absentie?</b><br>
+                              Op: <input type="date" name="medischDatum"><br>
+                              Van: <input type="time" name="medischTijdBegin"></input> Tot: <input type="time" name="medischTijdEinde">
+                      </div>
+                      <div id="andersInput">
+                          <p><b>Wanneer is de absentie?</b><br>
+                              Van: <input type="date" id="andersVanafDatum"></input> om: <input type="time" id="andersVanafTijd"></input><br>
+                              Tot: <input type="date" id="andersTotDatum"></input> om: <input type="time" id="andersTotTijd"></input>
+                      </div>
+                      <div id="absent_melden_buttons">
+                          <button raised on-click="cancelHandler">Annuleren</button>
+                          <button type="submit" raised on-click="submitHandler">Verzenden</button>
+                      </div>
+                  </form>
+          </template>
+          <template is="dom-if" if="{{!isStudent(c_rol)}}">
+              <h1>Presentie</h1>
+              <form id="presentie_melden" onsubmit="return false">
+                    
+              </form>
+          </template>
+        </paper-dialog>
     </div>
     <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
     <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
@@ -189,7 +193,6 @@
       }
 
       _handel() {
-        console.log("xxx");
         if (this.show) {
           this.openHandler();
         } else {
@@ -213,11 +216,21 @@
 
             console.log("y");
         } else {
-          console.log("x");
+          console.log(this.zieken);
+          console.log(this.c_rol);
+            var popup = this.root.querySelector('#absent_melden_popup_container');
+            popup.style.display = "block";
         }
 
       }
 
+      isStudent(rol) {
+          if(rol == 'student'){
+              return true;
+          }else{
+              return false;
+          }
+      }
       _les_ophalen_response_handler(request) {
         console.log("resp");
         console.log(request.detail.response);
