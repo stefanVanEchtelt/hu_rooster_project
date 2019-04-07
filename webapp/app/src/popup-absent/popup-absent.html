@@ -75,7 +75,7 @@
 
     <!-- <button id="absent_melden_open_button" raised on-click="openHandler">Absent melden</button> -->
     <div id="absent_melden_popup_container">
-        <paper-dialog id="absent_dialog" modal>
+        <!-- <paper-dialog id="absent_dialog" modal> -->
           <template is="dom-if" if="{{isStudent(c_rol)}}">
                   <h1>Absent melden</h1>
                   <form id="absent_melden_form" onsubmit="return false">
@@ -109,7 +109,7 @@
 
               </form>
           </template>
-        </paper-dialog>
+        <!-- </paper-dialog> -->
     </div>
     <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
     <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
@@ -123,7 +123,7 @@
     </iron-ajax>
 
   </template>
-            <paper-radio-group selected="ziek" id="radioAbsent" aria-labelledby="label1">
+            <!-- <paper-radio-group selected="ziek" id="radioAbsent" aria-labelledby="label1">
               <paper-radio-button class="baseModalContent" on-click="ziekHandler" name="ziek">Ziek</paper-radio-button><br>
               <paper-radio-button class="baseModalContent" on-click="tandartsHandler" name="tandarts">Tandarts</paper-radio-button><br>
               <paper-radio-button class="baseModalContent" on-click="dokterHandler" name="dokter">Dokter</paper-radio-button><br>
@@ -151,12 +151,13 @@
         </form>
         </paper-dialog>
       </div>
+
       <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
       <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
 
       <iron-ajax
         id="ajax_les_ophalen"
-        method="POST"
+        method="POST" -->
         url="/rooster/les/ophalen"
         handle-as="json"
         on-response="_les_ophalen_response_handler">
@@ -227,7 +228,7 @@
       }
 
       isStudent(rol) {
-          if(rol == 'student'){
+          if(rol == 'student') {
               return true;
           }else{
               return false;
