@@ -41,6 +41,7 @@ public class Application {
 
 		RoosterController roosterController = new RoosterController(infoSysteem);
 		KlassenController klassenController = new KlassenController(infoSysteem);
+		KlassenInhoudController klassenInhoudController = new KlassenInhoudController(infoSysteem);
 		
 		server.registerHandler("/systeemdatum/lesinfo", systeemDatumController);
 
@@ -53,8 +54,11 @@ public class Application {
 
 		server.registerHandler("/rooster/dag/ophalen", roosterController);
 		server.registerHandler("/rooster/les/ophalen", roosterController);
+		server.registerHandler("/rooster/docent/les/ophalen", roosterController);
 		
 		server.registerHandler("/overzicht/klas/ophalen", klassenController);
+		
+		server.registerHandler("/leerlingen/ophalen" , klassenInhoudController);
 		server.start();
 	}
 }

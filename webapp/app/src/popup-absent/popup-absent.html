@@ -1,16 +1,30 @@
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 
+
 <dom-module id="popup-absent">
   <template>
     <style>
+<<<<<<< HEAD
       #absent_melden_popup_container, #aanwezigheid_popup_container{
         display: none; /* Hidden by default */
         position: fixed; /* Stay in place */
+=======
+      #absent_melden_popup_container {
+        display: none;
+        position: fixed;
+>>>>>>> 7a6558d25d5cf831a68ba65eadb27c4991d6b233
         padding-top: 0px;
-        z-index: 1; /* Sit on top */
-        background-color: white; /* Fallback color */
+        z-index: 1;
+        background-color: white;
         border-style: solid;
         border-width: 2px;
         margin:0 auto;
@@ -33,6 +47,18 @@
         margin-right: 10px;
       }
 
+      .baseModalContent {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+
+      #andersTextInput {
+        margin-top: 0px;
+        padding-top: 0px;
+      }
+
       #absent_melden_buttons {
         margin-left: 10px;
         margin-top: 10px;
@@ -48,9 +74,11 @@
         display: none;
         margin-top: 5px;
       }
+
     </style>
     <div id="absent_melden_popup_container">
       <template is="dom-if" if="{{c_rol == 'student'}}">
+      <paper-dialog id="absent_dialog" modal>
         <h1>Absent melden</h1>
         <form id="absent_melden_form" onsubmit="return false">
           <p>
@@ -92,7 +120,44 @@
     </iron-ajax>
 
   </template>
+            <paper-radio-group selected="ziek" id="radioAbsent" aria-labelledby="label1">
+              <paper-radio-button class="baseModalContent" on-click="ziekHandler" name="ziek">Ziek</paper-radio-button><br>
+              <paper-radio-button class="baseModalContent" on-click="tandartsHandler" name="tandarts">Tandarts</paper-radio-button><br>
+              <paper-radio-button class="baseModalContent" on-click="dokterHandler" name="dokter">Dokter</paper-radio-button><br>
+              <paper-radio-button class="baseModalContent" on-click="andersHandler" name="anders">Anders</paper-radio-button>
+            </paper-radio-group>
+          </p>
+          <div id="medischInput">
+            <p><b>Wanneer is de absentie?</b><br>
+            <paper-input id="medischDatum" type="date" label="Datum:" class="baseModalContent" name="medischDatum"></paper-input>
+            <paper-input id="medischTijdBegin" type="time" label="Van:" class="baseModalContent" name="medischTijdBegin"></paper-input>
+            <paper-input id="medischTijdEinde" type="time" label="Tot:" name="medischTijdEinde"></paper-input>
+          </div>
+          <div id="andersInput">
+            <p><b>Wanneer is de absentie?</b><br>
+            <paper-input id="andersReden" label="Reden:"></paper-input><br>
+            <paper-input id="andersDatumVanaf" type="date" label="Vanaf:" class="baseModalContent" id="andersVanafDatum"></paper-input>
+            <paper-input id="andersTijdVanaf" type="time" label="om:" class="baseModalContent" id="andersVanafTijd"></paper-input><br>
+            <paper-input id="andersDatumTot" type="date" label="Tot:" class="baseModalContent" id="andersTotDatum"></paper-input>
+            <paper-input id="andersTijdTot" type="time" label="om:" class="baseModalContent" id="andersTotTijd"></paper-input>
+          </div>
+          <div id="absent_melden_buttons">
+            <paper-button raised on-click="cancelHandler">Annuleren</paper-button>
+            <paper-button type="submit" raised on-click="submitHandler">Verzenden</paper-button>
+          </div>
+        </form>
+        </paper-dialog>
+      </div>
+      <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
+      <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
 
+      <iron-ajax
+        id="ajax_les_ophalen"
+        method="POST"
+        url="/rooster/les/ophalen"
+        handle-as="json"
+        on-response="_les_ophalen_response_handler">
+      </iron-ajax>
   <script>
     class PopupAbsent extends Polymer.Element {
       static get is() { return 'popup-absent'; }
@@ -144,11 +209,13 @@
 
           var popup = this.root.querySelector('#absent_melden_popup_container');
           popup.style.display = "block";
-          console.log("y");
+            this.show = true;
 
+            console.log("y");
         } else {
           console.log("x");
         }
+
       }
 
       _les_ophalen_response_handler(request) {
@@ -163,44 +230,37 @@
         popup.style.display = "none";
       }
 
-      ziekHandler(event) {
-        this.root.querySelector('#medischInput').style.display = "none";
-        this.root.querySelector('#andersInput').style.display = "none";
-        this.root.querySelector('#radioZiek').value = "ja";
-        this.root.querySelector('#radioTandarts').value = "nee";
-        this.root.querySelector('#radioDokter').value = "nee";
-        this.root.querySelector('#radioAnders').value = "nee";
-      }
+        ziekHandler(event) {
+          this.root.querySelector('#medischInput').style.display = "none";
+          this.root.querySelector('#andersInput').style.display = "none";
+        }
 
-      tandartsHandler(event) {
+        tandartsHandler(event) {
+            this.root.querySelector('#medischInput').style.display = "block";
+            this.root.querySelector('#andersInput').style.display = "none";
+        }
+
+        dokterHandler(event) {
           this.root.querySelector('#medischInput').style.display = "block";
           this.root.querySelector('#andersInput').style.display = "none";
-          this.root.querySelector('#radioZiek').value = "nee";
-          this.root.querySelector('#radioTandarts').value = "ja";
-          this.root.querySelector('#radioDokter').value = "nee";
-          this.root.querySelector('#radioAnders').value = "nee";
-      }
 
-      dokterHandler(event) {
-        this.root.querySelector('#medischInput').style.display = "block";
-        this.root.querySelector('#andersInput').style.display = "none";
-        this.root.querySelector('#radioZiek').value = "nee";
-        this.root.querySelector('#radioTandarts').value = "nee";
-        this.root.querySelector('#radioDokter').value = "ja";
-        this.root.querySelector('#radioAnders').value = "nee";
+        }
 
-      }
+        andersHandler(event) {
+          this.root.querySelector('#medischInput').style.display = "none";
+          this.root.querySelector('#andersInput').style.display = "block";
+        }
 
-      andersHandler(event) {
-        this.root.querySelector('#medischInput').style.display = "none";
-        this.root.querySelector('#andersInput').style.display = "block";
-        this.root.querySelector('#radioZiek').value = "nee";
-        this.root.querySelector('#radioTandarts').value = "nee";
-        this.root.querySelector('#radioDokter').value = "nee";
-        this.root.querySelector('#radioAnders').value = "ja";
-      }
-
-      submitHandler(event) {
+        submitHandler(event) {
+          console.log(this.root.querySelector('#radioAbsent').selected);
+          console.log(this.root.querySelector('#medischDatum').value);
+          console.log(this.root.querySelector('#medischTijdBegin').value);
+          console.log(this.root.querySelector('#medischTijdEinde').value);
+          console.log(this.root.querySelector('#andersReden').value);
+          console.log(this.root.querySelector('#andersDatumVanaf').value);
+          console.log(this.root.querySelector('#andersTijdVanaf').value);
+          console.log(this.root.querySelector('#andersDatumTot').value);
+          console.log(this.root.querySelector('#andersTijdTot').value);
 
         // als reden ziek maak lijst met zieken leerlingen
         // anders zet in afweziggen
@@ -218,6 +278,8 @@
             naam: this.c_username
           })
         }
+      }
+    }
 
 
         // console.log(this.afweziggen);
@@ -225,8 +287,8 @@
         // console.log(this.root.querySelector('#radioTandarts').value);
         // console.log(this.root.querySelector('#radioDokter').value);
         // console.log(this.root.querySelector('#radioAnders').value);
-      }
-    }
+
+
 
     window.customElements.define(PopupAbsent.is, PopupAbsent);
   </script>
