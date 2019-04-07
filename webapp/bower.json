@@ -22,6 +22,10 @@
     "paper-radio-button": "PolymerElements/paper-radio-button#^2.1.0",
     "paper-radio-group": "PolymerElements/paper-radio-group#^2.2.0",
     "paper-dialog": "PolymerElements/paper-dialog#^2.1.1",
+    "iron-checked-element-behavior": "PolymerElements/iron-checked-element-behavior#1 - 2",
+    "iron-overlay-behavior": "PolymerElements/iron-overlay-behavior#1 - 2",
+    "iron-menu-behavior": "PolymerElements/iron-menu-behavior#1 - 2",
+    "paper-behaviors": "PolymerElements/paper-behaviors#1 - 2",
     "iron-localstorage": "PolymerElements/iron-localstorage#^2.0.0",
     "chart.js": "^2.0.0"
   },
