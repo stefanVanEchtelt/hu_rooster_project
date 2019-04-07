@@ -78,6 +78,14 @@
       on-response="_leerlingen_ophalen_response_handler">
     </iron-ajax>
 
+    <iron-ajax
+      id="ajax_lessen_in_verleden_ophalen"
+      method="POST"
+      url="/leerling/afgelopenlessen/ophalen"
+      handle-as="json"
+      on-response="_lessen_in_verleden_ophalen_response_handler">
+    </iron-ajax>
+
 
     <div class="">
       Statistieken pagina docent
@@ -102,7 +110,7 @@
           </template>
         </div>
     </div>
-    <popup-student id="studentpopup" show="{{showStudentPopup}}" leerling="{{clickedLeerling}}"></popup-student>
+    <popup-student id="studentpopup" show="{{showStudentPopup}}" aantal="{{aantalLessen}}" leerling="{{clickedLeerling}}"></popup-student>
 
   </template>
 
@@ -153,6 +161,12 @@
             type: Boolean,
             value: false
           },
+          aantalLessenVoorVandaag: {
+            type: Number
+          },
+          aantalLessen: {
+            type: Number
+          }
 
         },
 
@@ -188,6 +202,13 @@
           };
           this.$.ajax_leerlingen_ophalen.generateRequest();
         },
+        _ajax_lessen_in_verleden_ophalen: function() {
+          this.$.ajax_lessen_in_verleden_ophalen.contentType="application/json";
+          this.$.ajax_lessen_in_verleden_ophalen.body={
+            "nummerLeerling":this.clickedLeerling.id
+          };
+          this.$.ajax_lessen_in_verleden_ophalen.generateRequest();
+        },
 
         _klassen_ophalen_response_handler: function(request) {
           this.klassen = request.detail.response;
@@ -199,6 +220,12 @@
           this.i_loaded = true;
         },
 
+        _lessen_in_verleden_ophalen_response_handler: function(request) {
+          this.aantalLessenVoorVandaag = request.detail.response;
+          this.aantalLessen = this.aantalLessenVoorVandaag.aantalLessenVoorVandaag;
+          this.i_loaded = true;
+        },
+
         _handleTap: function(e) {
           var nieuwe_klas_code = e.target.dataset.klas;
           this.huidigeKlasSelected = nieuwe_klas_code;
@@ -206,6 +233,7 @@
         },
         _openStudentModal: function(e) {
           this.clickedLeerling = e.model.leerling;
+          this._ajax_lessen_in_verleden_ophalen();
           this.set("showStudentPopup", false);
             this.set("showStudentPopup", true);
         },

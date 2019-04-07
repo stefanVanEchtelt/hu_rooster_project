@@ -39,9 +39,15 @@
     </style>
     <div id="student_popup_container">
       <h1>Informatie student</h1><BR>
-      Statistieken van: [[leerling.voornaam]] [[leerling.achternaam]]<BR><BR>
+      Statistieken van: [[leerling.voornaam]] [[leerling.achternaam]] <BR><BR>
+
+        <BR>
       <google-chart type="pie"
-                  data='[["Afwezig", "Days"], ["Ziek", 31], ["Dokter", 0], ["Anders", 10], ["Tandarts", 0], ["Ongeoorloofd", 2]]'
+                  data='[["Lessen", "Days"], ["Aanwezig", [[aantalTwee]]], ["Niet aanwezig", [[nietAanwezig]]]]'
+                  style='height: 200px; width: 400px;'></google-chart>
+
+      <google-chart type="pie"
+                  data='[["Afwezig", "Days"], ["Ziek", 31], ["Dokter", 0], ["Anders", 0], ["Tandarts", 0], ["Ongeoorloofd", 0]]'
                   style='height: 200px; width: 400px'></google-chart>
       <paper-button on-tap="_close_modal"><iron-icon icon="icons:close"></iron-icon></paper-button><BR>
     </div>
@@ -62,10 +68,25 @@
             type: Array,
             value: []
           },
+          aantal: {
+            type: Number,
+            observer: '_handlerAantal'
+          },
+          nietAanwezig: {
+            type: Number,
+            value: 9
+          },
+          aantalTwee: {
+            type: Number
+          }
 
         };
       }
 
+      _handlerAantal(){
+        this.aantalTwee = this.aantal - this.nietAanwezig;
+        console.log(this.aantal);
+      }
       _handel() {
         if (this.show) {
           this.openHandler();
