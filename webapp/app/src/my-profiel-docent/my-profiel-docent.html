@@ -67,12 +67,9 @@
     <paper-card>
         <div class="card"s>
           <div class="card"></div>
-          <paper-input id="volleNaam" label="[[c_volleNaam]]" value="{{c_volleNaam}}"></paper-input>
+          <paper-input id="volleNaam" label="[[naam]]" value="{{c_volleNaam}}"></paper-input>
           <p id="rol_gebruiker">rol</p>
           <p id="docentNummer">docentnummer</p>
-
-          <paper-button on-click="informatie_gebruiker" class="toast-button">klas</paper-button>
-
         </div>
        <div class="card-actions">
        </div>
@@ -96,7 +93,7 @@
       debounce-duration="300">
     </iron-ajax>
 
-    <app-localstorage-document key="naam" data="{{c_volleNaam}}"></app-localstorage-document>
+    <app-localstorage-document key="[[c_docentNummer]]" data='[[c_volleNaam]]'></app-localstorage-document>
 
   </template>
 
@@ -105,6 +102,9 @@
       is: 'my-profiel-docent',
 
       properties: {
+        naam: {
+          type: String,
+        },
         c_rol: {
           type: String,
         },
@@ -141,29 +141,22 @@
             "naam":this.c_volleNaam,
             "docentnummer":this.c_docentNummer
         };
-        this.c_volleNaam = request.detail.response["naam"];
+        
         this.c_docentNummer = request.detail.response["docentnummer"];
+        if(localStorage.getItem(this.c_docentNummer) == '""' || localStorage.getItem(this.c_docentNummer) == null){
+          this.c_volleNaam = request.detail.response['naam'];
+        }
+        else{
+          volleNaamreplacer = localStorage.getItem(this.c_docentNummer);
+          volleNaamreplacer = volleNaamreplacer.replace('"','');
+          this.c_volleNaam = volleNaamreplacer.replace('"','');
+        }
 
-        Polymer.dom(this.$$('#volleNaam')).node.innerHTML = "Naam: " + this.c_volleNaam;
         Polymer.dom(this.$$('#docentNummer')).node.innerHTML = "docentNummer: " + this.c_docentNummer;
         Polymer.dom(this.$$('#rol_gebruiker')).node.innerHTML = "rol: " + this.c_rol;
       },
-
-      getVoornaam_gebruiker(){
-        var punt = ".";
-        var arrayOfStrings = this.c_username.split(punt);
-        var voornaam_gebruiker = arrayOfStrings[0];
-        Polymer.dom(this.$$('#voornaam_gebruiker')).node.innerHTML = voornaam_gebruiker;
-      },
-
-      getAchternaam_gebruiker(){
-        var punt = ".";
-        var at = "@";
-        var arrayOfStrings = this.c_username.split(punt);
-        arrayOfStrings = arrayOfStrings[1].split(at);
-        var achternaam_gebruiker = arrayOfStrings[0];
-        Polymer.dom(this.$$('#achternaam_gebruiker')).node.innerHTML = achternaam_gebruiker;
-        },
     });
+    
+
   </script>
 </dom-module>

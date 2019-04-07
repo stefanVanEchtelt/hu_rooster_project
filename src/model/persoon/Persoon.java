@@ -1,7 +1,10 @@
 package model.persoon;
 
-public abstract class Persoon {
+import java.util.concurrent.atomic.AtomicInteger;
 
+public abstract class Persoon {
+    static AtomicInteger nextId = new AtomicInteger();
+    private int id;
 	private String voornaam, tussenvoegsel, achternaam, wachtwoord, gebruikersnaam;
 
 	public Persoon(String voornaam, String tussenvoegsel, String achternaam, String wachtwoord, String gebruikersnaam) {
@@ -10,6 +13,7 @@ public abstract class Persoon {
 		this.achternaam = achternaam;
 		this.wachtwoord = wachtwoord;
 		this.gebruikersnaam = gebruikersnaam;
+		this.id = nextId.incrementAndGet();
 	}
 
 	@Override
@@ -62,5 +66,9 @@ public abstract class Persoon {
 			lStatus = true;
 		}
 		return lStatus;
+	}
+	
+	public String getId() {
+		return Integer.toString(this.id);
 	}
 }

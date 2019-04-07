@@ -37,6 +37,7 @@ public class Application {
 		MedestudentenController medestudentenController = new MedestudentenController(infoSysteem);
 		ProfielController profielController = new ProfielController(infoSysteem);
 		ProfielDocentController profielDocentController = new ProfielDocentController(infoSysteem);
+		LessenInVerledenController lessenInVerledenController = new LessenInVerledenController(infoSysteem);
 
 
 		RoosterController roosterController = new RoosterController(infoSysteem);
@@ -59,6 +60,8 @@ public class Application {
 		server.registerHandler("/overzicht/klas/ophalen", klassenController);
 		
 		server.registerHandler("/leerlingen/ophalen" , klassenInhoudController);
+		
+		server.registerHandler("/leerling/afgelopenlessen/ophalen", lessenInVerledenController);
 		server.start();
 	}
 }
