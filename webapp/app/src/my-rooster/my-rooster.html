@@ -34,14 +34,24 @@
       #nav {
           margin-bottom: 4%;
       }
+
+      .beter-melden {
+        width: 100%;
+        height: 75px;
+      }
     </style>
+
+    <template is="dom-if" if="{{is_ziek}}">
+        <div class="beter-melden">
+            <paper-button raised on-click="beter_melden">Beter melden</paper-button>
+        </div>
+    </template>
+
 
     <div id="nav">
       <paper-button raised on-click="min_month">-</paper-button>
       <paper-button raised on-click="plus_month">+</paper-button>
     </div>
-    <!-- <popup-absent></popup-absent> -->
-    <!-- <popup-beter></popup-beter> -->
     <table>
         <tr>
           <th></th>
@@ -113,12 +123,17 @@
           },
           zieken: {
             type: Array,
-            value: []
+            value: [],
+            observer: 'checkIfZiek',
           },
           afwezigen: {
             type: Array,
-            value: []
+            value: [],
           },
+          is_ziek: {
+            type: Boolean,
+            value: false,
+          }
         },
 
         min_month: function() {
@@ -162,6 +177,16 @@
         },
 
         _initializing: function() {
+
+
+
+          if (this.afwezigen == "{{afwezigen}}") {
+            this.set("afwezigen", []);
+          }
+          if (this.zieken == "{{zieken}}") {
+            this.set("zieken", []);
+          }
+
           this.setDays(new Date());
           this.times = this.getTimes("06:00", "22:00");
         },
@@ -199,6 +224,34 @@
         doubleZeros: function(d) {
           return (d < 10) ? '0' + d.toString() : d.toString();
         },
+
+        checkIfZiek: function() {
+          let nietziek = true;
+          if (this.zieken != undefined && this.zieken != "{{zieken}}") {
+
+            this.zieken.forEach((ziekte) => {
+              if (ziekte.naam == this.c_username && ziekte.tot == null) {
+                nietziek = false;
+                this.set("is_ziek", true);
+              }
+            });
+            if (nietziek) {
+              this.set("is_ziek", false);
+            }
+          } else {
+            this.set("zieken", []);
+          }
+        },
+
+        beter_melden: function() {
+          this.zieken.forEach((ziekte, index) => {
+              if (ziekte.naam == this.c_username && ziekte.tot == null) {
+                this.set('zieken.' + index + '.tot', new Date());
+              }
+          });
+
+          this.set("is_ziek", false);
+        }
       });
     })();
   </script>

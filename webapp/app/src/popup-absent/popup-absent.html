@@ -112,9 +112,7 @@
               </form>
           </template>
     </div>
-    <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
-    <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
-
+    
     <iron-ajax
       id="ajax_les_ophalen"
       method="POST"
@@ -123,18 +121,9 @@
       on-response="_les_ophalen_response_handler">
     </iron-ajax>
 
+    <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
+    <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
   </template>
-
-      <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
-      <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
-
-      <iron-ajax
-        id="ajax_les_ophalen"
-        method="POST"
-        url="/rooster/les/ophalen"
-        handle-as="json"
-        on-response="_les_ophalen_response_handler">
-      </iron-ajax>
   <script>
     class PopupAbsent extends Polymer.Element {
       static get is() { return 'popup-absent'; }
@@ -167,7 +156,6 @@
       }
 
       _handel() {
-        console.log("handle");
         if (this.show) {
           this.openHandler();
         } else {
@@ -198,9 +186,9 @@
       }
 
       isStudent(rol) {
-          if(rol == 'student') {
+          if (rol == 'student') {
               return true;
-          }else{
+          } else {
               return false;
           }
       }
