@@ -192,6 +192,10 @@
           les_studenten: {
               type: Array,
               value: [],
+          },
+          les_docent_data: {
+            type: Array,
+            value: [],
           }
         };
       }
@@ -202,6 +206,37 @@
         } else {
           this.cancelHandler();
         }
+      }
+
+      checkAanwezigheid(username) {
+        let aanwezig = true;
+        let reden = "";
+
+        if (this.zieken != undefined) {
+          this.zieken.forEach((ziekte) => {
+            console.log(ziekte);
+            if (ziekte.naam == username && ziekte.tot == null && (new Date(ziekte.van) < new Date()) ) {
+              reden = "ziek";
+              aanwezig = false;
+            }
+          });
+        }
+
+        if (this.afwezigen != undefined) {
+          this.afwezigen.forEach((afwezigheid) => {
+            if (
+              afwezigheid.naam == username && (
+                new Date(afwezigheid.van_datum + " " + afwezigheid.van_tijd) < new Date() &&
+                new Date(afwezigheid.tot_datum + " " + afwezigheid.tot_tijd) > new Date()
+              )
+            ) {
+              reden = afwezigheid.reden;
+              aanwezig = false;
+            }
+          });
+        }
+
+        return aanwezig;
       }
 
       openHandler() {
@@ -240,6 +275,7 @@
               return false;
           }
       }
+
       _les_ophalen_response_handler(request) {
         let les = request.detail.response;
         this.root.querySelector('#andersDatumVanaf').value = les.les_datum;
@@ -254,7 +290,7 @@
 
       _docent_les_ophalen_response_handler(request) {
         let les = request.detail.response;
-        console.log(les);
+        this.set("les_docent_data", les);
         this.set("les_studenten", les.studenten);
       }
 
@@ -325,9 +361,6 @@
         this.cancelHandler();
       }
     }
-
-
-        // console.log(this.afwezigen);
 
     window.customElements.define(PopupAbsent.is, PopupAbsent);
   </script>
