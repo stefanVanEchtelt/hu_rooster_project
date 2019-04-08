@@ -113,11 +113,11 @@
           },
           zieken: {
             type: Array,
-            value: [],
+            value: []
           },
           afwezigen: {
             type: Array,
-            value: [],
+            value: []
           },
         },
 
@@ -162,8 +162,14 @@
         },
 
         _initializing: function() {
-          this.set("afwezigen", []);
-          this.set("zieken", []);
+          var array = this.afwezigen;
+          this.afwezigen = [];
+          this.afwezigen = array;
+          var ziekenarray = this.zieken;
+          this.zieken = [];
+          this.zieken = ziekenarray;
+          // this.set("afwezigen", []);
+          // this.set("zieken", []);
           this.setDays(new Date());
           this.times = this.getTimes("06:00", "22:00");
         },

@@ -151,7 +151,7 @@
             value: false,
             observer: '_handel',
           },
-          afweziggen: {
+          afwezigen: {
             type: Array,
           },
           zieken: {
@@ -243,6 +243,7 @@
         }
 
         submitHandler(event) {
+          console.log(this.afwezigen);
           console.log(this.root.querySelector('#radioAbsent').selected);
           console.log(this.root.querySelector('#medischDatum').value);
           console.log(this.root.querySelector('#medischTijdBegin').value);
@@ -254,11 +255,11 @@
           console.log(this.root.querySelector('#andersTijdTot').value);
 
         // als reden ziek maak lijst met zieken leerlingen
-        // anders zet in afweziggen
+        // anders zet in afwezigen
 
         let reden = "tandarts";
         if (reden != "ziek") {
-          this.afweziggen.push({
+          this.push('afwezigen', {
             naam: this.c_username,
             reden: reden,
             van_datum: "",
@@ -267,7 +268,7 @@
             tot_tijd: "",
           });
         } else {
-          this.zieken.push({
+          this.push("zieken", {
             naam: this.c_username,
             van_datum: "",
             tot_datum: null,
@@ -279,7 +280,7 @@
     }
 
 
-        // console.log(this.afweziggen);
+        // console.log(this.afwezigen);
 
     window.customElements.define(PopupAbsent.is, PopupAbsent);
   </script>
