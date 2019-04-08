@@ -228,7 +228,6 @@
         checkIfZiek: function() {
           let nietziek = true;
           if (this.zieken != undefined && this.zieken != "{{zieken}}") {
-
             this.zieken.forEach((ziekte) => {
               if (ziekte.naam == this.c_username && ziekte.tot == null) {
                 nietziek = false;
