@@ -25,6 +25,7 @@
         border-width: 2px;
         margin:0 auto;
         top:10%;
+        width: 500px;
       }
 
       h1 {
@@ -71,6 +72,21 @@
         margin-top: 5px;
       }
 
+      .links {
+        width: 50%;
+        float: left;
+        border-right: 1px solid black;
+        height: 250px;
+      }
+
+      .rechts {
+        width: 50%;
+        float: right
+      }
+
+      .clearfix {
+        clear: both;
+      }
     </style>
 
     <div id="absent_melden_popup_container">
@@ -108,17 +124,32 @@
           <template is="dom-if" if="{{!isStudent(c_rol)}}">
               <h1>Presentie</h1>
               <form id="presentie_melden" onsubmit="return false">
+                <div class="links">
 
+                </div>
+
+                <div class="rechts">
+
+                </div>
               </form>
+              <div class="clearfix"></div>
           </template>
     </div>
-    
+
     <iron-ajax
       id="ajax_les_ophalen"
       method="POST"
       url="/rooster/les/ophalen"
       handle-as="json"
       on-response="_les_ophalen_response_handler">
+    </iron-ajax>
+
+    <iron-ajax
+      id="ajax_docent_les_ophalen"
+      method="POST"
+      url="/rooster/docent/les/ophalen"
+      handle-as="json"
+      on-response="_docent_les_ophalen_response_handler">
     </iron-ajax>
 
     <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
@@ -175,12 +206,19 @@
 
           var popup = this.root.querySelector('#absent_melden_popup_container');
           popup.style.display = "block";
-            this.show = true;
-
-            console.log("y");
+          this.show = true;
         } else {
-            var popup = this.root.querySelector('#absent_melden_popup_container');
-            popup.style.display = "block";
+          this.$.ajax_docent_les_ophalen.contentType = "application/json";
+          this.$.ajax_docent_les_ophalen.body = {
+            "datum": this.datum,
+            "username": this.c_username,
+            "les": this.les,
+          };
+          this.$.ajax_docent_les_ophalen.generateRequest();
+
+          var popup = this.root.querySelector('#absent_melden_popup_container');
+          popup.style.display = "block";
+          this.show = true;
         }
 
       }
@@ -193,7 +231,15 @@
           }
       }
       _les_ophalen_response_handler(request) {
-        console.log(request.detail.response);
+        let les = request.detail.response;
+        this.root.querySelector('#andersDatumVanaf').value = les.les_datum;
+        this.root.querySelector('#andersDatumTot').value = les.les_datum;
+        this.root.querySelector('#andersTijdVanaf').value = les.start_tijd;
+        this.root.querySelector('#andersTijdTot').value = les.eind_tijd;
+
+        this.root.querySelector('#medischDatum').value = les.les_datum;
+        this.root.querySelector('#medischTijdBegin').value = les.start_tijd;
+        this.root.querySelector('#medischTijdEinde').value = les.eind_tijd;
       }
 
       cancelHandler() {
@@ -252,7 +298,7 @@
         } else if (reden == "anders") {
           this.push('afwezigen', {
             naam: this.c_username,
-            reden: reden,
+            reden: this.root.querySelector("#andersReden").value,
             van_datum: this.root.querySelector('#andersDatumVanaf').value,
             tot_datum: this.root.querySelector('#andersDatumTot').value,
             van_tijd: this.root.querySelector('#andersTijdVanaf').value,
