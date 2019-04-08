@@ -180,8 +180,7 @@
           this.$.ajax_les_ophalen.contentType = "application/json";
           this.$.ajax_les_ophalen.body = {
             "datum": this.datum,
-            "username": "stefan.vanechtelt@student.hu.nl",
-            // "username": this.c_username,
+            "username": this.c_username,
             "les": this.les,
           };
           this.$.ajax_les_ophalen.generateRequest();
@@ -192,8 +191,6 @@
 
             console.log("y");
         } else {
-          console.log(this.zieken);
-          console.log(this.c_rol);
             var popup = this.root.querySelector('#absent_melden_popup_container');
             popup.style.display = "block";
         }
@@ -239,46 +236,43 @@
         }
 
         submitHandler(event) {
-          console.log(this.afwezigen);
-          console.log("xx");
-          console.log(this.root.querySelector('#radioAbsent').selected);
-          console.log(this.root.querySelector('#medischDatum').value);
-          console.log(this.root.querySelector('#medischTijdBegin').value);
-          console.log(this.root.querySelector('#medischTijdEinde').value);
-          console.log(this.root.querySelector('#andersReden').value);
-          console.log(this.root.querySelector('#andersDatumVanaf').value);
-          console.log(this.root.querySelector('#andersTijdVanaf').value);
-          console.log(this.root.querySelector('#andersDatumTot').value);
-          console.log(this.root.querySelector('#andersTijdTot').value);
-
-        // als reden ziek maak lijst met zieken leerlingen
-        // anders zet in afwezigen
-
-        console.log("x");
-        console.log(this.zieken);
         let reden = this.root.querySelector('#radioAbsent').selected;
         if (reden == "ziek") {
-          console.log(new Date());
           this.push("zieken", {
             naam: this.c_username,
-            van_datum: "",
-            tot_datum: null,
-            van_tijd: "",
-            tot_tijd: null,
+            van: new Date(),
+            tot: null,
           });
-        } else if (reden ) {
-
+        } else if (reden == "tandarts") {
             this.push('afwezigen', {
               naam: this.c_username,
               reden: reden,
-              van_datum: "",
-              tot_datum: this.root.querySelector('#andersDatumTot').value,
-              van_tijd: "",
-              tot_tijd: "",
+              van_datum: this.root.querySelector('#medischDatum').value,
+              tot_datum: this.root.querySelector('#medischDatum').value,
+              van_tijd: this.root.querySelector('#medischTijdBegin').value,
+              tot_tijd: this.root.querySelector('#medischTijdEinde').value,
             });
-
-
+        } else if (reden == "dokter") {
+          this.push('afwezigen', {
+            naam: this.c_username,
+            reden: reden,
+            van_datum: this.root.querySelector('#medischDatum').value,
+            tot_datum: this.root.querySelector('#medischDatum').value,
+            van_tijd: this.root.querySelector('#medischTijdBegin').value,
+            tot_tijd: this.root.querySelector('#medischTijdEinde').value,
+          });
+        } else if (reden == "anders") {
+          this.push('afwezigen', {
+            naam: this.c_username,
+            reden: reden,
+            van_datum: this.root.querySelector('#andersDatumVanaf').value,
+            tot_datum: this.root.querySelector('#andersDatumTot').value,
+            van_tijd: this.root.querySelector('#andersTijdVanaf').value,
+            tot_tijd: this.root.querySelector('#andersTijdTot').value,
+          });
         }
+
+        this.cancelHandler();
       }
     }
 
