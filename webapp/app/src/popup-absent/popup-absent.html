@@ -124,9 +124,6 @@
     </iron-ajax>
 
   </template>
-        </form>
-        </paper-dialog>
-      </div>
 
       <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
       <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
@@ -215,7 +212,6 @@
       }
 
       cancelHandler() {
-        //console.log("cancel");
         this.show = false;
         var popup = this.root.querySelector('#absent_melden_popup_container');
         popup.style.display = "none";
@@ -244,6 +240,7 @@
 
         submitHandler(event) {
           console.log(this.afwezigen);
+          console.log("xx");
           console.log(this.root.querySelector('#radioAbsent').selected);
           console.log(this.root.querySelector('#medischDatum').value);
           console.log(this.root.querySelector('#medischTijdBegin').value);
@@ -257,24 +254,30 @@
         // als reden ziek maak lijst met zieken leerlingen
         // anders zet in afwezigen
 
-        let reden = "tandarts";
-        if (reden != "ziek") {
-          this.push('afwezigen', {
-            naam: this.c_username,
-            reden: reden,
-            van_datum: "",
-            tot_datum: this.root.querySelector('#andersDatumTot').value,
-            van_tijd: "",
-            tot_tijd: "",
-          });
-        } else {
+        console.log("x");
+        console.log(this.zieken);
+        let reden = this.root.querySelector('#radioAbsent').selected;
+        if (reden == "ziek") {
+          console.log(new Date());
           this.push("zieken", {
             naam: this.c_username,
             van_datum: "",
             tot_datum: null,
             van_tijd: "",
             tot_tijd: null,
-          })
+          });
+        } else if (reden ) {
+
+            this.push('afwezigen', {
+              naam: this.c_username,
+              reden: reden,
+              van_datum: "",
+              tot_datum: this.root.querySelector('#andersDatumTot').value,
+              van_tijd: "",
+              tot_tijd: "",
+            });
+
+
         }
       }
     }
