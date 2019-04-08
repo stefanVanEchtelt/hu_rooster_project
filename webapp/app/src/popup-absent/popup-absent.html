@@ -15,9 +15,6 @@
     <style>
       #absent_melden_popup_container {
         display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        display: none;
-        position: fixed;
         padding-top: 0px;
         z-index: 1;
         background-color: white;
@@ -25,7 +22,14 @@
         border-width: 2px;
         margin:0 auto;
         top:10%;
-        width: 500px;
+        min-width: 300px;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+      }
+
+      #presentie_melden {
+        width: 1000px
       }
 
       h1 {
@@ -73,7 +77,7 @@
       }
 
       .links {
-        width: 50%;
+        width: 49%;
         float: left;
         border-right: 1px solid black;
         height: 250px;
@@ -81,7 +85,7 @@
 
       .rechts {
         width: 50%;
-        float: right
+        float: right;
       }
 
       .clearfix {
@@ -129,7 +133,9 @@
                 </div>
 
                 <div class="rechts">
-
+                  <template is="dom-repeat" items="{{les_studenten}}" as="student">
+                    {{ student.fullname }} <br/>
+                  </template>
                 </div>
               </form>
               <div class="clearfix"></div>
@@ -183,6 +189,10 @@
           c_username: {
             type: String,
           },
+          les_studenten: {
+              type: Array,
+              value: [],
+          }
         };
       }
 
@@ -240,6 +250,12 @@
         this.root.querySelector('#medischDatum').value = les.les_datum;
         this.root.querySelector('#medischTijdBegin').value = les.start_tijd;
         this.root.querySelector('#medischTijdEinde').value = les.eind_tijd;
+      }
+
+      _docent_les_ophalen_response_handler(request) {
+        let les = request.detail.response;
+        console.log(les);
+        this.set("les_studenten", les.studenten);
       }
 
       cancelHandler() {
