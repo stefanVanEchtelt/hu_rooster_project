@@ -2,10 +2,13 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/google-chart/google-chart.html">
+<link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 
 
 <dom-module id="popup-student">
   <template>
+    <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
+    <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
     <style>
 
       #student_popup_container {
@@ -74,16 +77,22 @@
           },
           nietAanwezig: {
             type: Number,
-            value: 9
           },
           aantalTwee: {
             type: Number
+          },
+          afwezigen: {
+            type: Array,
+          },
+          zieken: {
+            type: Array,
           }
 
         };
       }
 
       _handlerAantal(){
+        // this.nietAanwezig = this.zieken.length + this.afwezigen.length;
         this.aantalTwee = this.aantal - this.nietAanwezig;
         console.log(this.aantal);
       }
