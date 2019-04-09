@@ -162,7 +162,7 @@
             value: false
           },
           aantalLessenVoorVandaag: {
-            type: Number
+            type: Array,
           },
           aantalLessen: {
             type: Number
@@ -222,7 +222,8 @@
 
         _lessen_in_verleden_ophalen_response_handler: function(request) {
           this.aantalLessenVoorVandaag = request.detail.response;
-          this.aantalLessen = this.aantalLessenVoorVandaag.aantalLessenVoorVandaag;
+          console.log(this.aantalLessenVoorVandaag);
+          // this.aantalLessen = this.aantalLessenVoorVandaag.aantalLessenVoorVandaag;
           this.i_loaded = true;
         },
 
