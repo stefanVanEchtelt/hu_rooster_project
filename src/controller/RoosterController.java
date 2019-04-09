@@ -56,7 +56,8 @@ public class RoosterController implements Handler {
 				JsonObjectBuilder lJsonObjectBuilderVoorStudent = Json.createObjectBuilder();
 				lJsonObjectBuilderVoorStudent
 						.add("fullname", s.getFullName())
-						.add("gebruikersnaam", s.getGebruikersnaam());
+						.add("gebruikersnaam", s.getGebruikersnaam())
+						.add("is_aanwezig", 0);
 			  
 				lJsonArrayBuilder.add(lJsonObjectBuilderVoorStudent);
 			}
