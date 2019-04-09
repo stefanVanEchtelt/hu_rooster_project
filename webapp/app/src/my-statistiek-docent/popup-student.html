@@ -71,7 +71,6 @@
           },
           alleLessen: {
             type: Array,
-            observer: 'openHandler',
             value: []
           },
           leerling: {
@@ -104,12 +103,16 @@
         console.log(this.aantal);
       }
       _handel() {
-        if (this.show) {
+        if (this.show == true) {
           this.openHandler();
         }
       }
 
       openHandler() {
+        console.log("opennnn");
+        var popup = this.root.querySelector('#student_popup_container');
+        popup.style.display = "block";
+
         let aanwezigUren = 0;
         let ziekenUren = 0;
         let medicheRedenUren = 0;
@@ -144,7 +147,7 @@
                 let afwegigteTot = new Date(afwezigte.tot_datum + " " + afwezigte.tot_tijd);
 
                 if (afwezigte.naam == username && aanwezig == true && (
-                  (afwezigteStart < start && afwegigteTot > eind) ||
+                  (afwezigteStart < start && afwegigteTot > eind)
                 )) {
                   aanwezig = false;
                   if (afwezigte.reden == "docter" || afwezigte.reden == "tandarts") {
@@ -168,9 +171,6 @@
             "andersUren": andersUren,
           }
         }
-
-          var popup = this.root.querySelector('#student_popup_container');
-          popup.style.display = "block";
       }
 
       _close_modal() {
