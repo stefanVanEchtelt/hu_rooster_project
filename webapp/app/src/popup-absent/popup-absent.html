@@ -29,7 +29,8 @@
       }
 
       #presentie_melden {
-        width: 800px
+        width: auto;
+        padding: 5%;
       }
 
       h1 {
@@ -76,20 +77,15 @@
         margin-top: 5px;
       }
 
-      .links {
-        width: 49%;
-        float: left;
-        border-right: 1px solid black;
-        height: 250px;
-      }
-
-      .rechts {
-        width: 50%;
-        float: right;
-      }
-
       .clearfix {
         clear: both;
+      }
+
+      .left {
+          float: left;
+      }
+      .right {
+          float: right;
       }
     </style>
 
@@ -127,16 +123,30 @@
           </template>
           <template is="dom-if" if="{{!isStudent(c_rol)}}">
               <h1>Presentie</h1>
+              {{les}}
+              <paper-button raised on-click="zetAanwezig">Alles aanwezig</paper-button>
               <form id="presentie_melden" onsubmit="return false">
-                <div class="links">
+                  <div class="left">
+                      <h2>Present</h2>
 
-                </div>
-
-                <div class="rechts">
-                  <template is="dom-repeat" items="{{les_studenten}}" as="student">
-                    {{ student.fullname }} <br/>
-                  </template>
-                </div>
+                      <template is="dom-repeat" items="{{les_studenten}}" as="student">
+                          <template is="dom-if" if="{{checkAanwezigheid(student.gebruikersnaam)}}">
+                              <paper-checkbox id="stud[[index]]" on-change="checkboxChanged">{{ student.fullname }}</paper-checkbox> <br/>
+                          </template>
+                      </template>
+                  </div>
+                  <div class="right">
+                  <h2>Absent</h2>
+                      <template is="dom-repeat" items="{{les_studenten}}" as="student">
+                          <template is="dom-if" if="{{!checkAanwezigheid(student.gebruikersnaam)}}">
+                              <paper-checkbox on-change="checkboxChanged">{{ student.fullname }}</paper-checkbox> <br/>
+                          </template>
+                      </template>
+                  </div>
+               <div id="present_melden_buttons">
+                   <paper-button raised on-click="cancelHandler">Annuleren</paper-button>
+                   <paper-button type="submit" raised on-click="submitDocentHandler">Verzenden</paper-button>
+               </div>
               </form>
               <div class="clearfix"></div>
           </template>
@@ -254,6 +264,7 @@
           popup.style.display = "block";
           this.show = true;
         } else {
+            console.log(this.les);
           this.$.ajax_docent_les_ophalen.contentType = "application/json";
           this.$.ajax_docent_les_ophalen.body = {
             "datum": this.datum,
@@ -299,6 +310,14 @@
         this.show = false;
         var popup = this.root.querySelector('#absent_melden_popup_container');
         popup.style.display = "none";
+      }
+
+      zetAanwezig() {
+          var aanwezig = this.les_studenten.length;
+
+          for(var i = 0; i < aanwezig; i++){
+              this.root.querySelector("#stud" + i).setAttribute("checked", true);
+          }
       }
 
         ziekHandler(event) {
@@ -360,6 +379,51 @@
         }
 
         this.cancelHandler();
+      }
+
+      submitDocentHandler() {
+        this.les_studenten.forEach((student, index) => {
+          if (student.is_aanwezig == 1 && !this.checkAanwezigheid(student.gebruikersnaam)) {
+            this.zieken.forEach((ziek, index) => {
+              if (ziek.naam == student.gebruikersnaam && ziek.tot == null) {
+                this.set("zieken." + index + ".tot", new Date(this.les_docent_data.les_datum + " " + this.les_docent_data.start_tijd));
+              }
+            });
+
+            this.afwezigen.forEach((afwezigte, index) => {
+              let afwegigteTot = new Date(afwezigte.tot_datum + " " + afwezigte.tot_tijd);
+              let start = new Date(this.les_docent_data.les_datum + " " + this.les_docent_data.start_tijd);
+
+              if (afwezigte.naam == student.gebruikersnaam && (afwegigteTot > start)) {
+                  this.set("afwezigen." + index + ".tot_datum", this.les_docent_data.les_datum);
+                  this.set("afwezigen." + index + ".tot_tijd", this.les_docent_data.start_tijd);
+              }
+            });
+          } else if (student.is_aanwezig == 0 && this.checkAanwezigheid(student.gebruikersnaam)) {
+              this.push('afwezigen', {
+                naam: student.gebruikersnaam,
+                reden: "onbekend",
+                van_datum: this.les_docent_data.les_datum,
+                tot_datum: this.les_docent_data.les_datum,
+                van_tijd: this.les_docent_data.start_tijd,
+                tot_tijd: this.les_docent_data.eind_tijd
+              });
+          }
+        });
+
+        this.cancelHandler();
+      }
+
+      checkboxChanged(event) {
+        this.les_studenten.forEach((student, index) => {
+          if (student.gebruikersnaam == event.model.student.gebruikersnaam) {
+            if (event.target.checked) {
+              this.set("les_studenten." + index + ".is_aanwezig", 1);
+            } else {
+              this.set("les_studenten." + index + ".is_aanwezig", 0);
+            }
+          }
+        });
       }
     }
 

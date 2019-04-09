@@ -41,9 +41,11 @@
     </style>
 
     <template is="dom-if" if="{{is_ziek}}">
-        <div class="beter-melden">
-            <paper-button raised on-click="beter_melden">Beter melden</paper-button>
-        </div>
+        <template is="dom-if" if="{{isStudent(c_rol)}}">
+            <div class="beter-melden">
+                <paper-button raised on-click="beter_melden">Beter melden</paper-button>
+            </div>
+        </template>
     </template>
 
 
@@ -177,12 +179,12 @@
 
         _initializing: function() {
 
-
-
-          if (this.afwezigen == "{{afwezigen}}") {
+          if (this.afwezigen == "{{afwezigen}}" || this.afwezigen == undefined || this.afwezigen == "undefined") {
+            console.log("set");
             this.set("afwezigen", []);
           }
-          if (this.zieken == "{{zieken}}") {
+
+          if (this.zieken == "{{zieken}}" || this.zieken == undefined) {
             this.set("zieken", []);
           }
 

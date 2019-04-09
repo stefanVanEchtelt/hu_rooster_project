@@ -92,9 +92,11 @@
           },
           afwezigen: {
             type: Array,
+            value: [],
           },
           zieken: {
             type: Array,
+<<<<<<< HEAD
           },
           aantalLessenVoorVandaag: {
             type: Number
@@ -107,6 +109,9 @@
           },
           medischeAantal: {
             type: Number
+=======
+            value: [],
+>>>>>>> f8b896540bc2f7f1a2e141adc2887aab4e2590a2
           }
 
         };
@@ -148,9 +153,7 @@
         }
       }
 
-      openHandler(request) {
-        this.set("aantalLessenVoorVandaag", request.detail.response);
-
+      openHandler() {
         var popup = this.root.querySelector('#student_popup_container');
         popup.style.display = "block";
 
