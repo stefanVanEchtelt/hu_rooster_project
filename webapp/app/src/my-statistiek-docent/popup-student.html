@@ -109,7 +109,6 @@
           medischeAantal: {
             type: Number,
           }
-
         };
       }
 
@@ -149,56 +148,58 @@
         }
       }
 
-      openHandler() {
+      openHandler(request) {
         var popup = this.root.querySelector('#student_popup_container');
         popup.style.display = "block";
+        this.aantalLessenVoorVandaag = request.detail.response;
 
         let aanwezigUren = 0;
         let ziekenUren = 0;
         let medicheRedenUren = 0;
         let andersUren = 0;
         let username = this.leerling.username;
-          this.aantalLessenVoorVandaag.forEach((les) => {
-              let aanwezig = true;
-              let start = new Date(les.datum + " " + les.start_tijd);
-              let eind = new Date(les.datum + " " + les.eind_tijd);
-              let duur = (eind.getTime() - start.getTime()) / 3600;
 
-              this.zieken.forEach((ziekte) => {
-                let ziekteStart = new Date(ziekte.van);
-                let ziekteEind = null;
-                if (ziekte.tot != null) {
-                  ziekteEind = new Date(ziekte.tot);
-                }
+        this.aantalLessenVoorVandaag.forEach((les) => {
+            let aanwezig = true;
+            let start = new Date(les.datum + " " + les.start_tijd);
+            let eind = new Date(les.datum + " " + les.eind_tijd);
+            let duur = (eind.getTime() - start.getTime()) / 3600;
 
-                if (ziekte.naam == username && aanwezig == true && (
-                  (ziekteStart < start && ziekteEind > eind) ||
-                  (ziekteStart < start && ziekteEind == null)
-                )) {
-                  aanwezig = false;
-                  ziekenUren = ziekenUren + duur;
-                }
-              });
-
-              this.afwezigen.forEach((afwezigte) => {
-                let afwezigteStart = new Date(afwezigte.van_datum + " " + afwezigte.van_tijd);
-                let afwegigteTot = new Date(afwezigte.tot_datum + " " + afwezigte.tot_tijd);
-
-                if (afwezigte.naam == username && aanwezig == true && (
-                  (afwezigteStart < start && afwegigteTot > eind)
-                )) {
-                  aanwezig = false;
-                  if (afwezigte.reden == "docter" || afwezigte.reden == "tandarts") {
-                    ziekenUren = ziekenUren + duur;
-                  } else {
-                    andersUren = andersUren + duur
-                  }
-                }
-              });
-
-              if (aanwezig) {
-                aanwezigUren = aanwezigUren + duur;
+            this.zieken.forEach((ziekte) => {
+              let ziekteStart = new Date(ziekte.van);
+              let ziekteEind = null;
+              if (ziekte.tot != null) {
+                ziekteEind = new Date(ziekte.tot);
               }
+
+              if (ziekte.naam == username && aanwezig == true && (
+                (ziekteStart < start && ziekteEind > eind) ||
+                (ziekteStart < start && ziekteEind == null)
+              )) {
+                aanwezig = false;
+                ziekenUren = ziekenUren + duur;
+              }
+            });
+
+            this.afwezigen.forEach((afwezigte) => {
+              let afwezigteStart = new Date(afwezigte.van_datum + " " + afwezigte.van_tijd);
+              let afwegigteTot = new Date(afwezigte.tot_datum + " " + afwezigte.tot_tijd);
+
+              if (afwezigte.naam == username && aanwezig == true && (
+                (afwezigteStart < start && afwegigteTot > eind)
+              )) {
+                aanwezig = false;
+                if (afwezigte.reden == "docter" || afwezigte.reden == "tandarts") {
+                  ziekenUren = ziekenUren + duur;
+                } else {
+                  andersUren = andersUren + duur
+                }
+              }
+            });
+
+            if (aanwezig) {
+              aanwezigUren = aanwezigUren + duur;
+            }
 
           });
 
