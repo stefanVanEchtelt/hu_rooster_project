@@ -81,7 +81,7 @@
         clear: both;
       }
 
-      .left {
+      #left {
           float: left;
       }
       .right {
@@ -126,7 +126,7 @@
               {{les}}
               <paper-button raised on-click="zetAanwezig">Alles aanwezig</paper-button>
               <form id="presentie_melden" onsubmit="return false">
-                  <div class="left">
+                  <div id="left">
                       <h2>Present</h2>
 
                       <template is="dom-repeat" items="{{les_studenten}}" as="student">
@@ -313,10 +313,14 @@
       }
 
       zetAanwezig() {
-          var aanwezig = this.les_studenten.length;
-
-          for(var i = 0; i < aanwezig; i++){
-              this.root.querySelector("#stud" + i).setAttribute("checked", true);
+            console.log(this.root.querySelector('#left'));
+            console.log(this.les_studenten.length);
+            let x = this.les_studenten.length;
+          for(var i = 0; i <= x; i = i + 1){
+              if(this.root.querySelector("#stud" + i) != null) {
+                  this.root.querySelector("#stud" + i).setAttribute("checked", true);
+                  this.set("les_studenten." + i + ".is_aanwezig", 1);
+              }
           }
       }
 
