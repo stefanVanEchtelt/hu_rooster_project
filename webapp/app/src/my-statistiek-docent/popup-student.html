@@ -50,7 +50,7 @@
                   style='height: 200px; width: 400px;'></google-chart>
 
       <google-chart type="pie"
-                  data='[["Afwezig", "Days"], ["Ziek", [[ziekenAantal]]], ["Dokter", [[medischeAantal]]], ["Anders", [[andersAantal]]], ["Tandarts", 0], ["Ongeoorloofd", 0]]'
+                  data='[["Afwezig", "Days"], ["Ziek", [[ziekenAantal]]], ["Dokter", [[dokterAantal]]], ["Anders", [[andersAantal]]], ["Tandarts", [[medischeAantal]]], ["Ongeoorloofd", 0]]'
                   style='height: 200px; width: 400px'></google-chart>
       <paper-button on-tap="_close_modal"><iron-icon icon="icons:close"></iron-icon></paper-button><BR>
     </div>
@@ -108,6 +108,9 @@
           },
           medischeAantal: {
             type: Number,
+          },
+          dokterAantal: {
+            type: Number,
           }
         };
       }
@@ -142,9 +145,7 @@
       _handel() {
         console.log("_handel()");
         if (this.show == true) {
-          console.log("adkfas;f");
           this._ajax_lessen_in_verleden_ophalen();
-          console.log("na ajax");
         }
       }
 
@@ -157,13 +158,13 @@
         let ziekenUren = 0;
         let medicheRedenUren = 0;
         let andersUren = 0;
+        let dokterUren = 0;
         let username = this.leerling.username;
 
         this.aantalLessenVoorVandaag.forEach((les) => {
             let aanwezig = true;
             let start = new Date(les.datum + " " + les.start_tijd);
             let eind = new Date(les.datum + " " + les.eind_tijd);
-            console.log(eind.getTime() - start.getTime());
             let duur = (eind.getTime() - start.getTime()) / 3600 / 1000;
 
             this.zieken.forEach((ziekte) => {
@@ -190,8 +191,11 @@
                 (afwezigteStart <= start && afwegigteTot >= eind)
               )) {
                 aanwezig = false;
-                if (afwezigte.reden == "docter" || afwezigte.reden == "tandarts") {
-                  ziekenUren = ziekenUren + duur;
+
+                if (afwezigte.reden == "dokter") {
+                  dokterUren = dokterUren + duur;
+                } else if (afwezigte.reden == "tandarts") {
+                  medicheRedenUren = medicheRedenUren + duur;
                 } else {
                   andersUren = andersUren + duur
                 }
@@ -206,11 +210,17 @@
 
           this.aantal = aanwezigUren;
           console.log(aanwezigUren + "uren aanwezig");
-          this.nietAanwezig = ziekenUren + medicheRedenUren + andersUren;
           console.log(this.nietAanwezig + "niet aanwezig uren");
+          console.log(ziekenUren);
+          console.log(medicheRedenUren);
+          console.log(andersUren);
+
+          this.nietAanwezig = ziekenUren + medicheRedenUren + andersUren + dokterUren;
           this.ziekenAantal = ziekenUren;
           this.medischeAantal = medicheRedenUren;
           this.andersAantal = andersUren;
+          this.dokterAantal = dokterUren;
+
           // return {
           //   "aanwezigUren": aanwezigUren,
           //   "ziekenUren": ziekenUren,
