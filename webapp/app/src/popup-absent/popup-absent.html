@@ -115,12 +115,19 @@
           </template>
           <template is="dom-if" if="{{!isStudent(c_rol)}}">
               <h1>Presentie</h1>
+              {{les}}
               <form id="presentie_melden" onsubmit="return false">
+                  <h2>Present</h2>
                   <template is="dom-repeat" items="{{les_studenten}}" as="student">
                       <template is="dom-if" if="{{checkAanwezigheid(student.gebruikersnaam)}}">
-
+                          <paper-checkbox>{{ student.fullname }}</paper-checkbox> <br/>
                       </template>
-                      <paper-checkbox>{{ student.fullname }}</paper-checkbox> <br/>
+                  </template>
+                  <h2>Absent</h2>
+                  <template is="dom-repeat" items="{{les_studenten}}" as="student">
+                      <template is="dom-if" if="{{!checkAanwezigheid(student.gebruikersnaam)}}">
+                          <paper-checkbox>{{ student.fullname }}</paper-checkbox> <br/>
+                      </template>
                   </template>
                <div id="present_melden_buttons">
                    <paper-button raised on-click="cancelHandler">Annuleren</paper-button>
@@ -242,6 +249,7 @@
           popup.style.display = "block";
           this.show = true;
         } else {
+            console.log(this.les);
           this.$.ajax_docent_les_ophalen.contentType = "application/json";
           this.$.ajax_docent_les_ophalen.body = {
             "datum": this.datum,
