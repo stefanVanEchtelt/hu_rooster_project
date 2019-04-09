@@ -46,17 +46,24 @@
 
         <BR>
       <google-chart type="pie"
-                  data='[["Lessen", "Days"], ["Aanwezig", [[aantalTwee]]], ["Niet aanwezig", [[nietAanwezig]]]]'
+                  data='[["Lessen", "Days"], ["Aanwezig", [[aantal]]], ["Niet aanwezig", [[nietAanwezig]]]]'
                   style='height: 200px; width: 400px;'></google-chart>
 
       <google-chart type="pie"
-                  data='[["Afwezig", "Days"], ["Ziek", 31], ["Dokter", 0], ["Anders", 0], ["Tandarts", 0], ["Ongeoorloofd", 0]]'
+                  data='[["Afwezig", "Days"], ["Ziek", [[ziekenAantal]]], ["Dokter", [[medischeAantal]]], ["Anders", [[andersAantal]]], ["Tandarts", 0], ["Ongeoorloofd", 0]]'
                   style='height: 200px; width: 400px'></google-chart>
       <paper-button on-tap="_close_modal"><iron-icon icon="icons:close"></iron-icon></paper-button><BR>
     </div>
 
     <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
     <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
+    <iron-ajax
+      id="ajax_lessen_in_verleden_ophalen"
+      method="POST"
+      url="/leerling/afgelopenlessen/ophalen"
+      handle-as="json"
+      on-response="openHandler">
+    </iron-ajax>
   </template>
 
   <script>
@@ -71,20 +78,16 @@
           },
           alleLessen: {
             type: Array,
-            value: []
+            // value: []
           },
           leerling: {
             type: Array,
             value: []
           },
           aantal: {
-            type: Number,
-            observer: '_handlerAantal'
+            type: Number
           },
           nietAanwezig: {
-            type: Number,
-          },
-          aantalTwee: {
             type: Number
           },
           afwezigen: {
@@ -92,24 +95,62 @@
           },
           zieken: {
             type: Array,
+          },
+          aantalLessenVoorVandaag: {
+            type: Number
+          },
+          ziekenAantal: {
+            type: Number
+          },
+          andersAantal: {
+            type: Number
+          },
+          medischeAantal: {
+            type: Number
           }
 
         };
       }
 
-      _handlerAantal(){
-        // this.nietAanwezig = this.zieken.length + this.afwezigen.length;
-        this.aantalTwee = this.aantal - this.nietAanwezig;
-        console.log(this.aantal);
+
+      _ajax_lessen_in_verleden_ophalen() {
+        console.log("_ajax_lessen_in_verleden_ophalen");
+        this.$.ajax_lessen_in_verleden_ophalen.contentType="application/json";
+        this.$.ajax_lessen_in_verleden_ophalen.body={
+          "nummerLeerling":this.leerling.id
+        };
+        this.$.ajax_lessen_in_verleden_ophalen.generateRequest();
       }
+
+//       _lessen_in_verleden_ophalen_response_handler(request) {
+//         console.log("skeet");
+// //          console.log(alleLessen);
+//         console.log(request.detail.response);
+//         this.set("aantalLessenVoorVandaag", request.detail.response);
+//         console.log(this.aantalLessenVoorVandaag);
+//         // this.aantalLessen = this.aantalLessenVoorVandaag.aantalLessenVoorVandaag;
+//         this.i_loaded = true;
+//       }
+
+      // _handlerAantal(){
+      //   // this.nietAanwezig = this.zieken.length + this.afwezigen.length;
+      //   console.log(this.aantal);
+      //   this.aantal = this.aantal - this.nietAanwezig;
+      //   console.log(this.aantal);
+      // }
+
       _handel() {
+        console.log("_handel()");
         if (this.show == true) {
-          this.openHandler();
+          console.log("adkfas;f");
+          this._ajax_lessen_in_verleden_ophalen();
+          console.log("na ajax");
         }
       }
 
-      openHandler() {
-        console.log("opennnn");
+      openHandler(request) {
+        this.set("aantalLessenVoorVandaag", request.detail.response);
+
         var popup = this.root.querySelector('#student_popup_container');
         popup.style.display = "block";
 
@@ -118,13 +159,11 @@
         let medicheRedenUren = 0;
         let andersUren = 0;
         let username = this.leerling.username;
-
-        if (this.alleLessen != undefined && this.zieken != undefined && this.afwezigen != undefined) {
-          this.alleLessen.forEach((les) => {
+          this.aantalLessenVoorVandaag.forEach((les) => {
               let aanwezig = true;
               let start = new Date(les.datum + " " + les.start_tijd);
               let eind = new Date(les.datum + " " + les.eind_tijd);
-              let duur = Math.abs(start.getTime - eind.getTime) / 3600;
+              let duur = (eind.getTime() - start.getTime()) / 3600;
 
               this.zieken.forEach((ziekte) => {
                 let ziekteStart = new Date(ziekte.van);
@@ -164,13 +203,21 @@
 
           });
 
-          return {
-            "aanwezigUren": aanwezigUren,
-            "ziekenUren": ziekenUren,
-            "medicheRedenUren": medicheRedenUren,
-            "andersUren": andersUren,
-          }
-        }
+          this.aantal = aanwezigUren;
+          console.log(aanwezigUren + "uren aanwezig");
+          this.nietAanwezig = ziekenUren + medicheRedenUren + andersUren;
+          console.log(this.nietAanwezig + "niet aanwezig uren");
+          this.ziekenAantal = ziekenUren;
+          this.medischeAantal = medicheRedenUren;
+          this.andersAantal = andersUren;
+          // return {
+          //   "aanwezigUren": aanwezigUren,
+          //   "ziekenUren": ziekenUren,
+          //   "medicheRedenUren": medicheRedenUren,
+          //   "andersUren": andersUren,
+          // }
+        // }
+        this.i_loaded = true;
       }
 
       _close_modal() {
