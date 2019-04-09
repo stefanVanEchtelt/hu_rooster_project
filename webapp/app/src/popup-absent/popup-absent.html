@@ -382,7 +382,6 @@
       }
 
       submitDocentHandler() {
-        console.log(this.afwezigen);
         this.les_studenten.forEach((student, index) => {
           if (student.is_aanwezig == 1 && !this.checkAanwezigheid(student.gebruikersnaam)) {
             this.zieken.forEach((ziek, index) => {
@@ -411,6 +410,8 @@
               });
           }
         });
+
+        this.cancelHandler();
       }
 
       checkboxChanged(event) {
