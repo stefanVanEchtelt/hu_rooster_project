@@ -29,7 +29,8 @@
       }
 
       #presentie_melden {
-        width: 800px
+        width: auto;
+        padding: 5%;
       }
 
       h1 {
@@ -79,6 +80,13 @@
       .clearfix {
         clear: both;
       }
+
+      .left {
+          float: left;
+      }
+      .right {
+          float: right;
+      }
     </style>
 
     <div id="absent_melden_popup_container">
@@ -116,19 +124,25 @@
           <template is="dom-if" if="{{!isStudent(c_rol)}}">
               <h1>Presentie</h1>
               {{les}}
+              <paper-button raised on-click="zetAanwezig">Alles aanwezig</paper-button>
               <form id="presentie_melden" onsubmit="return false">
-                  <h2>Present</h2>
-                  <template is="dom-repeat" items="{{les_studenten}}" as="student">
-                      <template is="dom-if" if="{{checkAanwezigheid(student.gebruikersnaam)}}">
-                          <paper-checkbox>{{ student.fullname }}</paper-checkbox> <br/>
+                  <div class="left">
+                      <h2>Present</h2>
+
+                      <template is="dom-repeat" items="{{les_studenten}}" as="student">
+                          <template is="dom-if" if="{{checkAanwezigheid(student.gebruikersnaam)}}">
+                              <paper-checkbox id="stud[[index]]">{{ student.fullname }}</paper-checkbox> <br/>
+                          </template>
                       </template>
-                  </template>
+                  </div>
+                  <div class="right">
                   <h2>Absent</h2>
-                  <template is="dom-repeat" items="{{les_studenten}}" as="student">
-                      <template is="dom-if" if="{{!checkAanwezigheid(student.gebruikersnaam)}}">
-                          <paper-checkbox>{{ student.fullname }}</paper-checkbox> <br/>
+                      <template is="dom-repeat" items="{{les_studenten}}" as="student">
+                          <template is="dom-if" if="{{!checkAanwezigheid(student.gebruikersnaam)}}">
+                              <paper-checkbox>{{ student.fullname }}</paper-checkbox> <br/>
+                          </template>
                       </template>
-                  </template>
+                  </div>
                <div id="present_melden_buttons">
                    <paper-button raised on-click="cancelHandler">Annuleren</paper-button>
                    <paper-button type="submit" raised on-click="submitHandler">Verzenden</paper-button>
@@ -296,6 +310,14 @@
         this.show = false;
         var popup = this.root.querySelector('#absent_melden_popup_container');
         popup.style.display = "none";
+      }
+
+      zetAanwezig() {
+          var aanwezig = this.les_studenten.length;
+
+          for(var i = 0; i < aanwezig; i++){
+              this.root.querySelector("#stud" + i).setAttribute("checked", true);
+          }
       }
 
         ziekHandler(event) {
