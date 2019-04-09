@@ -110,8 +110,7 @@
           </template>
         </div>
     </div>
-    <popup-student id="studentpopup" show="{{showStudentPopup}}" aantal="{{aantalLessen}}" leerling="{{clickedLeerling}}"></popup-student>
-
+    <popup-student id="studentpopup" show="{{showStudentPopup}}" aantal="{{aantalLessen}}" leerling="{{clickedLeerling}}" alleLessen="{{aantalLessenVoorVandaag}}"></popup-student>
   </template>
 
   <script>
@@ -162,7 +161,7 @@
             value: false
           },
           aantalLessenVoorVandaag: {
-            type: Number
+            type: Array,
           },
           aantalLessen: {
             type: Number
@@ -221,8 +220,8 @@
         },
 
         _lessen_in_verleden_ophalen_response_handler: function(request) {
-          this.aantalLessenVoorVandaag = request.detail.response;
-          this.aantalLessen = this.aantalLessenVoorVandaag.aantalLessenVoorVandaag;
+          this.set("aantalLessenVoorVandaag", request.detail.response);
+          // this.aantalLessen = this.aantalLessenVoorVandaag.aantalLessenVoorVandaag;
           this.i_loaded = true;
         },
 

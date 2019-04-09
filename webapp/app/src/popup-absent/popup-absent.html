@@ -29,7 +29,7 @@
       }
 
       #presentie_melden {
-        width: 1000px
+        width: 800px
       }
 
       h1 {
@@ -172,9 +172,11 @@
           },
           afwezigen: {
             type: Array,
+            // value: []
           },
           zieken: {
             type: Array,
+            // value: []
           },
           les: {
             type: String,
@@ -210,7 +212,6 @@
 
         if (this.zieken != undefined) {
           this.zieken.forEach((ziekte) => {
-            console.log(ziekte);
             if (ziekte.naam == username && ziekte.tot == null && (new Date(ziekte.van) < new Date()) ) {
               reden = "ziek";
               aanwezig = false;

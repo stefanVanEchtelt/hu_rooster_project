@@ -2,10 +2,13 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/google-chart/google-chart.html">
+<link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 
 
 <dom-module id="popup-student">
   <template>
+    <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
+    <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
     <style>
 
       #student_popup_container {
@@ -51,6 +54,9 @@
                   style='height: 200px; width: 400px'></google-chart>
       <paper-button on-tap="_close_modal"><iron-icon icon="icons:close"></iron-icon></paper-button><BR>
     </div>
+
+    <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
+    <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
   </template>
 
   <script>
@@ -63,7 +69,10 @@
             value: false,
             observer: '_handel',
           },
-
+          alleLessen: {
+            type: Array,
+            value: []
+          },
           leerling: {
             type: Array,
             value: []
@@ -74,28 +83,94 @@
           },
           nietAanwezig: {
             type: Number,
-            value: 9
           },
           aantalTwee: {
             type: Number
+          },
+          afwezigen: {
+            type: Array,
+          },
+          zieken: {
+            type: Array,
           }
 
         };
       }
 
       _handlerAantal(){
+        // this.nietAanwezig = this.zieken.length + this.afwezigen.length;
         this.aantalTwee = this.aantal - this.nietAanwezig;
         console.log(this.aantal);
       }
       _handel() {
-        if (this.show) {
+        if (this.show == true) {
           this.openHandler();
         }
       }
 
       openHandler() {
+        console.log("opennnn");
         var popup = this.root.querySelector('#student_popup_container');
         popup.style.display = "block";
+
+        let aanwezigUren = 0;
+        let ziekenUren = 0;
+        let medicheRedenUren = 0;
+        let andersUren = 0;
+        let username = this.leerling.username;
+
+        if (this.alleLessen != undefined && this.zieken != undefined && this.afwezigen != undefined) {
+          this.alleLessen.forEach((les) => {
+              let aanwezig = true;
+              let start = new Date(les.datum + " " + les.start_tijd);
+              let eind = new Date(les.datum + " " + les.eind_tijd);
+              let duur = Math.abs(start.getTime - eind.getTime) / 3600;
+
+              this.zieken.forEach((ziekte) => {
+                let ziekteStart = new Date(ziekte.van);
+                let ziekteEind = null;
+                if (ziekte.tot != null) {
+                  ziekteEind = new Date(ziekte.tot);
+                }
+
+                if (ziekte.naam == username && aanwezig == true && (
+                  (ziekteStart < start && ziekteEind > eind) ||
+                  (ziekteStart < start && ziekteEind == null)
+                )) {
+                  aanwezig = false;
+                  ziekenUren = ziekenUren + duur;
+                }
+              });
+
+              this.afwezigen.forEach((afwezigte) => {
+                let afwezigteStart = new Date(afwezigte.van_datum + " " + afwezigte.van_tijd);
+                let afwegigteTot = new Date(afwezigte.tot_datum + " " + afwezigte.tot_tijd);
+
+                if (afwezigte.naam == username && aanwezig == true && (
+                  (afwezigteStart < start && afwegigteTot > eind)
+                )) {
+                  aanwezig = false;
+                  if (afwezigte.reden == "docter" || afwezigte.reden == "tandarts") {
+                    ziekenUren = ziekenUren + duur;
+                  } else {
+                    andersUren = andersUren + duur
+                  }
+                }
+              });
+
+              if (aanwezig) {
+                aanwezigUren = aanwezigUren + duur;
+              }
+
+          });
+
+          return {
+            "aanwezigUren": aanwezigUren,
+            "ziekenUren": ziekenUren,
+            "medicheRedenUren": medicheRedenUren,
+            "andersUren": andersUren,
+          }
+        }
       }
 
       _close_modal() {

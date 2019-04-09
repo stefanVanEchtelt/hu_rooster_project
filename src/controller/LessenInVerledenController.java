@@ -3,6 +3,7 @@ package controller;
 import java.util.List;
 
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 
@@ -40,7 +41,7 @@ public class LessenInVerledenController implements Handler {
 		
 		List<Les> lessenVanCurrentKlas = klasVanCurrentLeerling.getLessen();
 		List<String> lessenVoorVandaag = new ArrayList<>();
-		
+		JsonArrayBuilder lJsonArrayBuilder = Json.createArrayBuilder();
 		for(Les l : lessenVanCurrentKlas) {
 			String sDate = l.getStartDatum();
 			Date date = null;
@@ -59,14 +60,21 @@ public class LessenInVerledenController implements Handler {
 				e.printStackTrace();
 			}
 			if(date.before(curdate)) {
-				lessenVoorVandaag.add(l.toString());
+				JsonObjectBuilder lJsonObjectBuilderVoorStudent = Json.createObjectBuilder();
+				lJsonObjectBuilderVoorStudent
+						.add("naam", l.getNaam())
+						.add("start_tijd", l.getStartTijd())
+						.add("eind_tijd", l.getEindTijd())
+						.add("duur", l.getDuur())
+						.add("cursuscode", l.getCursuscode())
+						.add("datum", l.getStartDatum());
+			  
+				lJsonArrayBuilder.add(lJsonObjectBuilderVoorStudent);	
 			}
 		}
-		int aantalLessen = lessenVoorVandaag.size();
-		JsonObjectBuilder lJsonObjectBuilder = Json.createObjectBuilder();
-		lJsonObjectBuilder .add("aantalLessenVoorVandaag", aantalLessen);
+//		int aantalLessen = lessenVoorVandaag.size();
 		
-		String lJsonOut = lJsonObjectBuilder.build().toString();
+		String lJsonOut = lJsonArrayBuilder.build().toString();
 		conversation.sendJSONMessage(lJsonOut);
 
 	}

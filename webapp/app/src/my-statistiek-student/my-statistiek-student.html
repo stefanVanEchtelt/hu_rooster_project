@@ -72,8 +72,11 @@
 
           <google-chart
             type="pie"
-            data='[["Afwezig", "Days"], ["Ziek", 31], ["Dokter", 0], ["Anders", 10], ["Tandarts", 0], ["Ongeoorloofd", 2]]'
+            data='[["Afwezig", "Days"], ["Ziek", {{counter_ziek}}], ["Dokter", {{counter_dokter}}], ["Tandarts", {{counter_tandarts}}], ["Anders", {{counter_anders}}]]'
             style='height: 200px; width: 400px'></google-chart>
+          <google-chart
+            type="pie"
+            data=''
     </div>
 
 
@@ -109,6 +112,22 @@
                                                                   regel in de functie dat er niets gebeurd
                                                                    als c_visible false is */
           },
+          counter_ziek: {
+            type: Number,
+            value: 0
+          },
+          counter_tandarts: {
+            type: Number,
+            value: 0
+          },
+          counter_dokter: {
+            type: Number,
+            value: 0
+          },
+          counter_anders: {
+            type: Number,
+            value: 0
+          }
 
         },
 
