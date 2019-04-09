@@ -144,7 +144,7 @@
                 let afwegigteTot = new Date(afwezigte.tot_datum + " " + afwezigte.tot_tijd);
 
                 if (afwezigte.naam == username && aanwezig == true && (
-                  (afwezigteStart < start && afwegigteTot > eind) ||
+                  (afwezigteStart < start && afwegigteTot > eind)
                 )) {
                   aanwezig = false;
                   if (afwezigte.reden == "docter" || afwezigte.reden == "tandarts") {
