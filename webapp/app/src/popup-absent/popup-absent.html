@@ -380,7 +380,7 @@
             });
           } else if (student.is_aanwezig == 0 && this.checkAanwezigheid(student.gebruikersnaam)) {
               this.push('afwezigen', {
-                naam: this.c_username,
+                naam: student.gebruikersnaam,
                 reden: "onbekend",
                 van_datum: this.les_docent_data.les_datum,
                 tot_datum: this.les_docent_data.les_datum,
