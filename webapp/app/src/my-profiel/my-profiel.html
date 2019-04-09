@@ -27,41 +27,22 @@
       span {
         @apply --paper-font-body1;
       }
-      .toast-button {
-        text-transform: none;
-        color: white;                           /* white tekst */
-        background: #1a9fd9;                    /* kind of blue */
-        --paper-button-ink-color: #00567B;      /* kind of dark blue */
+      iron-image {
+        display: block;
+        width: 90px;
+        height: 90px;
+        margin: 10px;
+        background-color: lightgray;
       }
-      .my-title {
-        font-size: 20px;
-        color: blue;
-        border-bottom: 1px solid red;           /* a red line */
-        padding-bottom: 2px;                    /* space above the border line */
+      .parentimg {
+        width: 100px;
       }
-      .voornaam {
-        min-width: 100px;
-        text-align: left;
-       }
-      .achternaam {
-        min-width: 100px;
-        text-align: left;
+      input[type=file]{
+        padding:5px;
+        background:#e7e7e7;
       }
-      .groepid-header {
-        min-width: 100px;
-        text-align: left;
-      }
-      .groepid{
-        min-width: 100px;
-      }
-      .my-button {
-        width: 100%;                        /* full width */
-        color: white;                       /* white tekst */
-        background: #1a9fd9;                /* kind of blue */
-        --paper-button-ink-color: #00567B;  /* kind of dark blue */
-        margin-top: 5px;                    /* enlarge thet default */
-        margin-left: 0px;                   /* reduce the default */
-      }
+
+
    </style>
     <paper-card>
         <div class="card">
@@ -71,6 +52,13 @@
           <p id="klas_gebruiker">klas</p>
           <p id="studie_gebruiker">klas</p>
           <p id="studentNummer_gebruiker">studentNummer</p>
+          <div class="parentimg">
+            <iron-image id="imgTest" alt="Image preview..." placeholder="{{b64_prop}}" src="{{b64_prop}}">
+          </div>
+        </iron-image>
+        upload hier uw nieuwe profielfoto
+        <br>
+        <input type="file" accept="image/*"  onchange="encodeImageFileAsURL(this)">
         </div>
        <div class="card-actions">
        </div>
@@ -99,83 +87,105 @@
 
   <script>
 
-      Polymer({
-        is: 'my-profiel',
+    Polymer({
+      is: 'my-profiel',
 
-        properties: {
-          naam:{
-            type: String,
-          },
-          _c_studenten: {
-            type: Array,           /* array<student-info>: student-info = {id, firstName, lastName, sameGroup}
-                    array is constant groepnr is changable */
-          },
-          c_rol: {
-            type: String,
-          },
-          c_klas: {
-            type: String,
-          },
-          c_username: {
-            type: String,
-          },
-          c_volleNaam: {
-            type: String,
-          },
-          c_studie: {
-            type: String,
-          },
-          c_studentNummer: {
-            type: String,
-          },
-          c_visible: {
-            type: Boolean,                                      /* true when element is the active visible item */
-            value: false,
-            observer: '_informatie_student',  
-          },
+      properties: {
+        naam:{
+          type: String,
         },
-
-        _informatie_student: function() {
-          if(this.c_visible){
-            console.log("_informatie_student user="+this.c_username);
-            this.$.ajax_informatie_student.contentType="application/json";
-            this.$.ajax_informatie_student.body={
-              "username":this.c_username
-            };
-            this.$.ajax_informatie_student.generateRequest();
-          }
+        _c_studenten: {
+          type: Array,           /* array<student-info>: student-info = {id, firstName, lastName, sameGroup}
+                  array is constant groepnr is changable */
         },
+        c_rol: {
+          type: String,
+        },
+        c_klas: {
+          type: String,
+        },
+        c_username: {
+          type: String,
+        },
+        c_volleNaam: {
+          type: String,
+        },
+        c_studie: {
+          type: String,
+        },
+        c_studentNummer: {
+          type: String,
+        },
+        c_visible: {
+          type: Boolean,                                      /* true when element is the active visible item */
+          value: false,
+          observer: '_informatie_student',  
+        },
+        b64_prop: {
+          type: String,
+          value: function pakfoto(){
+            return window.localStorage.getItem("img");
+        }
+      }
+    },
 
-        _informatie_student_request_handler: function(request) {
-          console.log("_informatie_student_request_handler user="+this.c_username);
+      _informatie_student: function() {
+        if(this.c_visible){
+          console.log("_informatie_student user="+this.c_username);
+          this.$.ajax_informatie_student.contentType="application/json";
           this.$.ajax_informatie_student.body={
-              "klas":this.c_klas,
-              "naam":this.c_volleNaam,
-              "studentNummer":this.c_studentNummer
-
+            "username":this.c_username
           };
-          this.c_klas = request.detail.response["klas"];
-          this.c_studentNummer = request.detail.response["studentNummer"];
-          if(localStorage.getItem(this.c_studentNummer) == '""' || localStorage.getItem(this.c_studentNummer) == null){
-            this.c_volleNaam = request.detail.response["naam"];
-          }
-          else{
-            volleNaamreplacer = localStorage.getItem(this.c_studentNummer);
-            volleNaamreplacer = volleNaamreplacer.replace('"','');
-            this.c_volleNaam  = volleNaamreplacer.replace('"','');
-          }
+          this.$.ajax_informatie_student.generateRequest();
+        }
+      },
 
-          var splitKlasStudie = this.c_klas.split("-");
-          this.c_klas = splitKlasStudie[2];
-          this.c_studie = splitKlasStudie[0] + " " + splitKlasStudie[1];
+      _informatie_student_request_handler: function(request) {
+        console.log("_informatie_student_request_handler user="+this.c_username);
+        this.$.ajax_informatie_student.body={
+            "klas":this.c_klas,
+            "naam":this.c_volleNaam,
+            "studentNummer":this.c_studentNummer
 
-          Polymer.dom(this.$$('#klas_gebruiker')).node.innerHTML = "klas: " + this.c_klas;
-          Polymer.dom(this.$$('#volleNaam')).node.innerHTML = "Naam: " + this.c_volleNaam;
-          Polymer.dom(this.$$('#rol_gebruiker')).node.innerHTML = "Rol: " + this.c_rol;
-          Polymer.dom(this.$$('#studie_gebruiker')).node.innerHTML = "Studie: " + this.c_studie;
-          Polymer.dom(this.$$('#studentNummer_gebruiker')).node.innerHTML = "StudentNummer: " + this.c_studentNummer;
+        };
+        this.c_klas = request.detail.response["klas"];
+        this.c_studentNummer = request.detail.response["studentNummer"];
+        if(localStorage.getItem(this.c_studentNummer) == '""' || localStorage.getItem(this.c_studentNummer) == null){
+          this.c_volleNaam = request.detail.response["naam"];
+        }
+        else{
+          volleNaamreplacer = localStorage.getItem(this.c_studentNummer);
+          volleNaamreplacer = volleNaamreplacer.replace('"','');
+          this.c_volleNaam  = volleNaamreplacer.replace('"','');
+        }
 
-        },
-      });
+        var splitKlasStudie = this.c_klas.split("-");
+        this.c_klas = splitKlasStudie[2];
+        this.c_studie = splitKlasStudie[0] + " " + splitKlasStudie[1];
+
+        Polymer.dom(this.$$('#klas_gebruiker')).node.innerHTML = "klas: " + this.c_klas;
+        Polymer.dom(this.$$('#volleNaam')).node.innerHTML = "Naam: " + this.c_volleNaam;
+        Polymer.dom(this.$$('#rol_gebruiker')).node.innerHTML = "Rol: " + this.c_rol;
+        Polymer.dom(this.$$('#studie_gebruiker')).node.innerHTML = "Studie: " + this.c_studie;
+        Polymer.dom(this.$$('#studentNummer_gebruiker')).node.innerHTML = "StudentNummer: " + this.c_studentNummer;
+      },
+    });
+
+    function encodeImageFileAsURL(element) {
+      console.log(this.c_docentNummer);
+      var filesSelected = element.files;
+      console.log(filesSelected);
+    if (filesSelected.length > 0) {
+      var fileToLoad = filesSelected[0];
+      var fileReader = new FileReader();
+      
+      fileReader.onload = function(fileLoadedEvent) {
+        var srcData = fileLoadedEvent.target.result; // <--- data: base64
+        window.localStorage.setItem("img",srcData);
+        console.log(srcData);
+      }
+      fileReader.readAsDataURL(fileToLoad);
+    }
+  }
   </script>
 </dom-module>

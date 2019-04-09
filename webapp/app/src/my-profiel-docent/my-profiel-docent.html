@@ -5,6 +5,8 @@
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+
 
 
 <!-- Dit element wordt door de aanwezigheid van de c_visible parameter steeds opnieuw gerefreshed
@@ -27,42 +29,22 @@
       span {
         @apply --paper-font-body1;
       }
-      .toast-button {
-        text-transform: none;
-        color: white;                           /* white tekst */
-        background: #1a9fd9;                    /* kind of blue */
-        --paper-button-ink-color: #00567B;      /* kind of dark blue */
+      iron-image {
+        display: block;
+        width: 90px;
+        height: 90px;
+        margin: 10px;
+        background-color: lightgray;
       }
-      .my-title {
-        font-size: 20px;
-        color: blue;
-        border-bottom: 1px solid red;           /* a red line */
-        padding-bottom: 2px;                    /* space above the border line */
+      .parentimg {
+        width: 100px;
       }
-      .voornaam {
-        min-width: 100px;
-        text-align: left;
-       }
-      .achternaam {
-        min-width: 100px;
-        text-align: left;
+      input[type=file]{
+        padding:5px;
+        background:#e7e7e7;
       }
-      .groepid-header {
-        min-width: 100px;
-        text-align: left;
-      }
-      .groepid{
-        min-width: 100px;
-      }
-
-      .my-button {
-        width: 100%;                        /* full width */
-        color: white;                       /* white tekst */
-        background: #1a9fd9;                /* kind of blue */
-        --paper-button-ink-color: #00567B;  /* kind of dark blue */
-        margin-top: 5px;                    /* enlarge thet default */
-        margin-left: 0px;                   /* reduce the default */
-      }
+      
+      
    </style>
     <paper-card>
         <div class="card"s>
@@ -70,9 +52,16 @@
           <paper-input id="volleNaam" label="[[naam]]" value="{{c_volleNaam}}"></paper-input>
           <p id="rol_gebruiker">rol</p>
           <p id="docentNummer">docentnummer</p>
+          
+          <div class="parentimg">
+            <iron-image id="imgTest" alt="Image preview..." placeholder="{{b64_prop}}" src="{{b64_prop}}">
+          </div>
+          </iron-image>
+          
+          upload hier uw nieuwe profielfoto
+          <br>
+          <input type="file" accept="image/*"  onchange="encodeImageFileAsURL(this)">
         </div>
-       <div class="card-actions">
-       </div>
     </paper-card>
 
 
@@ -95,9 +84,12 @@
 
     <app-localstorage-document key="[[c_docentNummer]]" data='[[c_volleNaam]]'></app-localstorage-document>
 
-  </template>
 
+  </template>
+  
   <script>
+
+
     Polymer({
       is: 'my-profiel-docent',
 
@@ -122,6 +114,12 @@
           value: false,
           observer: '_informatie_gebruiker',  
         },
+        b64_prop: {
+          type: String,
+          value: function pakfoto(){
+            return window.localStorage.getItem("img");
+          }
+        }
       },
 
       _informatie_gebruiker: function() {
@@ -151,12 +149,28 @@
           volleNaamreplacer = volleNaamreplacer.replace('"','');
           this.c_volleNaam = volleNaamreplacer.replace('"','');
         }
-
         Polymer.dom(this.$$('#docentNummer')).node.innerHTML = "docentNummer: " + this.c_docentNummer;
         Polymer.dom(this.$$('#rol_gebruiker')).node.innerHTML = "rol: " + this.c_rol;
       },
-    });
-    
 
+    });
+
+    function encodeImageFileAsURL(element) {
+      console.log(this.c_docentNummer);
+      var filesSelected = element.files;
+      console.log(filesSelected);
+      if (filesSelected.length > 0) {
+        var fileToLoad = filesSelected[0];
+        var fileReader = new FileReader();
+        
+        fileReader.onload = function(fileLoadedEvent) {
+          var srcData = fileLoadedEvent.target.result; // <--- data: base64
+          window.localStorage.setItem("img",srcData);
+          console.log(srcData);
+        }
+      fileReader.readAsDataURL(fileToLoad);
+      }
+    }
+    
   </script>
 </dom-module>
