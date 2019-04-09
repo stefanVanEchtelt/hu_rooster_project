@@ -2,10 +2,13 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/google-chart/google-chart.html">
+<link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
 
 
 <dom-module id="popup-student">
   <template>
+    <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
+    <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
     <style>
 
       #student_popup_container {
@@ -43,14 +46,24 @@
 
         <BR>
       <google-chart type="pie"
-                  data='[["Lessen", "Days"], ["Aanwezig", [[aantalTwee]]], ["Niet aanwezig", [[nietAanwezig]]]]'
+                  data='[["Lessen", "Days"], ["Aanwezig", [[aantal]]], ["Niet aanwezig", [[nietAanwezig]]]]'
                   style='height: 200px; width: 400px;'></google-chart>
 
       <google-chart type="pie"
-                  data='[["Afwezig", "Days"], ["Ziek", 31], ["Dokter", 0], ["Anders", 0], ["Tandarts", 0], ["Ongeoorloofd", 0]]'
+                  data='[["Afwezig", "Days"], ["Ziek", [[ziekenAantal]]], ["Dokter", [[dokterAantal]]], ["Anders", [[andersAantal]]], ["Tandarts", [[medischeAantal]]], ["Ongeoorloofd", 0]]'
                   style='height: 200px; width: 400px'></google-chart>
       <paper-button on-tap="_close_modal"><iron-icon icon="icons:close"></iron-icon></paper-button><BR>
     </div>
+
+    <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
+    <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
+    <iron-ajax
+      id="ajax_lessen_in_verleden_ophalen"
+      method="POST"
+      url="/leerling/afgelopenlessen/ophalen"
+      handle-as="json"
+      on-response="openHandler">
+    </iron-ajax>
   </template>
 
   <script>
@@ -63,39 +76,159 @@
             value: false,
             observer: '_handel',
           },
-
+          alleLessen: {
+            type: Array,
+            // value: []
+          },
           leerling: {
             type: Array,
             value: []
           },
           aantal: {
-            type: Number,
-            observer: '_handlerAantal'
+            type: Number
           },
           nietAanwezig: {
-            type: Number,
-            value: 9
-          },
-          aantalTwee: {
             type: Number
+          },
+          afwezigen: {
+            type: Array,
+            value: [],
+          },
+          zieken: {
+            type: Array,
+          },
+          aantalLessenVoorVandaag: {
+            type: Number
+          },
+          ziekenAantal: {
+            type: Number
+          },
+          andersAantal: {
+            type: Number
+          },
+          medischeAantal: {
+            type: Number,
+          },
+          dokterAantal: {
+            type: Number,
           }
-
         };
       }
 
-      _handlerAantal(){
-        this.aantalTwee = this.aantal - this.nietAanwezig;
-        console.log(this.aantal);
+
+      _ajax_lessen_in_verleden_ophalen() {
+        console.log("_ajax_lessen_in_verleden_ophalen");
+        this.$.ajax_lessen_in_verleden_ophalen.contentType="application/json";
+        this.$.ajax_lessen_in_verleden_ophalen.body={
+          "nummerLeerling":this.leerling.id
+        };
+        this.$.ajax_lessen_in_verleden_ophalen.generateRequest();
       }
+
+//       _lessen_in_verleden_ophalen_response_handler(request) {
+//         console.log("skeet");
+// //          console.log(alleLessen);
+//         console.log(request.detail.response);
+//         this.set("aantalLessenVoorVandaag", request.detail.response);
+//         console.log(this.aantalLessenVoorVandaag);
+//         // this.aantalLessen = this.aantalLessenVoorVandaag.aantalLessenVoorVandaag;
+//         this.i_loaded = true;
+//       }
+
+      // _handlerAantal(){
+      //   // this.nietAanwezig = this.zieken.length + this.afwezigen.length;
+      //   console.log(this.aantal);
+      //   this.aantal = this.aantal - this.nietAanwezig;
+      //   console.log(this.aantal);
+      // }
+
       _handel() {
-        if (this.show) {
-          this.openHandler();
+        console.log("_handel()");
+        if (this.show == true) {
+          this._ajax_lessen_in_verleden_ophalen();
         }
       }
 
-      openHandler() {
+      openHandler(request) {
         var popup = this.root.querySelector('#student_popup_container');
         popup.style.display = "block";
+        this.aantalLessenVoorVandaag = request.detail.response;
+
+        let aanwezigUren = 0;
+        let ziekenUren = 0;
+        let medicheRedenUren = 0;
+        let andersUren = 0;
+        let dokterUren = 0;
+        let username = this.leerling.username;
+
+        this.aantalLessenVoorVandaag.forEach((les) => {
+            let aanwezig = true;
+            let start = new Date(les.datum + " " + les.start_tijd);
+            let eind = new Date(les.datum + " " + les.eind_tijd);
+            let duur = (eind.getTime() - start.getTime()) / 3600 / 1000;
+
+            this.zieken.forEach((ziekte) => {
+              let ziekteStart = new Date(ziekte.van);
+              let ziekteEind = null;
+              if (ziekte.tot != null) {
+                ziekteEind = new Date(ziekte.tot);
+              }
+
+              if (ziekte.naam == username && aanwezig == true && (
+                (ziekteStart < start && ziekteEind > eind) ||
+                (ziekteStart < start && ziekteEind == null)
+              )) {
+                aanwezig = false;
+                ziekenUren = ziekenUren + duur;
+              }
+            });
+
+            this.afwezigen.forEach((afwezigte) => {
+              let afwezigteStart = new Date(afwezigte.van_datum + " " + afwezigte.van_tijd);
+              let afwegigteTot = new Date(afwezigte.tot_datum + " " + afwezigte.tot_tijd);
+
+              if (afwezigte.naam == username && aanwezig == true && (
+                (afwezigteStart <= start && afwegigteTot >= eind)
+              )) {
+                aanwezig = false;
+
+                if (afwezigte.reden == "dokter") {
+                  dokterUren = dokterUren + duur;
+                } else if (afwezigte.reden == "tandarts") {
+                  medicheRedenUren = medicheRedenUren + duur;
+                } else {
+                  andersUren = andersUren + duur
+                }
+              }
+            });
+
+            if (aanwezig) {
+              aanwezigUren = aanwezigUren + duur;
+            }
+
+          });
+
+          this.aantal = aanwezigUren;
+          console.log(aanwezigUren + "uren aanwezig");
+          console.log(this.nietAanwezig + "niet aanwezig uren");
+          console.log(ziekenUren);
+          console.log(medicheRedenUren);
+          console.log(andersUren);
+
+          this.nietAanwezig = ziekenUren + medicheRedenUren + andersUren + dokterUren;
+          this.ziekenAantal = ziekenUren;
+          this.medischeAantal = medicheRedenUren;
+          this.andersAantal = andersUren;
+          this.dokterAantal = dokterUren;
+
+          // return {
+          //   "aanwezigUren": aanwezigUren,
+          //   "ziekenUren": ziekenUren,
+          //   "medicheRedenUren": medicheRedenUren,
+          //   "andersUren": andersUren,
+          // }
+        // }
+        this.i_loaded = true;
       }
 
       _close_modal() {

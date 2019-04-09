@@ -15,16 +15,22 @@
     <style>
       #absent_melden_popup_container {
         display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        display: none;
-        position: fixed;
         padding-top: 0px;
         z-index: 1;
         background-color: white;
         border-style: solid;
         border-width: 2px;
         margin:0 auto;
-        top:50%;
+        top:10%;
+        min-width: 300px;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+      }
+
+      #presentie_melden {
+        width: auto;
+        padding: 5%;
       }
 
       h1 {
@@ -71,48 +77,80 @@
         margin-top: 5px;
       }
 
+      .clearfix {
+        clear: both;
+      }
+
+      #left {
+          float: left;
+      }
+      .right {
+          float: right;
+      }
     </style>
 
-    <!-- <button id="absent_melden_open_button" raised on-click="openHandler">Absent melden</button> -->
     <div id="absent_melden_popup_container">
-        <paper-dialog id="absent_dialog" modal>
           <template is="dom-if" if="{{isStudent(c_rol)}}">
                   <h1>Absent melden</h1>
                   <form id="absent_melden_form" onsubmit="return false">
                       <p>
-                          <b>Reden van absentie:</b><br>
-                          <input type="radio" id="radioZiek" value="Ziek" raised on-click="ziekHandler" name="absentie_soort">Ziek</input><br>
-                          <input type="radio" id="radioTandarts" value="Tandarts" raised on-click="tandartsHandler" name="absentie_soort">Tandarts</input><br>
-                          <input type="radio" id="radioDokter" value="Dokter" raised on-click="dokterHandler" name="absentie_soort">Dokter</input><br>
-                          <input type="radio" id="radioAnders" value="nee" raised on-click="andersHandler" name="absentie_soort">Anders, namelijk:</input>
-                          <input type="text" name="absentie_soort_anders"></input>
-                      </p>
-                      <div id="medischInput">
-                          <p><b>Wanneer is de absentie?</b><br>
-                              Op: <input type="date" name="medischDatum"><br>
-                              Van: <input type="time" name="medischTijdBegin"></input> Tot: <input type="time" name="medischTijdEinde">
-                      </div>
-                      <div id="andersInput">
-                          <p><b>Wanneer is de absentie?</b><br>
-                              Van: <input type="date" id="andersVanafDatum"></input> om: <input type="time" id="andersVanafTijd"></input><br>
-                              Tot: <input type="date" id="andersTotDatum"></input> om: <input type="time" id="andersTotTijd"></input>
-                      </div>
-                      <div id="absent_melden_buttons">
-                          <button raised on-click="cancelHandler">Annuleren</button>
-                          <button type="submit" raised on-click="submitHandler">Verzenden</button>
-                      </div>
+                         <b>Reden van absentie:</b><br>
+				            <paper-radio-group selected="ziek" id="radioAbsent" aria-labelledby="label1">
+				              <paper-radio-button class="baseModalContent" on-click="ziekHandler" name="ziek">Ziek</paper-radio-button><br>
+				              <paper-radio-button class="baseModalContent" on-click="tandartsHandler" name="tandarts">Tandarts</paper-radio-button><br>
+				              <paper-radio-button class="baseModalContent" on-click="dokterHandler" name="dokter">Dokter</paper-radio-button><br>
+				              <paper-radio-button class="baseModalContent" on-click="andersHandler" name="anders">Anders</paper-radio-button>
+				            </paper-radio-group>                      </p>
+				          	<div id="medischInput">
+					            <p><b>Wanneer is de absentie?</b><br>
+					            <paper-input id="medischDatum" type="date" label="Datum:" class="baseModalContent" name="medischDatum"></paper-input>
+					            <paper-input id="medischTijdBegin" type="time" label="Van:" class="baseModalContent" name="medischTijdBegin"></paper-input>
+					            <paper-input id="medischTijdEinde" type="time" label="Tot:" name="medischTijdEinde"></paper-input>
+				          	</div>
+				          	<div id="andersInput">
+				            <p><b>Wanneer is de absentie?</b><br>
+					            <paper-input id="andersReden" label="Reden:"></paper-input><br>
+					            <paper-input id="andersDatumVanaf" type="date" label="Vanaf:" class="baseModalContent" id="andersVanafDatum"></paper-input>
+					            <paper-input id="andersTijdVanaf" type="time" label="om:" class="baseModalContent" id="andersVanafTijd"></paper-input><br>
+					            <paper-input id="andersDatumTot" type="date" label="Tot:" class="baseModalContent" id="andersTotDatum"></paper-input>
+					            <paper-input id="andersTijdTot" type="time" label="om:" class="baseModalContent" id="andersTotTijd"></paper-input>
+				          	</div>
+					         <div id="absent_melden_buttons">
+					            <paper-button raised on-click="cancelHandler">Annuleren</paper-button>
+					            <paper-button type="submit" raised on-click="submitHandler">Verzenden</paper-button>
+					         </div>
                   </form>
           </template>
           <template is="dom-if" if="{{!isStudent(c_rol)}}">
               <h1>Presentie</h1>
+              {{les}}
+              <paper-button raised on-click="zetAanwezig">Alles aanwezig</paper-button>
               <form id="presentie_melden" onsubmit="return false">
+                  <div id="left">
+                      <h2>Present</h2>
 
+                      <template is="dom-repeat" items="{{les_studenten}}" as="student">
+                          <template is="dom-if" if="{{checkAanwezigheid(student.gebruikersnaam)}}">
+                              <paper-checkbox id="stud[[index]]" on-change="checkboxChanged">{{ student.fullname }}</paper-checkbox> <br/>
+                          </template>
+                      </template>
+                  </div>
+                  <div class="right">
+                  <h2>Absent</h2>
+                      <template is="dom-repeat" items="{{les_studenten}}" as="student">
+                          <template is="dom-if" if="{{!checkAanwezigheid(student.gebruikersnaam)}}">
+                              <paper-checkbox on-change="checkboxChanged">{{ student.fullname }}</paper-checkbox> <br/>
+                          </template>
+                      </template>
+                  </div>
+               <div id="present_melden_buttons">
+                   <paper-button raised on-click="cancelHandler">Annuleren</paper-button>
+                   <paper-button type="submit" raised on-click="submitDocentHandler">Verzenden</paper-button>
+               </div>
               </form>
+              <div class="clearfix"></div>
           </template>
-        </paper-dialog>
     </div>
-    <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
-    <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
 
     <iron-ajax
       id="ajax_les_ophalen"
@@ -122,45 +160,17 @@
       on-response="_les_ophalen_response_handler">
     </iron-ajax>
 
-  </template>
-            <paper-radio-group selected="ziek" id="radioAbsent" aria-labelledby="label1">
-              <paper-radio-button class="baseModalContent" on-click="ziekHandler" name="ziek">Ziek</paper-radio-button><br>
-              <paper-radio-button class="baseModalContent" on-click="tandartsHandler" name="tandarts">Tandarts</paper-radio-button><br>
-              <paper-radio-button class="baseModalContent" on-click="dokterHandler" name="dokter">Dokter</paper-radio-button><br>
-              <paper-radio-button class="baseModalContent" on-click="andersHandler" name="anders">Anders</paper-radio-button>
-            </paper-radio-group>
-          </p>
-          <div id="medischInput">
-            <p><b>Wanneer is de absentie?</b><br>
-            <paper-input id="medischDatum" type="date" label="Datum:" class="baseModalContent" name="medischDatum"></paper-input>
-            <paper-input id="medischTijdBegin" type="time" label="Van:" class="baseModalContent" name="medischTijdBegin"></paper-input>
-            <paper-input id="medischTijdEinde" type="time" label="Tot:" name="medischTijdEinde"></paper-input>
-          </div>
-          <div id="andersInput">
-            <p><b>Wanneer is de absentie?</b><br>
-            <paper-input id="andersReden" label="Reden:"></paper-input><br>
-            <paper-input id="andersDatumVanaf" type="date" label="Vanaf:" class="baseModalContent" id="andersVanafDatum"></paper-input>
-            <paper-input id="andersTijdVanaf" type="time" label="om:" class="baseModalContent" id="andersVanafTijd"></paper-input><br>
-            <paper-input id="andersDatumTot" type="date" label="Tot:" class="baseModalContent" id="andersTotDatum"></paper-input>
-            <paper-input id="andersTijdTot" type="time" label="om:" class="baseModalContent" id="andersTotTijd"></paper-input>
-          </div>
-          <div id="absent_melden_buttons">
-            <paper-button raised on-click="cancelHandler">Annuleren</paper-button>
-            <paper-button type="submit" raised on-click="submitHandler">Verzenden</paper-button>
-          </div>
-        </form>
-        </paper-dialog>
-      </div>
-      <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
-      <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
+    <iron-ajax
+      id="ajax_docent_les_ophalen"
+      method="POST"
+      url="/rooster/docent/les/ophalen"
+      handle-as="json"
+      on-response="_docent_les_ophalen_response_handler">
+    </iron-ajax>
 
-      <iron-ajax
-        id="ajax_les_ophalen"
-        method="POST"
-        url="/rooster/les/ophalen"
-        handle-as="json"
-        on-response="_les_ophalen_response_handler">
-      </iron-ajax>
+    <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
+    <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
+  </template>
   <script>
     class PopupAbsent extends Polymer.Element {
       static get is() { return 'popup-absent'; }
@@ -176,9 +186,11 @@
           },
           afwezigen: {
             type: Array,
+            // value: []
           },
           zieken: {
             type: Array,
+            // value: []
           },
           les: {
             type: String,
@@ -189,6 +201,14 @@
           c_username: {
             type: String,
           },
+          les_studenten: {
+              type: Array,
+              value: [],
+          },
+          les_docent_data: {
+            type: Array,
+            value: [],
+          }
         };
       }
 
@@ -200,47 +220,108 @@
         }
       }
 
+      checkAanwezigheid(username) {
+        let aanwezig = true;
+        let reden = "";
+
+        if (this.zieken != undefined) {
+          this.zieken.forEach((ziekte) => {
+            if (ziekte.naam == username && ziekte.tot == null && (new Date(ziekte.van) < new Date()) ) {
+              reden = "ziek";
+              aanwezig = false;
+            }
+          });
+        }
+
+        if (this.afwezigen != undefined) {
+          this.afwezigen.forEach((afwezigheid) => {
+            if (
+              afwezigheid.naam == username && (
+                new Date(afwezigheid.van_datum + " " + afwezigheid.van_tijd) < new Date() &&
+                new Date(afwezigheid.tot_datum + " " + afwezigheid.tot_tijd) > new Date()
+              )
+            ) {
+              reden = afwezigheid.reden;
+              aanwezig = false;
+            }
+          });
+        }
+
+        return aanwezig;
+      }
+
       openHandler() {
         if (this.c_rol == "student") {
           this.$.ajax_les_ophalen.contentType = "application/json";
           this.$.ajax_les_ophalen.body = {
             "datum": this.datum,
-            "username": this.username,
+            "username": this.c_username,
             "les": this.les,
           };
           this.$.ajax_les_ophalen.generateRequest();
 
           var popup = this.root.querySelector('#absent_melden_popup_container');
           popup.style.display = "block";
-            this.show = true;
-
-            console.log("y");
+          this.show = true;
         } else {
-          console.log(this.zieken);
-          console.log(this.c_rol);
-            var popup = this.root.querySelector('#absent_melden_popup_container');
-            popup.style.display = "block";
+            console.log(this.les);
+          this.$.ajax_docent_les_ophalen.contentType = "application/json";
+          this.$.ajax_docent_les_ophalen.body = {
+            "datum": this.datum,
+            "username": this.c_username,
+            "les": this.les,
+          };
+          this.$.ajax_docent_les_ophalen.generateRequest();
+
+          var popup = this.root.querySelector('#absent_melden_popup_container');
+          popup.style.display = "block";
+          this.show = true;
         }
 
       }
 
       isStudent(rol) {
-          if(rol == 'student'){
+          if (rol == 'student') {
               return true;
-          }else{
+          } else {
               return false;
           }
       }
+
       _les_ophalen_response_handler(request) {
-        console.log("resp");
-        console.log(request.detail.response);
+        let les = request.detail.response;
+        this.root.querySelector('#andersDatumVanaf').value = les.les_datum;
+        this.root.querySelector('#andersDatumTot').value = les.les_datum;
+        this.root.querySelector('#andersTijdVanaf').value = les.start_tijd;
+        this.root.querySelector('#andersTijdTot').value = les.eind_tijd;
+
+        this.root.querySelector('#medischDatum').value = les.les_datum;
+        this.root.querySelector('#medischTijdBegin').value = les.start_tijd;
+        this.root.querySelector('#medischTijdEinde').value = les.eind_tijd;
+      }
+
+      _docent_les_ophalen_response_handler(request) {
+        let les = request.detail.response;
+        this.set("les_docent_data", les);
+        this.set("les_studenten", les.studenten);
       }
 
       cancelHandler() {
-        //console.log("cancel");
         this.show = false;
         var popup = this.root.querySelector('#absent_melden_popup_container');
         popup.style.display = "none";
+      }
+
+      zetAanwezig() {
+            console.log(this.root.querySelector('#left'));
+            console.log(this.les_studenten.length);
+            let x = this.les_studenten.length;
+          for(var i = 0; i <= x; i = i + 1){
+              if(this.root.querySelector("#stud" + i) != null) {
+                  this.root.querySelector("#stud" + i).setAttribute("checked", true);
+                  this.set("les_studenten." + i + ".is_aanwezig", 1);
+              }
+          }
       }
 
         ziekHandler(event) {
@@ -265,41 +346,90 @@
         }
 
         submitHandler(event) {
-          console.log(this.root.querySelector('#radioAbsent').selected);
-          console.log(this.root.querySelector('#medischDatum').value);
-          console.log(this.root.querySelector('#medischTijdBegin').value);
-          console.log(this.root.querySelector('#medischTijdEinde').value);
-          console.log(this.root.querySelector('#andersReden').value);
-          console.log(this.root.querySelector('#andersDatumVanaf').value);
-          console.log(this.root.querySelector('#andersTijdVanaf').value);
-          console.log(this.root.querySelector('#andersDatumTot').value);
-          console.log(this.root.querySelector('#andersTijdTot').value);
-
-        // als reden ziek maak lijst met zieken leerlingen
-        // anders zet in afweziggen
-
-        let reden = "tandarts";
-        if (reden != "ziek") {
-          this.afweziggen.push({
+        let reden = this.root.querySelector('#radioAbsent').selected;
+        if (reden == "ziek") {
+          this.push("zieken", {
+            naam: this.c_username,
+            van: new Date(),
+            tot: null,
+          });
+        } else if (reden == "tandarts") {
+            this.push('afwezigen', {
+              naam: this.c_username,
+              reden: reden,
+              van_datum: this.root.querySelector('#medischDatum').value,
+              tot_datum: this.root.querySelector('#medischDatum').value,
+              van_tijd: this.root.querySelector('#medischTijdBegin').value,
+              tot_tijd: this.root.querySelector('#medischTijdEinde').value,
+            });
+        } else if (reden == "dokter") {
+          this.push('afwezigen', {
             naam: this.c_username,
             reden: reden,
-            van: "",
-            tot: "",
+            van_datum: this.root.querySelector('#medischDatum').value,
+            tot_datum: this.root.querySelector('#medischDatum').value,
+            van_tijd: this.root.querySelector('#medischTijdBegin').value,
+            tot_tijd: this.root.querySelector('#medischTijdEinde').value,
           });
-        } else {
-          this.zieken.push({
-            naam: this.c_username
-          })
+        } else if (reden == "anders") {
+          this.push('afwezigen', {
+            naam: this.c_username,
+            reden: this.root.querySelector("#andersReden").value,
+            van_datum: this.root.querySelector('#andersDatumVanaf').value,
+            tot_datum: this.root.querySelector('#andersDatumTot').value,
+            van_tijd: this.root.querySelector('#andersTijdVanaf').value,
+            tot_tijd: this.root.querySelector('#andersTijdTot').value,
+          });
         }
+
+        this.cancelHandler();
+      }
+
+      submitDocentHandler() {
+        this.les_studenten.forEach((student, index) => {
+          if (student.is_aanwezig == 1 && !this.checkAanwezigheid(student.gebruikersnaam)) {
+            this.zieken.forEach((ziek, index) => {
+              if (ziek.naam == student.gebruikersnaam && ziek.tot == null) {
+                this.set("zieken." + index + ".tot", new Date(this.les_docent_data.les_datum + " " + this.les_docent_data.start_tijd));
+              }
+            });
+
+            this.afwezigen.forEach((afwezigte, index) => {
+              let afwegigteTot = new Date(afwezigte.tot_datum + " " + afwezigte.tot_tijd);
+              let start = new Date(this.les_docent_data.les_datum + " " + this.les_docent_data.start_tijd);
+
+              if (afwezigte.naam == student.gebruikersnaam && (afwegigteTot > start)) {
+                  this.set("afwezigen." + index + ".tot_datum", this.les_docent_data.les_datum);
+                  this.set("afwezigen." + index + ".tot_tijd", this.les_docent_data.start_tijd);
+              }
+            });
+          } else if (student.is_aanwezig == 0 && this.checkAanwezigheid(student.gebruikersnaam)) {
+              this.push('afwezigen', {
+                naam: student.gebruikersnaam,
+                reden: "onbekend",
+                van_datum: this.les_docent_data.les_datum,
+                tot_datum: this.les_docent_data.les_datum,
+                van_tijd: this.les_docent_data.start_tijd,
+                tot_tijd: this.les_docent_data.eind_tijd
+              });
+          }
+        });
+
+        this.cancelHandler();
+      }
+
+      checkboxChanged(event) {
+        this.les_studenten.forEach((student, index) => {
+          if (student.gebruikersnaam == event.model.student.gebruikersnaam) {
+            if (event.target.checked) {
+              this.set("les_studenten." + index + ".is_aanwezig", 1);
+            } else {
+              this.set("les_studenten." + index + ".is_aanwezig", 0);
+            }
+          }
+        });
       }
     }
-
-
-        // console.log(this.afweziggen);
-        // console.log(this.root.querySelector('#radioZiek').value);
-        // console.log(this.root.querySelector('#radioTandarts').value);
-        // console.log(this.root.querySelector('#radioDokter').value);
-        // console.log(this.root.querySelector('#radioAnders').value);
 
     window.customElements.define(PopupAbsent.is, PopupAbsent);
   </script>
