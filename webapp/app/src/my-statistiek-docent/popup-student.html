@@ -69,6 +69,11 @@
             value: false,
             observer: '_handel',
           },
+          alleLessen: {
+            type: Array,
+            observer: 'openHandler',
+            value: []
+          },
           leerling: {
             type: Array,
             value: []
@@ -99,15 +104,47 @@
         console.log(this.aantal);
       }
       _handel() {
-        if (this.show) {
+        if (this.show && this.alleLessen != undefined) {
           this.openHandler();
         }
       }
 
       openHandler() {
+        console.log("-----");
         console.log(this.zieken);
         console.log(this.afwezigen);
-        console.log("x");
+        console.log(this.alleLessen);
+        console.log(this.leerling);
+
+        let aanwezig = 0;
+        let ziekenUren = 0;
+        let medicheRedenUren = 0;
+        let andersUren = 0;
+        let username = this.leerling.username;
+
+        console.log("dooo");
+        if (this.alleLessen != undefined) {
+          console.log("xxx --- xxx");
+          console.log(this.alleLessen);
+          this.alleLessen.forEach((les) => {
+              let aanwezig = true;
+              let start = new Date(les.datum + " " + les.start_tijd);
+              let eind = new Date(les.datum + " " + les.eind_tijd);
+
+              console.log(start.getTime - eind.getTime);
+
+              this.zieken.forEach((ziekte) => {
+                if (ziekte.naam == username) {
+                  aanwezig = false;
+                }
+              });
+
+              if (aanwezig) {
+
+              }
+
+          });
+        }
 
         var popup = this.root.querySelector('#student_popup_container');
         popup.style.display = "block";

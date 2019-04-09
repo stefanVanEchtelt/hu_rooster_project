@@ -66,7 +66,8 @@ public class LessenInVerledenController implements Handler {
 						.add("start_tijd", l.getStartTijd())
 						.add("eind_tijd", l.getEindTijd())
 						.add("duur", l.getDuur())
-						.add("cursuscode", l.getCursuscode());
+						.add("cursuscode", l.getCursuscode())
+						.add("datum", l.getStartDatum());
 			  
 				lJsonArrayBuilder.add(lJsonObjectBuilderVoorStudent);	
 			}

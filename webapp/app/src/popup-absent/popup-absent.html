@@ -216,7 +216,6 @@
 
         if (this.zieken != undefined) {
           this.zieken.forEach((ziekte) => {
-            console.log(ziekte);
             if (ziekte.naam == username && ziekte.tot == null && (new Date(ziekte.van) < new Date()) ) {
               reden = "ziek";
               aanwezig = false;

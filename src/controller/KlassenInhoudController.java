@@ -6,6 +6,9 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+
+import com.sun.javafx.geom.AreaOp.AddOp;
+
 import server.Handler;
 
 import model.PrIS;
@@ -41,7 +44,8 @@ public class KlassenInhoudController implements Handler {
 			lJsonObjectBuilderVoorLeerlingen
 					.add("id", s.getStudentNummer())
 					.add("voornaam", s.getVoornaam())
-					.add("achternaam", s.getVolledigeAchternaam());
+					.add("achternaam", s.getVolledigeAchternaam())
+					.add("username", s.getGebruikersnaam());
 		  
 			lJsonArrayBuilder.add(lJsonObjectBuilderVoorLeerlingen);	
 		}
