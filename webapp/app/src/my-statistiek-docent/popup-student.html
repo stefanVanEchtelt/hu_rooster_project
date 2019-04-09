@@ -54,6 +54,9 @@
                   style='height: 200px; width: 400px'></google-chart>
       <paper-button on-tap="_close_modal"><iron-icon icon="icons:close"></iron-icon></paper-button><BR>
     </div>
+
+    <app-localstorage-document key="afwezigen" data="{{afwezigen}}"></app-localstorage-document>
+    <app-localstorage-document key="zieken" data="{{zieken}}"></app-localstorage-document>
   </template>
 
   <script>
@@ -66,7 +69,6 @@
             value: false,
             observer: '_handel',
           },
-
           leerling: {
             type: Array,
             value: []
@@ -103,6 +105,10 @@
       }
 
       openHandler() {
+        console.log(this.zieken);
+        console.log(this.afwezigen);
+        console.log("x");
+
         var popup = this.root.querySelector('#student_popup_container');
         popup.style.display = "block";
       }
