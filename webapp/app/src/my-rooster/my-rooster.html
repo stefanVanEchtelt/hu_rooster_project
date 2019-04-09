@@ -179,12 +179,12 @@
 
         _initializing: function() {
 
-
-
-          if (this.afwezigen == "{{afwezigen}}") {
+          if (this.afwezigen == "{{afwezigen}}" || this.afwezigen == undefined || this.afwezigen == "undefined") {
+            console.log("set");
             this.set("afwezigen", []);
           }
-          if (this.zieken == "{{zieken}}") {
+
+          if (this.zieken == "{{zieken}}" || this.zieken == undefined) {
             this.set("zieken", []);
           }
 
