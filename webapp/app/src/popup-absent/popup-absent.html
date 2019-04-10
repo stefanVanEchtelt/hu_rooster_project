@@ -29,8 +29,10 @@
       }
 
       #presentie_melden {
-        width: auto;
+        width: 500px;
         padding: 5%;
+        height: 500px;
+        overflow: auto;
       }
 
       h1 {
@@ -81,11 +83,17 @@
         clear: both;
       }
 
-      .left {
+      #left {
           float: left;
+          width: 200px;
+          border-right: solid 1px grey;
       }
       .right {
-          float: right;
+          float: left;
+          width: 200px;
+          overflow: hidden;
+          padding-top: 40.59px;
+          margin-left: 2%;
       }
     </style>
 
@@ -124,9 +132,9 @@
           <template is="dom-if" if="{{!isStudent(c_rol)}}">
               <h1>Presentie</h1>
               {{les}}
-              <paper-button raised on-click="zetAanwezig">Alles aanwezig</paper-button>
               <form id="presentie_melden" onsubmit="return false">
-                  <div class="left">
+                  <div id="left">
+                      <paper-button raised on-click="zetAanwezig">Alles aanwezig</paper-button>
                       <h2>Present</h2>
 
                       <template is="dom-repeat" items="{{les_studenten}}" as="student">
@@ -134,6 +142,10 @@
                               <paper-checkbox id="stud[[index]]" on-change="checkboxChanged">{{ student.fullname }}</paper-checkbox> <br/>
                           </template>
                       </template>
+                      <div id="present_melden_buttons">
+                          <paper-button raised on-click="cancelHandler">Annuleren</paper-button>
+                          <paper-button type="submit" raised on-click="submitDocentHandler">Verzenden</paper-button>
+                      </div>
                   </div>
                   <div class="right">
                   <h2>Absent</h2>
@@ -143,10 +155,6 @@
                           </template>
                       </template>
                   </div>
-               <div id="present_melden_buttons">
-                   <paper-button raised on-click="cancelHandler">Annuleren</paper-button>
-                   <paper-button type="submit" raised on-click="submitDocentHandler">Verzenden</paper-button>
-               </div>
               </form>
               <div class="clearfix"></div>
           </template>
@@ -313,10 +321,14 @@
       }
 
       zetAanwezig() {
-          var aanwezig = this.les_studenten.length;
-
-          for(var i = 0; i < aanwezig; i++){
-              this.root.querySelector("#stud" + i).setAttribute("checked", true);
+            console.log(this.root.querySelector('#left'));
+            console.log(this.les_studenten.length);
+            let x = this.les_studenten.length;
+          for(var i = 0; i <= x; i = i + 1){
+              if(this.root.querySelector("#stud" + i) != null) {
+                  this.root.querySelector("#stud" + i).setAttribute("checked", true);
+                  this.set("les_studenten." + i + ".is_aanwezig", 1);
+              }
           }
       }
 
