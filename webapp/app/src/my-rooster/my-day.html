@@ -125,10 +125,8 @@
             },
 
             openAbsentieModal: function(event) {
-              console.log(" click xxx ");
               this.set("showAbsentPopup", false);
               if (event.model.time != null) {
-                console.log("true");
                 this.set("clickedLes", event.model.time);
                 this.set("showAbsentPopup", true);
               }

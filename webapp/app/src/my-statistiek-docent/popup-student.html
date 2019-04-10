@@ -209,18 +209,19 @@
           });
 
           this.aantal = aanwezigUren;
-          console.log(aanwezigUren + "uren aanwezig");
-          console.log(this.nietAanwezig + "niet aanwezig uren");
-          console.log(ziekenUren);
-          console.log(medicheRedenUren);
-          console.log(andersUren);
-
           this.nietAanwezig = ziekenUren + medicheRedenUren + andersUren + dokterUren;
           this.ziekenAantal = ziekenUren;
           this.medischeAantal = medicheRedenUren;
           this.andersAantal = andersUren;
           this.dokterAantal = dokterUren;
 
+
+          console.log(aanwezigUren + "uren aanwezig");
+          console.log(this.nietAanwezig + "niet aanwezig uren");
+          console.log(ziekenUren);
+          console.log(medicheRedenUren);
+          console.log(andersUren);
+          
           // return {
           //   "aanwezigUren": aanwezigUren,
           //   "ziekenUren": ziekenUren,
