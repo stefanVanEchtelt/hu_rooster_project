@@ -35,7 +35,7 @@ public class LessenInVerledenController implements Handler {
 		System.out.println("afgelopen lessen ophalen");
 		
 		JsonObject lJsonObjectIn = (JsonObject) conversation.getRequestBodyAsJSON();
-		int currentIdLeerling = lJsonObjectIn.getInt("nummerLeerling");
+		String currentIdLeerling = lJsonObjectIn.getString("Username");
 		Student currentLeerling = informatieSysteem.getStudent(currentIdLeerling); 
 		Klas klasVanCurrentLeerling = informatieSysteem.getKlas(currentLeerling.getKlasCode());
 		
