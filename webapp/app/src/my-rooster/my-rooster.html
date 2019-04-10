@@ -41,7 +41,7 @@
     </style>
 
     <template is="dom-if" if="{{is_ziek}}">
-        <template is="dom-if" if="{{isStudent(c_rol)}}">
+        <template is="dom-if" if="c_rol == 'student'">
             <div class="beter-melden">
                 <paper-button raised on-click="beter_melden">Beter melden</paper-button>
             </div>
@@ -104,6 +104,7 @@
           },
           c_username: {
             type: String,
+            observer: 'checkIfZiek',
           },
           c_visible: {
             type: Boolean,                                      /* true when element is the active visible item */
@@ -139,21 +140,20 @@
 
         min_month: function() {
           var date = new Date(this.today);
-          let datum = date.setDate(date.getDate() - 7);
-          datum = new Date(datum);
-          this.set("today", datum);
-          this.setDays(datum);
+          let datum = new Date(date.setDate(date.getDate() - 7));
+          this.set("today", datum.toLocaleString());
+          this.setDays(datum.toLocaleString());
         },
 
         plus_month: function() {
           var date = new Date(this.today);
-          var datum = date.setDate(date.getDate() + 7);
-          datum = new Date(datum);
-          this.set("today", datum);
-          this.setDays(date);
+          var datum = new Date(date.setDate(date.getDate() + 7));
+          this.set("today", datum.toLocaleString());
+          this.setDays(date.toLocaleString());
         },
 
         setDays: function(current) {
+          current = new Date(current);
           var week = [];
           var weekdays = [];
           weekdays[0] = "Zondag";
@@ -230,6 +230,8 @@
           let nietziek = true;
           if (this.zieken != undefined && this.zieken != "{{zieken}}") {
             this.zieken.forEach((ziekte) => {
+              console.log(ziekte);
+              console.log(this.c_username);
               if (ziekte.naam == this.c_username && ziekte.tot == null) {
                 nietziek = false;
                 this.set("is_ziek", true);
