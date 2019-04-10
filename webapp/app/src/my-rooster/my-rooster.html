@@ -117,7 +117,7 @@
           },
           today: {
             type: String,
-            value: new Date()
+            value: new Date().toLocaleString()
           },
           days: {
             type: Array,
@@ -141,15 +141,15 @@
         min_month: function() {
           var date = new Date(this.today);
           let datum = new Date(date.setDate(date.getDate() - 7));
-          this.set("today", datum.toLocaleString());
-          this.setDays(datum.toLocaleString());
+          this.set("today", datum.toString());
+          this.setDays(datum.toString());
         },
 
         plus_month: function() {
           var date = new Date(this.today);
           var datum = new Date(date.setDate(date.getDate() + 7));
-          this.set("today", datum.toLocaleString());
-          this.setDays(date.toLocaleString());
+          this.set("today", datum.toString());
+          this.setDays(date.toString());
         },
 
         setDays: function(current) {
