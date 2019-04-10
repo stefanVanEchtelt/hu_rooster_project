@@ -119,7 +119,7 @@
         c_visible: {
           type: Boolean,                                      /* true when element is the active visible item */
           value: false,
-          observer: '_informatie_student',  
+          observer: '_informatie_student',
         },
         b64_prop: {
           type: String,
@@ -131,7 +131,7 @@
 
       _informatie_student: function() {
         if(this.c_visible){
-          console.log("_informatie_student user="+this.c_username);
+          // console.log("_informatie_student user="+this.c_username);
           this.$.ajax_informatie_student.contentType="application/json";
           this.$.ajax_informatie_student.body={
             "username":this.c_username
@@ -141,7 +141,7 @@
       },
 
       _informatie_student_request_handler: function(request) {
-        console.log("_informatie_student_request_handler user="+this.c_username);
+        // console.log("_informatie_student_request_handler user="+this.c_username);
         this.$.ajax_informatie_student.body={
             "klas":this.c_klas,
             "naam":this.c_volleNaam,
@@ -172,17 +172,17 @@
     });
 
     function encodeImageFileAsURL(element) {
-      console.log(this.c_docentNummer);
+      // console.log(this.c_docentNummer);
       var filesSelected = element.files;
-      console.log(filesSelected);
+      // console.log(filesSelected);
     if (filesSelected.length > 0) {
       var fileToLoad = filesSelected[0];
       var fileReader = new FileReader();
-      
+
       fileReader.onload = function(fileLoadedEvent) {
         var srcData = fileLoadedEvent.target.result; // <--- data: base64
         window.localStorage.setItem("img",srcData);
-        console.log(srcData);
+        // console.log(srcData);
       }
       fileReader.readAsDataURL(fileToLoad);
     }

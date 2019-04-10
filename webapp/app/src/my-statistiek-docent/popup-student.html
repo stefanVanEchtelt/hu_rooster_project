@@ -125,7 +125,7 @@
       }
 
       _handel() {
-        console.log("_handel()");
+        // console.log("_handel()");
         if (this.show == true) {
           this._ajax_lessen_in_verleden_ophalen();
         }
@@ -197,13 +197,13 @@
           this.andersAantal = andersUren;
           this.dokterAantal = dokterUren;
 
+          //
+          // console.log(aanwezigUren + "uren aanwezig");
+          // console.log(this.nietAanwezig + "niet aanwezig uren");
+          // console.log(ziekenUren);
+          // console.log(medicheRedenUren);
+          // console.log(andersUren);
 
-          console.log(aanwezigUren + "uren aanwezig");
-          console.log(this.nietAanwezig + "niet aanwezig uren");
-          console.log(ziekenUren);
-          console.log(medicheRedenUren);
-          console.log(andersUren);
-          
           // return {
           //   "aanwezigUren": aanwezigUren,
           //   "ziekenUren": ziekenUren,

@@ -43,8 +43,8 @@
         padding:5px;
         background:#e7e7e7;
       }
-      
-      
+
+
    </style>
     <paper-card>
         <div class="card"s>
@@ -52,12 +52,12 @@
           <paper-input id="volleNaam" label="[[naam]]" value="{{c_volleNaam}}"></paper-input>
           <p id="rol_gebruiker">rol</p>
           <p id="docentNummer">docentnummer</p>
-          
+
           <div class="parentimg">
             <iron-image id="imgTest" alt="Image preview..." placeholder="{{b64_prop}}" src="{{b64_prop}}">
           </div>
           </iron-image>
-          
+
           upload hier uw nieuwe profielfoto
           <br>
           <input type="file" accept="image/*"  onchange="encodeImageFileAsURL(this)">
@@ -86,7 +86,7 @@
 
 
   </template>
-  
+
   <script>
 
 
@@ -112,7 +112,7 @@
         c_visible: {
           type: Boolean,                                      /* true when element is the active visible item */
           value: false,
-          observer: '_informatie_gebruiker',  
+          observer: '_informatie_gebruiker',
         },
         b64_prop: {
           type: String,
@@ -124,7 +124,7 @@
 
       _informatie_gebruiker: function() {
         if(this.c_visible){
-          console.log("informatie_gebruiker user="+this.c_username);
+          // console.log("informatie_gebruiker user="+this.c_username);
           this.$.ajax_informatie_gebruiker.contentType="application/json";
           this.$.ajax_informatie_gebruiker.body={
             "username":this.c_username
@@ -134,12 +134,12 @@
       },
 
       _informatie_gebruiker_request_handler: function(request) {
-        console.log("_informatie_gebruiker_request_handler user="+this.c_username);
+        // console.log("_informatie_gebruiker_request_handler user="+this.c_username);
         this.$.ajax_informatie_gebruiker_opslaan.body={
             "naam":this.c_volleNaam,
             "docentnummer":this.c_docentNummer
         };
-        
+
         this.c_docentNummer = request.detail.response["docentnummer"];
         if(localStorage.getItem(this.c_docentNummer) == '""' || localStorage.getItem(this.c_docentNummer) == null){
           this.c_volleNaam = request.detail.response['naam'];
@@ -162,7 +162,7 @@
       if (filesSelected.length > 0) {
         var fileToLoad = filesSelected[0];
         var fileReader = new FileReader();
-        
+
         fileReader.onload = function(fileLoadedEvent) {
           var srcData = fileLoadedEvent.target.result; // <--- data: base64
           window.localStorage.setItem("img",srcData);
@@ -171,6 +171,6 @@
       fileReader.readAsDataURL(fileToLoad);
       }
     }
-    
+
   </script>
 </dom-module>

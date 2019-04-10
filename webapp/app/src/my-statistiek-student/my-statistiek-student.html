@@ -182,7 +182,7 @@
         },
 
         _ajax_lessen_in_verleden_ophalen() {
-          console.log("_ajax_lessen_in_verleden_ophalen");
+          // console.log("_ajax_lessen_in_verleden_ophalen");
           this.$.ajax_lessen_in_verleden_ophalen.contentType="application/json";
           this.$.ajax_lessen_in_verleden_ophalen.body={
             "Username":this.c_username
@@ -191,7 +191,7 @@
         },
 
         handler(request) {
-          console.log(this.c_username);
+          // console.log(this.c_username);
           this.aantalLessenVoorVandaag = request.detail.response;
 
           let aanwezigUren = 0;
@@ -200,7 +200,7 @@
           let andersUren = 0;
           let dokterUren = 0;
           let username = this.c_username;
-          console.log(username);
+          // console.log(username);
           this.aantalLessenVoorVandaag.forEach((les) => {
               let aanwezig = true;
               let start = new Date(les.datum + " " + les.start_tijd);
@@ -249,18 +249,18 @@
             });
 
             this.aantal = aanwezigUren;
-            console.log(aanwezigUren + "uren aanwezig");
-            console.log(this.nietAanwezig + "niet aanwezig uren");
-            console.log(ziekenUren);
-            console.log(medicheRedenUren);
-            console.log(andersUren);
+            // console.log(aanwezigUren + "uren aanwezig");
+            // console.log(this.nietAanwezig + "niet aanwezig uren");
+            // console.log(ziekenUren);
+            // console.log(medicheRedenUren);
+            // console.log(andersUren);
 
             this.nietAanwezig = ziekenUren + medicheRedenUren + andersUren + dokterUren;
             this.counter_ziek = ziekenUren;
             this.counter_tandarts = medicheRedenUren;
             this.counter_anders = andersUren;
             this.counter_dokter = dokterUren;
-            console.log(this.nietAanwezig);
+            // console.log(this.nietAanwezig);
           this.i_loaded = true;
         }
 

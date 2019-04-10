@@ -272,7 +272,7 @@
           popup.style.display = "block";
           this.show = true;
         } else {
-            console.log(this.les);
+            // console.log(this.les);
           this.$.ajax_docent_les_ophalen.contentType = "application/json";
           this.$.ajax_docent_les_ophalen.body = {
             "datum": this.datum,
@@ -321,8 +321,8 @@
       }
 
       zetAanwezig() {
-            console.log(this.root.querySelector('#left'));
-            console.log(this.les_studenten.length);
+            // console.log(this.root.querySelector('#left'));
+            // console.log(this.les_studenten.length);
             let x = this.les_studenten.length;
           for(var i = 0; i <= x; i = i + 1){
               if(this.root.querySelector("#stud" + i) != null) {
