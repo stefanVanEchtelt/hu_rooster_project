@@ -50,7 +50,7 @@
                   style='height: 200px; width: 400px;'></google-chart>
 
       <google-chart type="pie"
-                  data='[["Afwezig", "Days"], ["Ziek", [[ziekenAantal]]], ["Dokter", [[dokterAantal]]], ["Anders", [[andersAantal]]], ["Tandarts", [[medischeAantal]]], ["Ongeoorloofd", 0]]'
+                  data='[["Afwezig", "Days"], ["Ziek", [[ziekenAantal]]], ["Dokter", [[dokterAantal]]], ["Tandarts", [[medischeAantal]]], ["Anders", [[andersAantal]]],  ["Ongeoorloofd", 0]]'
                   style='height: 200px; width: 400px'></google-chart>
       <paper-button on-tap="_close_modal"><iron-icon icon="icons:close"></iron-icon></paper-button><BR>
     </div>
@@ -117,30 +117,12 @@
 
 
       _ajax_lessen_in_verleden_ophalen() {
-        console.log("_ajax_lessen_in_verleden_ophalen");
         this.$.ajax_lessen_in_verleden_ophalen.contentType="application/json";
         this.$.ajax_lessen_in_verleden_ophalen.body={
-          "nummerLeerling":this.leerling.id
+          "Username":this.leerling.username
         };
         this.$.ajax_lessen_in_verleden_ophalen.generateRequest();
       }
-
-//       _lessen_in_verleden_ophalen_response_handler(request) {
-//         console.log("skeet");
-// //          console.log(alleLessen);
-//         console.log(request.detail.response);
-//         this.set("aantalLessenVoorVandaag", request.detail.response);
-//         console.log(this.aantalLessenVoorVandaag);
-//         // this.aantalLessen = this.aantalLessenVoorVandaag.aantalLessenVoorVandaag;
-//         this.i_loaded = true;
-//       }
-
-      // _handlerAantal(){
-      //   // this.nietAanwezig = this.zieken.length + this.afwezigen.length;
-      //   console.log(this.aantal);
-      //   this.aantal = this.aantal - this.nietAanwezig;
-      //   console.log(this.aantal);
-      // }
 
       _handel() {
         console.log("_handel()");
